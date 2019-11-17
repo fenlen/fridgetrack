@@ -1,9 +1,10 @@
-/* eslint-disable no-undef */
+// /* eslint-disable no-undef */
 import React, {useState} from 'react';
 import {Text, Button, Picker} from 'react-native';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {submitItem} from './Main';
+import {submitShopItem} from './ShopList';
 
 const AddItemModal = props => {
   const [pickerItems, setPicker] = useState('Cheese'); //initial state for the Picker
@@ -21,15 +22,6 @@ const AddItemModal = props => {
     }
     params.refresh();
     goBack();
-  };
-
-  const submitShopItem = content => {
-    const newId = (shopList.length + 1).toString();
-    const newItem = {
-      id: newId,
-      content: content,
-    };
-    shopList = [...shopList, newItem];
   };
 
   const goBack = () => {
