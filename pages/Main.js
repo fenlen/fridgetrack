@@ -5,37 +5,38 @@ import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import Item from '../components/Item';
 import SubmitButton from '../components/SubmitButton';
 import Style from '../components/Style';
-import ShopList from './ShopList';
-
-var itemList = [
-  {id: '1', content: 'Milk', expDate: '15/11/19'},
-  {id: '2', content: 'Eggs', expDate: '19/11/19'},
-];
+import storageService from '../services/storage';
 
 const Home = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    //set the items state to contents of itemList on initial component render
-    setItems(itemList);
+    //executes on initial component render
+    storageService.getAll().then(itemList => setItems(itemList));
   }, []);
 
+  useFocusEffect(
+    //executes on component focus
+    useCallback(() => {
+      const rerender = storageService
+        .getAll()
+        .then(itemList => setItems(itemList));
+
+      return () => rerender;
+    }, []),
+  );
+
   const removeItem = id => {
-    //remove the item with the given id from the 'database'
-    itemList = itemList.filter(item => item.id !== id);
+    //remove the item with the given id from the database
+    storageService.remove(id);
     refresh();
   };
 
   const refresh = () => {
     //force component rerender
-    setItems(itemList);
+    storageService.getAll().then(itemList => setItems(itemList));
   };
 
-  const renderList = useCallback(() => {
-    setItems(itemList);
-  }, [itemList]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useFocusEffect(renderList); //forces component rerender if there has been a change in the 'database' from outside the component, i.e. from ShopList
   return (
     <>
       <SafeAreaView style={Style.container}>
@@ -58,14 +59,4 @@ const Home = () => {
   );
 };
 
-const submitItem = (content, expDate) => {
-  const newId = (itemList.length + 1).toString();
-  const newItem = {
-    id: newId,
-    content: content,
-    expDate: expDate,
-  };
-  itemList = [...itemList, newItem];
-};
-
-export {Home, ShopList, submitItem};
+export default Home;

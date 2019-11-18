@@ -1,7 +1,4 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
  * @format
  * @flow
  */
@@ -13,7 +10,8 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import AddItemModal from './pages/AddItemModal';
-import {Home, ShopList} from './pages/Main';
+import Home from './pages/Main';
+import ShopList from './pages/ShopList';
 
 const App: () => React$Node = () => {
   return <Home />; //render the Home screen

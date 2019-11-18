@@ -1,31 +1,24 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {SafeAreaView, FlatList} from 'react-native';
-import {submitItem} from './Main';
 import SubmitButton from '../components/SubmitButton';
 import Item from '../components/Item';
 import Style from '../components/Style';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
-var shopList = [{id: '1', content: 'Ham', expDate: ''}]; //these two variables serve as a storage throughout the app, aka a 'database'
-
-const submitShopItem = content => {
-  console.log('hi');
-  const newId = (shopList.length + 1).toString();
-  const newItem = {
-    id: newId,
-    content: content,
-  };
-  shopList = [...shopList, newItem];
-};
+import storageService from '../services/storage';
 
 const ShopList = () => {
-  const [items, setItems] = useState(shopList);
+  const [items, setItems] = useState();
   const [dateState, setNewDate] = useState(new Date());
+  // eslint-disable-next-line no-unused-vars
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [markedItem, setMark] = useState();
   const refHolder = useRef(true);
+  useEffect(() => {
+    storageService.getAllShop().then(itemList => setItems(itemList));
+  }, []);
+
   useEffect(() => {
     //watches for a change in dateState and then removes the selected item, except during the initial render of the component
     if (refHolder.current === true) {
@@ -53,13 +46,14 @@ const ShopList = () => {
   };
   const removeItem = removedItem => {
     //first adds the item into itemList and then removes it from shopList
-    submitItem(removedItem.content, formattedDate(dateState));
-    shopList = shopList.filter(item => item.id !== removedItem.id);
+    storageService.submit(removedItem.content, formattedDate(dateState));
+    storageService.remove(removedItem.id);
+    console.log('remove');
     refresh();
   };
   const refresh = () => {
     //force component rerender
-    setItems(shopList);
+    storageService.getAllShop().then(itemList => setItems(itemList));
   };
   const setDate = (event, date) => {
     //handler for the onChange function of DateTimePicker
@@ -75,7 +69,7 @@ const ShopList = () => {
           data={items}
           renderItem={({item}) => (
             <TouchableNativeFeedback onPress={() => initRemove(item)}>
-              <Item content={item.content} expDate={item.expDate} />
+              <Item content={item.content} expDate={''} />
             </TouchableNativeFeedback>
           )}
           keyExtractor={item => item.id}
@@ -95,4 +89,3 @@ const ShopList = () => {
 };
 
 export default ShopList;
-export {submitShopItem};

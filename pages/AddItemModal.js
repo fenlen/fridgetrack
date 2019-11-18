@@ -3,12 +3,12 @@ import React, {useState} from 'react';
 import {Text, Button, Picker} from 'react-native';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {submitItem} from './Main';
-import {submitShopItem} from './ShopList';
+import storageService from '../services/storage';
 
 const AddItemModal = props => {
   const [pickerItems, setPicker] = useState('Cheese'); //initial state for the Picker
   const [dateState, setNewDate] = useState(new Date()); //set date to current date
+  // eslint-disable-next-line no-unused-vars
   const [mode, setMode] = useState('date'); //mode of the date picker
   const [show, setShow] = useState(false); //determines whether to show the date picker
 
@@ -16,9 +16,9 @@ const AddItemModal = props => {
 
   const submit = (content, expDate) => {
     if (params.shopping) {
-      submitShopItem(content);
+      storageService.submit(content, expDate, true);
     } else {
-      submitItem(content, expDate);
+      storageService.submit(content, expDate);
     }
     params.refresh();
     goBack();
