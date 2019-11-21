@@ -12,6 +12,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import AddItemModal from './pages/AddItemModal';
 import Fridge from './pages/Main';
 import ShopList from './pages/ShopList';
+import Barcode from './pages/Scan';
 
 const App: () => React$Node = () => {
   return <Fridge />; //render the Home screen
@@ -22,6 +23,7 @@ const drawerStack = createDrawerNavigator(
   {
     Fridge: App,
     ShopList,
+    Barcode,
   },
   {
     navigationOptions: ({navigation}) => ({

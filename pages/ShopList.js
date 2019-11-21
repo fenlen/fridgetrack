@@ -46,15 +46,15 @@ const ShopList = () => {
   };
   const removeItem = removedItem => {
     //first adds the item into itemList and then removes it from shopList
-    storageService.submit(removedItem.content, formattedDate(dateState));
+    storageService.submit(removedItem.name, removedItem.weight, removedItem.category, formattedDate(dateState));
     storageService.remove(removedItem.id);
     console.log('remove');
     refresh();
   };
   const refresh = () => {
-    //force component rerender
-    storageService.getAllShop().then(itemList => setItems(itemList));
-  };
+        //force component rerender
+        storageService.getAllShop().then(itemList => setItems(itemList));
+      };
   const setDate = (event, date) => {
     //handler for the onChange function of DateTimePicker
     // date = date || dateState;
@@ -69,7 +69,7 @@ const ShopList = () => {
           data={items}
           renderItem={({item}) => (
             <TouchableNativeFeedback onPress={() => initRemove(item)}>
-              <Item content={item.content} expDate={''} />
+              <Item name={item.name} expDate={''} />
             </TouchableNativeFeedback>
           )}
           keyExtractor={item => item.id}

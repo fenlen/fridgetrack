@@ -45,7 +45,7 @@ const get = async key => {
   return JSON.parse(item);
 };
 
-const submit = async (name, weight, category, expDate, isShop = false) => {
+const submit = async (name ,weight, category, expDate, barcode, isShop = false) => {
   const newId = Date.now();
   const newItem = {
     id: newId.toString(),
@@ -53,6 +53,7 @@ const submit = async (name, weight, category, expDate, isShop = false) => {
     weight: weight,
     category: category,
     expDate: expDate,
+    barcode: barcode,
     isShop: isShop,
   };
   try {
