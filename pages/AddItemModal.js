@@ -1,31 +1,36 @@
 // /* eslint-disable no-undef */
 import React, {useState} from 'react';
-import {Text, Button, Picker} from 'react-native';
+import {Text, Button, Picker, Alert} from 'react-native';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
+import { TextInput } from 'react-native';
+import {createStackNavigator} from 'react-navigation-stack';
+
 
 const AddItemModal = props => {
-  const [pickerItems, setPicker] = useState('Cheese'); //initial state for the Picker
+  const [pickerItems, setPicker] = useState('Diary'); //initial state for the Picker
   const [dateState, setNewDate] = useState(new Date()); //set date to current date
   // eslint-disable-next-line no-unused-vars
   const [mode, setMode] = useState('date'); //mode of the date picker
   const [show, setShow] = useState(false); //determines whether to show the date picker
+  const [name, onChangeText] = React.useState('');
 
   const params = props.navigation.state.params;
 
-  const submit = (content, expDate) => {
+  const submit = (name, category, expDate, barcode) => {
     if (params.shopping) {
-      storageService.submit(content, expDate, true);
+      storageService.submit(name, category, expDate, barcode, true);
+      params.refresh();
+      props.navigation.navigate('ShopList');
     } else {
-      storageService.submit(content, expDate);
+      storageService.submit(name, category, expDate, barcode);
+      props.navigation.navigate('Fridge');
     }
-    params.refresh();
-    goBack();
   };
 
   const goBack = () => {
-    props.navigation.goBack();
+              props.navigation.goBack();
   };
 
   const showDatePicker = () => {
@@ -51,15 +56,19 @@ const AddItemModal = props => {
 
   return (
     <>
+      <TextInput
+            placeholder="Item name"
+            onChangeText={name => onChangeText(name)}
+            value={name}
+         />
       <Picker
         selectedValue={pickerItems}
         onValueChange={itemValue => setPicker(itemValue)}>
-        <Picker.Item label="Cheese" value="Cheese" />
-        <Picker.Item label="Milk" value="Milk" />
-        <Picker.Item label="Eggs" value="Eggs" />
-        <Picker.Item label="Butter" value="Butter" />
-        <Picker.Item label="Ham" value="Ham" />
-        <Picker.Item label="Yogurt" value="Yogurt" />
+        <Picker.Item label="Diary" value="Diary" />
+        <Picker.Item label="Vegetable" value="Vegetable" />
+        <Picker.Item label="Fruit" value="Fruit" />
+        <Picker.Item label="Grain" value="Grain" />
+        <Picker.Item label="Meat" value="Meat" />
       </Picker>
       {!params.shopping && ( //translates to if params.shopping is false do the part after &&
         <Button
@@ -83,7 +92,9 @@ const AddItemModal = props => {
       )}
       <Button
         title="Add item"
-        onPress={() => submit(pickerItems, formattedDate())}
+        onPress={() => {
+                        submit(name, pickerItems, formattedDate(), params.barcode);
+                    }}
       />
 
       <Button title="Back" onPress={() => goBack()} />

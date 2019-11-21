@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const Item = ({content, expDate}) => {
+const Item = ({name, expDate}) => {
   return (
     <View style={styles.item}>
       <Text style={styles.content}>
-        {content}     {expDate}
+        {name}     {expDate}
       </Text>
     </View>
   );
