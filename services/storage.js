@@ -45,12 +45,11 @@ const get = async key => {
   return JSON.parse(item);
 };
 
-const submit = async (name ,weight, category, expDate, barcode, isShop = false) => {
+const submit = async (name , category, expDate, barcode, isShop = false) => {
   const newId = Date.now();
   const newItem = {
     id: newId.toString(),
     name: name,
-    weight: weight,
     category: category,
     expDate: expDate,
     barcode: barcode,

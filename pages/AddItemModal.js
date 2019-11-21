@@ -18,13 +18,13 @@ const AddItemModal = props => {
 
   const params = props.navigation.state.params;
 
-  const submit = (name, weight, category, expDate, barcode) => {
+  const submit = (name, category, expDate, barcode) => {
     if (params.shopping) {
-      storageService.submit(name, weight, category, expDate, barcode, true);
+      storageService.submit(name, category, expDate, barcode, true);
       params.refresh();
       props.navigation.navigate('ShopList');
     } else {
-      storageService.submit(name, weight, category, expDate, barcode);
+      storageService.submit(name, category, expDate, barcode);
       props.navigation.navigate('Fridge');
     }
   };
@@ -93,8 +93,7 @@ const AddItemModal = props => {
       <Button
         title="Add item"
         onPress={() => {
-                        submit(name, "300", pickerItems, formattedDate(), params.barcode);
-                        Alert.alert(`Added '${name}' with barcode '${params.barcode}' .`);
+                        submit(name, pickerItems, formattedDate(), params.barcode);
                     }}
       />
 

@@ -46,7 +46,7 @@ const ShopList = () => {
   };
   const removeItem = removedItem => {
     //first adds the item into itemList and then removes it from shopList
-    storageService.submit(removedItem.name, removedItem.weight, removedItem.category, formattedDate(dateState));
+    storageService.submit(removedItem.name, removedItem.category, formattedDate(dateState));
     storageService.remove(removedItem.id);
     console.log('remove');
     refresh();
