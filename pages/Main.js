@@ -44,7 +44,7 @@ const Home = () => {
           data={items}
           renderItem={({item}) => (
             <TouchableNativeFeedback onPress={() => removeItem(item.id)}>
-              <Item content={item.content} expDate={item.expDate} />
+              <Item name={item.name} expDate={item.expDate} />
             </TouchableNativeFeedback>
           )}
           keyExtractor={item => item.id}

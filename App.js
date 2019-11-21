@@ -10,24 +10,24 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import AddItemModal from './pages/AddItemModal';
-import Home from './pages/Main';
+import Fridge from './pages/Main';
 import ShopList from './pages/ShopList';
 
 const App: () => React$Node = () => {
-  return <Home />; //render the Home screen
+  return <Fridge />; //render the Home screen
 };
 
 const drawerStack = createDrawerNavigator(
   //Drawer navigation menu
   {
-    Home: App,
+    Fridge: App,
     ShopList,
   },
   {
     navigationOptions: ({navigation}) => ({
       //defines the header bar and the 'hamburger' button for opening the menu
       headerStyle: {backgroundColor: 'lightskyblue'},
-      title: 'Main',
+      title: 'Fridge App',
       headerLeft: (
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
           <Image source={require('./hamicon.png')} resizeMode="contain" />
