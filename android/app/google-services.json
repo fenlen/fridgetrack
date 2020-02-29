@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "807992701414",
+    "firebase_url": "https://fridgemanager-9e407.firebaseio.com",
+    "project_id": "fridgemanager-9e407",
+    "storage_bucket": "fridgemanager-9e407.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807992701414:android:b814e8fd1832b0ef07a627",
+        "android_client_info": {
+          "package_name": "com.poc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "807992701414-k3k9r8nt9s6ggur418ogr3u8clhm8aph.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGe_qmPQEhublC4ATFe2BFUnrf76weXYA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807992701414-k3k9r8nt9s6ggur418ogr3u8clhm8aph.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

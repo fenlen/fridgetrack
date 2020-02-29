@@ -46,15 +46,19 @@ const ShopList = () => {
   };
   const removeItem = removedItem => {
     //first adds the item into itemList and then removes it from shopList
-    storageService.submit(removedItem.name, removedItem.category, formattedDate(dateState));
+    storageService.submit(
+      removedItem.name,
+      removedItem.category,
+      formattedDate(dateState),
+    );
     storageService.remove(removedItem.id);
     console.log('remove');
     refresh();
   };
   const refresh = () => {
-        //force component rerender
-        storageService.getAllShop().then(itemList => setItems(itemList));
-      };
+    //force component rerender
+    storageService.getAllShop().then(itemList => setItems(itemList));
+  };
   const setDate = (event, date) => {
     //handler for the onChange function of DateTimePicker
     // date = date || dateState;

@@ -9,7 +9,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 
 
 const AddItemModal = props => {
-  const [pickerItems, setPicker] = useState('Diary'); //initial state for the Picker
+  const [pickerItems, setPicker] = useState('Dairy'); //initial state for the Picker
   const [dateState, setNewDate] = useState(new Date()); //set date to current date
   // eslint-disable-next-line no-unused-vars
   const [mode, setMode] = useState('date'); //mode of the date picker
@@ -57,14 +57,14 @@ const AddItemModal = props => {
   return (
     <>
       <TextInput
-            placeholder="Item name"
+        placeholder={props.data || 'Item name'}
             onChangeText={name => onChangeText(name)}
             value={name}
          />
       <Picker
         selectedValue={pickerItems}
         onValueChange={itemValue => setPicker(itemValue)}>
-        <Picker.Item label="Diary" value="Diary" />
+        <Picker.Item label="Dairy" value="Dairy" />
         <Picker.Item label="Vegetable" value="Vegetable" />
         <Picker.Item label="Fruit" value="Fruit" />
         <Picker.Item label="Grain" value="Grain" />
