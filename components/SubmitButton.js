@@ -4,7 +4,7 @@ import {withNavigation} from 'react-navigation';
 
 const SubmitButton = props => {
       return (
-        <View style={{ flex: 1 }}>
+        <View>
             <Fab
               active={true}
               direction="up"

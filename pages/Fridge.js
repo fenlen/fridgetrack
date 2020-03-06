@@ -74,7 +74,7 @@ const Fridge = props => {
               <Text>Search</Text>
             </Button>
         </Header>
-        <Content padder>
+        <Content>
         <FlatList
           data={items}
           renderItem={({item}) => (
@@ -86,10 +86,10 @@ const Fridge = props => {
         />
         </Content>
         <SubmitButton
-          items={items}
-          refresh={() => refresh()}
-          shopping={false}
-        />
+                  items={items}
+                  refresh={() => refresh()}
+                  shopping={false}
+                />
         <Footer>
          <FooterTab>
              <Button active>
