@@ -55,6 +55,8 @@ const AddItemModal = props => {
   };
 
   return (
+
+
     <>
       <TextInput
         placeholder={props.data || 'Item name'}
