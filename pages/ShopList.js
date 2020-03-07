@@ -1,13 +1,30 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {SafeAreaView, FlatList} from 'react-native';
 import SubmitButton from '../components/SubmitButton';
-import Item from '../components/Item';
+import FridgeItem from '../components/FridgeItem';
 import Style from '../components/Style';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
+import {
+  Container,
+  Header,
+  Title,
+  Content,
+  Text,
+  Button,
+  Icon,
+  Footer,
+  FooterTab,
+  Left,
+  Right,
+  Body,
+  Item,
+  View,
+  Input
+} from "native-base";
 
-const ShopList = () => {
+const ShopList = props => {
   const [items, setItems] = useState();
   const [dateState, setNewDate] = useState(new Date());
   // eslint-disable-next-line no-unused-vars
@@ -67,29 +84,58 @@ const ShopList = () => {
     refHolder.current = dateState;
   };
   return (
-    <>
-      <SafeAreaView style={Style.container}>
-        <FlatList
-          data={items}
-          renderItem={({item}) => (
-            <TouchableNativeFeedback onPress={() => initRemove(item)}>
-              <Item name={item.name} expDate={''} />
-            </TouchableNativeFeedback>
-          )}
-          keyExtractor={item => item.id}
-        />
-        <SubmitButton items={items} refresh={() => refresh()} shopping={true} />
-        {show && ( //translates to if show is true then do whatever is after &&
-          <DateTimePicker
-            value={dateState}
-            mode={mode}
-            display="default"
-            onChange={(event, date) => setDate(event, date)}
-          />
-        )}
-      </SafeAreaView>
-    </>
-  );
-};
+         <Container style={Style.container}>
+           <Header searchBar>
+              <Left style={{flex: 0, width: 50}}>
+                <Button
+                  transparent
+                  onPress={() => props.navigation.openDrawer()}
+                >
+                  <Icon name="menu"/>
+                </Button>
+              </Left>
+                <Item>
+                  <Input placeholder="All items in your shopping list" />
+                  <Icon name="search" />
+                </Item>
+                <Button transparent>
+                  <Text>Search</Text>
+                </Button>
+            </Header>
+            <Content padder>
+            <FlatList
+              data={items}
+              renderItem={({item}) => (
+                <TouchableNativeFeedback onPress={() => removeItem(item.id)}>
+                  <FridgeItem name={item.name} category={item.category}/>
+                </TouchableNativeFeedback>
+              )}
+              keyExtractor={item => item.id}
+            />
+            </Content>
+            <SubmitButton
+              items={items}
+              refresh={() => refresh()}
+              shopping={true}
+            />
+            <Footer>
+             <FooterTab>
+                 <Button onPress={() => props.navigation.navigate("Fridge")}>
+                   <Icon active name="pizza" />
+                   <Text>Fridge</Text>
+                 </Button>
+                 <Button active>
+                   <Icon name="basket" />
+                   <Text>Shopping list</Text>
+                 </Button>
+                 <Button onPress={() => props.navigation.navigate("Statistics")}>
+                   <Icon name="pie" />
+                   <Text>Statistics</Text>
+                 </Button>
+              </FooterTab>
+            </Footer>
+         </Container>
+      );
+    };
 
 export default ShopList;
