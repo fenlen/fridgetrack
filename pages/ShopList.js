@@ -111,6 +111,8 @@ const ShopList = props => {
       {show && ( //translates to if show is true then do whatever is after &&
         <DateTimePicker
           value={dateState}
+          minimumDate={dateState}
+          maximumDate={new Date(dateState.getFullYear()+1,dateState.getMonth(),dateState.getDate())}
           mode={mode}
           display="default"
           onChange={(event, date) => setDate(event, date)}
