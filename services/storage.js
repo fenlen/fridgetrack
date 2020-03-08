@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import firestore from '@react-native-firebase/firestore';
 
 const getAll = async () => {
   let keys = [];
@@ -33,6 +34,7 @@ const getAllShop = async () => {
   const results = await Promise.all(promisedItems);
   return results.filter(item => item.isShop === true);
 };
+
 const get = async key => {
   let item;
   try {
@@ -45,7 +47,7 @@ const get = async key => {
   return JSON.parse(item);
 };
 
-const submit = async (name , category, expDate, barcode, isShop = false) => {
+const submit = async (name, category, expDate, barcode, isShop = false) => {
   const newId = Date.now();
   const newItem = {
     id: newId.toString(),

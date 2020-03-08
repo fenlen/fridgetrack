@@ -22,8 +22,8 @@ import {
   Input,
   Item,
   View,
-  List
-} from "native-base";
+  List,
+} from 'native-base';
 
 const Fridge = props => {
   const [items, setItems] = useState([]);
@@ -56,57 +56,55 @@ const Fridge = props => {
   };
 
   return (
-     <Container style={Style.container}>
-       <Header searchBar>
-          <Left style={{flex: 0, width: 50}}>
-            <Button
-              transparent
-              onPress={() => props.navigation.openDrawer()}
-            >
-              <Icon name="menu"/>
-            </Button>
-          </Left>
-            <Item>
-              <Input placeholder="All items in your fridge" />
-              <Icon name="search" />
-            </Item>
-            <Button transparent>
-              <Text>Search</Text>
-            </Button>
-        </Header>
-        <Content>
-        <FlatList
-          data={items}
-          renderItem={({item}) => (
-            <TouchableNativeFeedback onPress={() => props.navigation.navigate("ViewItemModal", {item: item})}>
-              <FridgeItem name={item.name} expDate={item.expDate} category={item.category}/>
-            </TouchableNativeFeedback>
-          )}
-          keyExtractor={item => item.id}
-        />
-        </Content>
-        <SubmitButton
-                  items={items}
-                  refresh={() => refresh()}
-                  shopping={false}
-                />
-        <Footer>
-         <FooterTab>
-             <Button active>
-               <Icon active name="pizza" />
-               <Text>Fridge</Text>
-             </Button>
-             <Button onPress={() => props.navigation.navigate("ShopList")}>
-               <Icon name="basket" />
-               <Text>Shopping list</Text>
-             </Button>
-             <Button onPress={() => props.navigation.navigate("Statistics")}>
-               <Icon name="pie" />
-               <Text>Statistics</Text>
-             </Button>
-          </FooterTab>
-        </Footer>
-     </Container>
+    <Container style={Style.container}>
+      <Header searchBar>
+        <Left style={{flex: 0, width: 50}}>
+          <Button transparent onPress={() => props.navigation.openDrawer()}>
+            <Icon name="menu" />
+          </Button>
+        </Left>
+        <Item>
+          <Input placeholder="All items in your fridge" />
+          <Icon name="search" />
+        </Item>
+        <Button transparent>
+          <Text>Search</Text>
+        </Button>
+      </Header>
+      <FlatList
+        data={items}
+        renderItem={({item}) => (
+          <TouchableNativeFeedback
+            onPress={() =>
+              props.navigation.navigate('ViewItemModal', {item: item})
+            }>
+            <FridgeItem
+              name={item.name}
+              expDate={item.expDate}
+              category={item.category}
+            />
+          </TouchableNativeFeedback>
+        )}
+        keyExtractor={item => item.id}
+      />
+      <SubmitButton items={items} refresh={() => refresh()} shopping={false} />
+      <Footer>
+        <FooterTab>
+          <Button active>
+            <Icon active name="pizza" />
+            <Text>Fridge</Text>
+          </Button>
+          <Button onPress={() => props.navigation.navigate('ShopList')}>
+            <Icon name="basket" />
+            <Text>Shopping list</Text>
+          </Button>
+          <Button onPress={() => props.navigation.navigate('Statistics')}>
+            <Icon name="pie" />
+            <Text>Statistics</Text>
+          </Button>
+        </FooterTab>
+      </Footer>
+    </Container>
   );
 };
 

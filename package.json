@@ -13,6 +13,8 @@
     "@react-native-community/async-storage": "^1.6.3",
     "@react-native-community/datetimepicker": "^2.1.0",
     "@react-native-firebase/app": "^6.3.4",
+    "@react-native-firebase/auth": "^6.3.4",
+    "@react-native-firebase/firestore": "^6.3.4",
     "@react-native-firebase/ml-vision": "^6.3.4",
     "native-base": "^2.13.8",
     "react": "16.9.0",

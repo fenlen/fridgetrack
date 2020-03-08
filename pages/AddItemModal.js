@@ -4,9 +4,8 @@ import {Text, Button, Picker, Alert} from 'react-native';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
-import { TextInput } from 'react-native';
+import {TextInput} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
-
 
 const AddItemModal = props => {
   const [pickerItems, setPicker] = useState('Dairy'); //initial state for the Picker
@@ -30,7 +29,7 @@ const AddItemModal = props => {
   };
 
   const goBack = () => {
-              props.navigation.goBack();
+    props.navigation.goBack();
   };
 
   const showDatePicker = () => {
@@ -55,14 +54,12 @@ const AddItemModal = props => {
   };
 
   return (
-
-
     <>
       <TextInput
         placeholder={props.data || 'Item name'}
-            onChangeText={name => onChangeText(name)}
-            value={name}
-         />
+        onChangeText={name => onChangeText(name)}
+        value={name}
+      />
       <Picker
         selectedValue={pickerItems}
         onValueChange={itemValue => setPicker(itemValue)}>
@@ -95,8 +92,8 @@ const AddItemModal = props => {
       <Button
         title="Add item"
         onPress={() => {
-                        submit(name, pickerItems, formattedDate(), params.barcode);
-                    }}
+          submit(name, pickerItems, formattedDate(), params.barcode);
+        }}
       />
 
       <Button title="Back" onPress={() => goBack()} />
