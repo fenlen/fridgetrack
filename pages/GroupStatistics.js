@@ -16,7 +16,7 @@ import {
   Body
 } from "native-base";
 
-const Statistics = props => {
+const GroupStatistics = props => {
   return (
         <Container style={Style.container}>
            <Header searchBar>
@@ -29,7 +29,7 @@ const Statistics = props => {
                 </Button>
               </Left>
               <Body>
-                <Title>Your Statistics</Title>
+                <Title>Group Statistics</Title>
               </Body>
             </Header>
             <Content padder>
@@ -37,11 +37,11 @@ const Statistics = props => {
             </Content>
             <Footer>
              <FooterTab>
-                 <Button onPress={() => props.navigation.navigate("Fridge")}>
+                 <Button onPress={() => props.navigation.navigate("GroupFridge")}>
                    <Icon active name="pizza" />
                    <Text>Fridge</Text>
                  </Button>
-                 <Button onPress={() => props.navigation.navigate("Shoplist")}>
+                 <Button onPress={() => props.navigation.navigate("GroupShoplist")}>
                    <Icon name="basket" />
                    <Text>Shopping list</Text>
                  </Button>
@@ -55,4 +55,4 @@ const Statistics = props => {
       );
     };
 
-export default Statistics;
+export default GroupStatistics;

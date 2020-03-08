@@ -25,6 +25,11 @@ import Global from "../state/global.js";
 import AppearanceModal from "./AppearanceModal.js";
 import NotificationsModal from "./NotificationsModal.js";
 import ViewItemModal from "./ViewItemModal.js";
+import GroupFridge from "./GroupFridge";
+import GroupShopList from "./GroupShopList";
+import GroupStatistics from "./GroupStatistics";
+import GroupAddItemModal from "./GroupAddItemModal";
+import GroupViewItemModal from "./GroupViewItemModal";
 
 class Theme extends React.Component {
 
@@ -56,6 +61,9 @@ const Drawer = createDrawerNavigator(
     Fridge,
     ShopList,
     Statistics,
+    GroupFridge,
+    GroupShopList,
+    GroupStatistics,
     Barcode,
     Account,
   },
@@ -88,8 +96,14 @@ const RootStack = createStackNavigator(
     ItemModal: {
       screen: AddItemModal,
     },
+    GroupItemModal: {
+      screen: GroupAddItemModal,
+    },
     ViewItemModal: {
       screen: ViewItemModal,
+    },
+    GroupViewItemModal: {
+      screen: GroupViewItemModal,
     },
     AppearanceModal: {
       screen: AppearanceModal,

@@ -15,21 +15,17 @@ import styles from "./style";
 
 const datas = [
   {
-    name: "Fridge",
+    name: "Personal",
     route: "Fridge"
   },
   {
-    name: "Shopping List",
-    route: "ShopList"
+    name: "Group",
+    route: "GroupFridge"
   },
   {
-    name: "Statistics",
-    route: "Statistics"
-  },
-     {
-       name: "Account",
-       route: "Account"
-     }
+    name: "Account",
+    route: "Account"
+  }
 ];
 
 class SideBar extends Component {

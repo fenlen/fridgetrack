@@ -35,25 +35,16 @@ export default class Home extends React.Component {
             style={{ marginTop: 10 }}
             onPress={() => this.props.navigation.navigate("Fridge")}
           >
-            <Text>View my fridge</Text>
+            <Text>Personal organizer</Text>
           </Button>
           <Button
             full
             rounded
             primary
             style={{ marginTop: 10 }}
-            onPress={() => this.props.navigation.navigate("ShopList")}
+            onPress={() => this.props.navigation.navigate("GroupFridge")}
           >
-            <Text>View my shopping lists</Text>
-          </Button>
-          <Button
-            full
-            rounded
-            primary
-            style={{ marginTop: 10 }}
-            onPress={() => this.props.navigation.navigate("Statistics")}
-          >
-            <Text>View my statistics</Text>
+            <Text>GRoup organizer</Text>
           </Button>
           <Button
             full
@@ -62,7 +53,7 @@ export default class Home extends React.Component {
             style={{ marginTop: 10 }}
             onPress={() => this.props.navigation.navigate("Account")}
           >
-            <Text>View my account</Text>
+            <Text>My account</Text>
           </Button>
         </Content>
       </Container>
