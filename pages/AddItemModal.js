@@ -135,8 +135,9 @@ const AddItemModal = props => {
                  </Col>
              </Row>
             {!params.shopping && ( //translates to if params.shopping is false do the part after &&
+                <>
                 <Row>
-                    <Col>
+                    <Col style={{justifyContent: 'center'}}>
                         <Text>
                             Use by/Best by: {formattedDate()}
                         </Text>
@@ -145,13 +146,24 @@ const AddItemModal = props => {
                         <Button
                            primary
                            rounded
-                           style={{justifyContent: 'center'}}
+                           style={{justifyContent: 'center' }}
                            onPress={() => showDatePicker()}
                         >
-                          <Text>Change</Text>
+                          <Text uppercase={false}>Change</Text>
                         </Button>
                     </Col>
                 </Row>
+                <Row style={{justifyContent: 'center'}}>
+                    <Button
+                       rounded
+                        primary
+                        style={{margin: 20, flex: 0.7, justifyContent: 'center'}}
+                         onPress={() => {}}
+                        >
+                         <Text uppercase={false}>Scan barcode</Text>
+                    </Button>
+                </Row>
+                </>
                   )}
                 </Grid>
           </Form>
