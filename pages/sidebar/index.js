@@ -25,6 +25,11 @@ const datas = [
     icon: "people"
   },
   {
+    name: "Recipes",
+    route: "Recipes",
+    icon: "bookmarks"
+  },
+  {
     name: "Account",
     route: "Account",
     icon: "settings"

@@ -7,7 +7,6 @@ const SubmitButton = props => {
         <View>
             <Fab
               active={true}
-              direction="up"
               containerStyle={{ }}
               style={{ backgroundColor: '#5067FF' }}
               position="bottomRight"

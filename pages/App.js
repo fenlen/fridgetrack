@@ -33,6 +33,9 @@ import GroupViewItemModal from "./GroupViewItemModal";
 import RegisterModal from "./RegisterModal";
 import LoginModal from "./LoginModal";
 import GroupModal from "./GroupModal";
+import Recipes from "./Recipes";
+import AddRecipeModal from "./AddRecipeModal";
+import ViewRecipeModal from "./ViewRecipeModal";
 
 class Theme extends React.Component {
 
@@ -69,6 +72,7 @@ const Drawer = createDrawerNavigator(
     GroupStatistics,
     Barcode,
     Account,
+    Recipes
   },
   {
     initialRouteName: "Home",
@@ -122,6 +126,12 @@ const RootStack = createStackNavigator(
     },
     GroupModal: {
       screen: GroupModal,
+    },
+    AddRecipeModal: {
+      screen: AddRecipeModal,
+    },
+    ViewRecipeModal: {
+      screen: ViewRecipeModal,
     },
 
   },

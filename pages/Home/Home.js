@@ -51,6 +51,15 @@ export default class Home extends React.Component {
             rounded
             primary
             style={{ marginTop: 10 }}
+            onPress={() => this.props.navigation.navigate("Recipes")}
+          >
+            <Text uppercase={false}>Recipes</Text>
+          </Button>
+          <Button
+            full
+            rounded
+            primary
+            style={{ marginTop: 10 }}
             onPress={() => this.props.navigation.navigate("Account")}
           >
             <Text uppercase={false}>My account</Text>

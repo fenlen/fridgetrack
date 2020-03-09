@@ -118,7 +118,7 @@ const AddItemModal = props => {
                  </Col>
              </Row>
              <Row>
-                <Col style={{justifyContent: 'center', lignItems: 'center', flex:1}}>
+                <Col style={{justifyContent: 'center', flex:1}}>
                     <Text>Category:</Text>
                 </Col>
                 <Col>
