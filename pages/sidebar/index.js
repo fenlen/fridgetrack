@@ -9,22 +9,25 @@ import {
   Container,
   Left,
   Right,
-  Badge
+  Body
 } from "native-base";
 import styles from "./style";
 
 const datas = [
   {
     name: "Personal",
-    route: "Fridge"
+    route: "Fridge",
+    icon: "person"
   },
   {
     name: "Group",
-    route: "GroupFridge"
+    route: "GroupFridge",
+    icon: "people"
   },
   {
     name: "Account",
-    route: "Account"
+    route: "Account",
+    icon: "settings"
   }
 ];
 
@@ -53,9 +56,8 @@ class SideBar extends Component {
                 onPress={() => this.props.navigation.navigate(data.route)}
               >
                 <Left>
-                  <Text style={styles.text}>
-                    {data.name}
-                  </Text>
+                  <Icon name={data.icon} />
+                    <Text style={styles.text}>{data.name}</Text>
                 </Left>
               </ListItem>}
           />

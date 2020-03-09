@@ -166,7 +166,7 @@ export default {
   activeTab: '#fff',
   sTabBarActiveTextColor: '#007aff',
   tabBarActiveTextColor: '#fff',
-  tabActiveBgColor: '#3F51B5',
+  tabActiveBgColor: '#293b9e',
 
   // Header
   toolbarBtnColor: '#fff',

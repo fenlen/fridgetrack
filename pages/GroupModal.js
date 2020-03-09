@@ -19,7 +19,7 @@ import {
   Separator
 } from "native-base";
 
-const Statistics = props => {
+const GroupModal = props => {
 
 const JoinPrompt= () => {
       prompt(
@@ -62,86 +62,86 @@ const LeaveAlert= () => {
     );
 };
 
+
+const CodeAlert= () => {
+   var code = '123456' //get actual code from db
+   Alert.alert(
+        'Get access code',
+        'The code for accessing the group is: '+code
+    );
+};
+
   return (
         <Container style={Style.container}>
            <Header searchBar>
               <Left style={{flex: 0, width: 50}}>
                 <Button
                   transparent
-                  onPress={() => props.navigation.openDrawer()}
+                  onPress={() => props.navigation.goBack()}
                 >
-                  <Icon name="menu"/>
+                  <Icon name="arrow-back"/>
                 </Button>
               </Left>
               <Body>
-                <Title>Your account</Title>
+                <Title>Your Group</Title>
               </Body>
             </Header>
             <Content>
             <Separator bordered>
-               <Text style={{fontSize: 20}}>Account Details</Text>
+               <Text style={{fontSize: 20}}>Group Details</Text>
             </Separator>
             <ListItem>
               <Left>
-                  <Text>UserID</Text>
+                  <Text>Number of members</Text>
               </Left>
               <Right>
-                  <Text>id goes here</Text>
+                  <Text>number goes here</Text>
               </Right>
             </ListItem>
             <ListItem>
               <Left>
-                  <Text>Account type</Text>
-              </Left>
-              <Right>
-                  <Text>type goes here</Text>
-              </Right>
-            </ListItem>
-            <ListItem>
-              <Left>
-                  <Text>Date joined</Text>
+                  <Text>Date created</Text>
               </Left>
               <Right>
                   <Text>date goes here</Text>
               </Right>
             </ListItem>
-            <Separator bordered>
-               <Text style={{fontSize: 20}}>Preferences</Text>
-            </Separator>
-            <ListItem onPress={() => props.navigation.navigate('AppearanceModal')}>
-              <Left>
-                  <Text>Appearance settings</Text>
-              </Left>
-            </ListItem>
-            <ListItem onPress={() => props.navigation.navigate('NotificationsModal')}>
-              <Left>
-                  <Text>Notification settings</Text>
-              </Left>
-            </ListItem>
-            <ListItem onPress={() => props.navigation.navigate('GroupModal')}>
-              <Left>
-                  <Text>Group settings</Text>
-              </Left>
-            </ListItem>
             <Button
                 primary
                 rounded
                 style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => props.navigation.navigate('RegisterModal')}
+                onPress={() => JoinPrompt()}
             >
-                <Text uppercase={false}>Register</Text>
+                <Text uppercase={false}>Join a group</Text>
             </Button>
             <Button
                 primary
                 rounded
                 style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => props.navigation.navigate('LoginModal')}
+                onPress={() => CreateAlert()}
             >
-                <Text uppercase={false}>Log in</Text>
+                <Text uppercase={false}>Create a group</Text>
             </Button>
+            <Button
+                primary
+                rounded
+                style={{margin: 20, justifyContent: 'center'}}
+                onPress={() => LeaveAlert()}
+            >
+                <Text uppercase={false}>Leave a group</Text>
+            </Button>
+            <Button
+                primary
+                rounded
+                style={{margin: 20, justifyContent: 'center'}}
+                onPress={() => CodeAlert()}
+            >
+                <Text uppercase={false}>Get access code</Text>
+            </Button>
+
             </Content>
          </Container>
       );
     };
 
-export default Statistics;
+export default GroupModal;

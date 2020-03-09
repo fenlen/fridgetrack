@@ -30,6 +30,9 @@ import GroupShopList from "./GroupShopList";
 import GroupStatistics from "./GroupStatistics";
 import GroupAddItemModal from "./GroupAddItemModal";
 import GroupViewItemModal from "./GroupViewItemModal";
+import RegisterModal from "./RegisterModal";
+import LoginModal from "./LoginModal";
+import GroupModal from "./GroupModal";
 
 class Theme extends React.Component {
 
@@ -110,6 +113,15 @@ const RootStack = createStackNavigator(
     },
     NotificationsModal: {
       screen: NotificationsModal,
+    },
+    RegisterModal: {
+      screen: RegisterModal,
+    },
+    LoginModal: {
+      screen: LoginModal,
+    },
+    GroupModal: {
+      screen: GroupModal,
     },
 
   },

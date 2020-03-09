@@ -35,7 +35,7 @@ export default class Home extends React.Component {
             style={{ marginTop: 10 }}
             onPress={() => this.props.navigation.navigate("Fridge")}
           >
-            <Text>Personal organizer</Text>
+            <Text uppercase={false}>Personal organizer</Text>
           </Button>
           <Button
             full
@@ -44,7 +44,7 @@ export default class Home extends React.Component {
             style={{ marginTop: 10 }}
             onPress={() => this.props.navigation.navigate("GroupFridge")}
           >
-            <Text>GRoup organizer</Text>
+            <Text uppercase={false}>Group organizer</Text>
           </Button>
           <Button
             full
@@ -53,7 +53,7 @@ export default class Home extends React.Component {
             style={{ marginTop: 10 }}
             onPress={() => this.props.navigation.navigate("Account")}
           >
-            <Text>My account</Text>
+            <Text uppercase={false}>My account</Text>
           </Button>
         </Content>
       </Container>

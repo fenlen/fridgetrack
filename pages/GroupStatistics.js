@@ -13,7 +13,10 @@ import {
   FooterTab,
   Left,
   Right,
-  Body
+  Body,
+  Grid,
+  Row,
+  Col
 } from "native-base";
 
 const GroupStatistics = props => {
@@ -32,9 +35,14 @@ const GroupStatistics = props => {
                 <Title>Group Statistics</Title>
               </Body>
             </Header>
-            <Content padder>
-            <Text>Statistics go here</Text>
-            </Content>
+            <Grid>
+                <Row style={{ backgroundColor: '#293b9e' }}>
+                </Row>
+                <Row>
+                    <Col style={{ backgroundColor: '#635DB7' }}></Col>
+                    <Col style={{ backgroundColor: '#00CE9F' }}></Col>
+                </Row>
+            </Grid>
             <Footer>
              <FooterTab>
                  <Button onPress={() => props.navigation.navigate("GroupFridge")}>
