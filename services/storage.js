@@ -47,7 +47,7 @@ const get = async key => {
   return JSON.parse(item);
 };
 
-const submit = async (name, category, expDate, barcode, isShop = false) => {
+const submit = async (name, category, expDate, barcode, quantity, unit, isShop = false) => {
   const newId = Date.now();
   const newItem = {
     id: newId.toString(),
@@ -55,7 +55,10 @@ const submit = async (name, category, expDate, barcode, isShop = false) => {
     category: category,
     expDate: expDate,
     barcode: barcode,
+    quantity: quantity,
+    unit: unit,
     isShop: isShop,
+
   };
   try {
     await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));

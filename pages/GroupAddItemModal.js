@@ -102,7 +102,7 @@ const GroupAddItemModal = props => {
                          <Input
                             placeholder={props.data || 'Quantity'}
                             keyboardType='numeric'
-                            onChangeText={name => onChangeText2(name)}
+                            onChangeText={quantity => onChangeText2(quantity)}
                             value={quantity}/>
                     </Item>
                 </Col>
@@ -184,7 +184,7 @@ const GroupAddItemModal = props => {
             full
             title="Add item"
             onPress={() => {
-              submit(name, pickerItems, formattedDate(), params.barcode);
+              submit(name, pickerItems, formattedDate(), params.barcode, quantity, pickerUnits);
             }}
           >
             <Title>Add item</Title>

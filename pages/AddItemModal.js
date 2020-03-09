@@ -67,9 +67,9 @@ const AddItemModal = props => {
 
   const formattedDate = () => {
     return (
-      dateState.getDate() +
+      ("0" + dateState.getDate()).slice(-2) +
       '/' +
-      (dateState.getMonth() + 1) +
+      ("0" + (dateState.getMonth() + 1)).slice(-2) +
       '/' +
       (dateState.getFullYear() - 2000)
     );
@@ -102,7 +102,7 @@ const AddItemModal = props => {
                          <Input
                             placeholder={props.data || 'Quantity'}
                             keyboardType='numeric'
-                            onChangeText={name => onChangeText2(name)}
+                            onChangeText={quantity => onChangeText2(quantity)}
                             value={quantity}/>
                     </Item>
                 </Col>
@@ -184,7 +184,7 @@ const AddItemModal = props => {
             full
             title="Add item"
             onPress={() => {
-              submit(name, pickerItems, formattedDate(), params.barcode);
+              submit(name, pickerItems, formattedDate(), params.barcode, quantity, pickerUnits);
             }}
           >
             <Title>Add item</Title>
