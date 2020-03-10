@@ -1,5 +1,5 @@
 module.exports = {
    colour: "Blue",
-   font: "Default",
-   size: "Medium"
+   font: "Roboto",
+   size: "Small"
 };

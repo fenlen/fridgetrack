@@ -64,7 +64,7 @@ const Fridge = props => {
             <Icon name="menu" />
           </Button>
         </Left>
-        <Item>
+        <Item searchBar>
           <Input placeholder="All items in your fridge" />
           <Icon name="search" />
         </Item>
@@ -97,7 +97,7 @@ const Fridge = props => {
           </Button>
           <Button onPress={() => props.navigation.navigate('ShopList')}>
             <Icon name="basket" />
-            <Text>Shopping list</Text>
+            <Text>Shop list</Text>
           </Button>
           <Button onPress={() => props.navigation.navigate('Statistics')}>
             <Icon name="pie" />

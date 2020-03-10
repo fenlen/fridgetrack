@@ -53,7 +53,7 @@ class AppearanceModal extends Component {
 
         <Content>
           <Separator bordered>
-              <Text style={{fontSize: 20}}>Accent colour</Text>
+              <Text>Accent colour</Text>
           </Separator>
           <ListItem icon>
               <Picker
@@ -69,7 +69,7 @@ class AppearanceModal extends Component {
               </Picker>
           </ListItem>
           <Separator bordered>
-              <Text style={{fontSize: 20}}>Font</Text>
+              <Text>Font</Text>
           </Separator>
           <ListItem icon>
               <Picker
@@ -79,13 +79,13 @@ class AppearanceModal extends Component {
                 selectedValue={Global.font}
                 onValueChange={this.onValueChange2.bind(this)}
               >
-                <Item label="Default" value="Default" />
-                <Item label="Font1" value="Font1" />
-                <Item label="Font2" value="Font2" />
+                <Item style={{fontFamily: 'roboto'}} label="Roboto" value="Roboto" />
+                <Item style={{fontFamily: 'georgia'}} label="Georgia" value="Georgia" />
+                <Item style={{fontFamily: 'courier'}} label="Courier" value="Courier" />
               </Picker>
           </ListItem>
           <Separator bordered>
-              <Text style={{fontSize: 20}}>Font size</Text>
+              <Text>Font size</Text>
           </Separator>
           <ListItem icon>
               <Picker

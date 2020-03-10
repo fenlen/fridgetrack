@@ -1,6 +1,6 @@
 // @flow
 
-export default () => {
+export default (variables /* : * */ = variable) => {
   const fabTheme = {
     'NativeBase.Button': {
       alignItems: 'center',
@@ -18,7 +18,8 @@ export default () => {
         marginLeft: 0,
         marginRight: 0
       }
-    }
+    },
+    backgroundColor: variables.brandPrimary,
   };
 
   return fabTheme;

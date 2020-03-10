@@ -79,7 +79,7 @@ const LeaveAlert= () => {
             </Header>
             <Content>
             <Separator bordered>
-               <Text style={{fontSize: 20}}>Account Details</Text>
+               <Text>Account Details</Text>
             </Separator>
             <ListItem>
               <Left>
@@ -106,7 +106,7 @@ const LeaveAlert= () => {
               </Right>
             </ListItem>
             <Separator bordered>
-               <Text style={{fontSize: 20}}>Preferences</Text>
+               <Text>Preferences</Text>
             </Separator>
             <ListItem onPress={() => props.navigation.navigate('AppearanceModal')}>
               <Left>

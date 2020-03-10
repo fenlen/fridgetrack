@@ -51,7 +51,7 @@ const GroupStatistics = props => {
                  </Button>
                  <Button onPress={() => props.navigation.navigate("GroupShoplist")}>
                    <Icon name="basket" />
-                   <Text>Shopping list</Text>
+                   <Text>Shop list</Text>
                  </Button>
                  <Button active>
                    <Icon name="pie" />

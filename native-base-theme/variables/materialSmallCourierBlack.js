@@ -31,7 +31,7 @@ export default {
   elevation: 4,
   containerTouchableBackgroundColor: 'rgba(0,0,0,0.4)',
   innerTouchableBackgroundColor: '#fff',
-  listItemHeight: 53,
+  listItemHeight: 50,
   listItemBorderColor: 'transparent',
   marginHorizontal: -15,
   marginLeft: 14,
@@ -52,7 +52,7 @@ export default {
   badgePadding: 0,
 
   // Button
-  buttonFontFamily: 'Roboto',
+  buttonFontFamily: 'courier',
   buttonDisabledBg: '#b5b5b5',
   buttonPadding: 6,
   get buttonPrimaryBg() {
@@ -117,13 +117,13 @@ export default {
   CheckboxPaddingBottom: 5,
   CheckboxIconSize: 16,
   CheckboxIconMarginTop: 1,
-  CheckboxFontSize: 20,
+  CheckboxFontSize: 17,
   checkboxBgColor: '#039BE5',
-  checkboxSize: 23,
+  checkboxSize: 20,
   checkboxTickColor: '#fff',
 
   // Color
-  brandPrimary: '#3F51B5',
+  brandPrimary: '#000000',
   brandInfo: '#62B1F6',
   brandSuccess: '#5cb85c',
   brandDanger: '#d9534f',
@@ -132,7 +132,7 @@ export default {
   brandLight: '#f4f4f4',
 
   // Container
-  containerBgColor: '#fff',
+  containerBgColor: '#e6e6e6',
 
   // Date Picker
   datePickerTextColor: '#000',
@@ -142,9 +142,9 @@ export default {
   fabWidth: 56,
 
   // Font
-  DefaultFontSize: 19,
-  fontFamily: 'Roboto',
-  fontSizeBase: 18,
+  DefaultFontSize: 16,
+  fontFamily: 'courier',
+  fontSizeBase: 15,
   get fontSizeH1() {
     return this.fontSizeBase * 1.8;
   },
@@ -156,28 +156,28 @@ export default {
   },
 
   // Footer
-  footerHeight: 58,
-  footerDefaultBg: '#3F51B5',
+  footerHeight: 55,
+  footerDefaultBg: '#000000',
   footerPaddingBottom: 0,
 
   // FooterTab
-  tabBarTextColor: '#bfc6ea',
-  tabBarTextSize: 14,
+  tabBarTextColor: '#e6e6e6',
+  tabBarTextSize: 11,
   activeTab: '#fff',
   sTabBarActiveTextColor: '#007aff',
   tabBarActiveTextColor: '#fff',
-  tabActiveBgColor: '#3F51B5',
+  tabActiveBgColor: '#1f1f1f',
 
   // Header
   toolbarBtnColor: '#fff',
-  toolbarDefaultBg: '#3F51B5',
-  toolbarHeight: 59,
-  toolbarSearchIconSize: 26,
+  toolbarDefaultBg: '#000000',
+  toolbarHeight: 56,
+  toolbarSearchIconSize: 23,
   toolbarInputColor: '#fff',
   searchBarHeight: platform === PLATFORM.IOS ? 30 : 40,
   searchBarInputHeight: platform === PLATFORM.IOS ? 40 : 50,
   toolbarBtnTextColor: '#fff',
-  toolbarDefaultBorder: '#3F51B5',
+  toolbarDefaultBorder: '#000000',
   iosStatusbar: 'light-content',
   get statusBarColor() {
     return color(this.toolbarDefaultBg)
@@ -192,15 +192,15 @@ export default {
 
   // Icon
   iconFamily: 'Ionicons',
-  iconFontSize: 31,
-  iconHeaderSize: 27,
+  iconFontSize: 28,
+  iconHeaderSize: 24,
 
   // InputGroup
-  inputFontSize: 20,
+  inputFontSize: 17,
   inputBorderColor: '#D9D5DC',
   inputSuccessBorderColor: '#2b8339',
   inputErrorBorderColor: '#ed2f2f',
-  inputHeightBase: 53,
+  inputHeightBase: 50,
   get inputColor() {
     return this.textColor;
   },
@@ -209,11 +209,11 @@ export default {
   },
 
   // Line Height
-  buttonLineHeight: 22,
-  lineHeightH1: 35,
-  lineHeightH2: 30,
-  lineHeightH3: 25,
-  lineHeight: 27,
+  buttonLineHeight: 19,
+  lineHeightH1: 32,
+  lineHeightH2: 27,
+  lineHeightH3: 22,
+  lineHeight: 24,
 
   // List
   listBg: 'transparent',
@@ -222,35 +222,36 @@ export default {
   listBtnUnderlayColor: '#DDD',
   listItemPadding: 12,
   listNoteColor: '#808080',
-  listNoteSize: 16,
-  listItemSelected: '#3F51B5',
+  listNoteSize: 13,
+  listItemSelected: '#000000',
 
   // Progress Bar
   defaultProgressColor: '#E4202D',
   inverseProgressColor: '#1A191B',
 
   // Radio Button
-  radioBtnSize: 26,
-  radioSelectedColorAndroid: '#3F51B5',
-  radioBtnLineHeight: 27,
+  radioBtnSize: 23,
+  radioSelectedColorAndroid: '#000000',
+  radioBtnLineHeight: 24,
   get radioColor() {
     return this.brandPrimary;
   },
 
   // Segment
-  segmentBackgroundColor: '#3F51B5',
+  segmentFontSize: 20,
+  segmentBackgroundColor: '#000000',
   segmentActiveBackgroundColor: '#fff',
   segmentTextColor: '#fff',
-  segmentActiveTextColor: '#3F51B5',
+  segmentActiveTextColor: '#000000',
   segmentBorderColor: '#fff',
-  segmentBorderColorMain: '#3F51B5',
+  segmentBorderColorMain: '#000000',
 
   // Spinner
   defaultSpinnerColor: '#45D56E',
   inverseSpinnerColor: '#1A191B',
 
   // Tab
-  tabDefaultBg: '#3F51B5',
+  tabDefaultBg: '#000000',
   topTabBarTextColor: '#b3c7f9',
   topTabBarActiveTextColor: '#fff',
   topTabBarBorderColor: '#fff',
@@ -258,21 +259,20 @@ export default {
 
   // Tabs
   tabBgColor: '#F8F8F8',
-  tabFontSize: 18,
+  tabFontSize: 15,
 
   // Text
   textColor: '#000',
   inverseTextColor: '#fff',
-  noteFontSize: 17,
-  align: 'Center',
+  noteFontSize: 14,
   get defaultTextColor() {
     return this.textColor;
   },
 
   // Title
-  titleFontfamily: 'Roboto',
-  titleFontSize: 22,
-  subTitleFontSize: 17,
+  titleFontfamily: 'courier',
+  titleFontSize: 19,
+  subTitleFontSize: 14,
   subtitleColor: '#FFF',
   titleFontColor: '#FFF',
 
@@ -281,7 +281,7 @@ export default {
   borderWidth: 1 / PixelRatio.getPixelSizeForLayoutSize(1),
   contentPadding: 10,
   dropdownLinkColor: '#414142',
-  inputLineHeight: 27,
+  inputLineHeight: 24,
   deviceWidth,
   deviceHeight,
   isIphoneX,

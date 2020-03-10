@@ -88,7 +88,7 @@ const CodeAlert= () => {
             </Header>
             <Content>
             <Separator bordered>
-               <Text style={{fontSize: 20}}>Group Details</Text>
+               <Text>Group Details</Text>
             </Separator>
             <ListItem>
               <Left>

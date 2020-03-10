@@ -52,7 +52,7 @@ export default {
   badgePadding: 0,
 
   // Button
-  buttonFontFamily: 'Roboto',
+  buttonFontFamily: 'courier',
   buttonDisabledBg: '#b5b5b5',
   buttonPadding: 6,
   get buttonPrimaryBg() {
@@ -143,7 +143,7 @@ export default {
 
   // Font
   DefaultFontSize: 22,
-  fontFamily: 'Roboto',
+  fontFamily: 'courier',
   fontSizeBase: 21,
   get fontSizeH1() {
     return this.fontSizeBase * 1.8;
@@ -166,7 +166,7 @@ export default {
   activeTab: '#fff',
   sTabBarActiveTextColor: '#007aff',
   tabBarActiveTextColor: '#fff',
-  tabActiveBgColor: '#3F51B5',
+  tabActiveBgColor: '#293b9e',
 
   // Header
   toolbarBtnColor: '#fff',
@@ -270,7 +270,7 @@ export default {
   },
 
   // Title
-  titleFontfamily: 'Roboto',
+  titleFontfamily: 'courier',
   titleFontSize: 25,
   subTitleFontSize: 20,
   subtitleColor: '#FFF',

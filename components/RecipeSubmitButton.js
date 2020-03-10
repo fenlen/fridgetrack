@@ -8,7 +8,6 @@ const SubmitButton = props => {
             <Fab
               active={true}
               containerStyle={{ }}
-              style={{ backgroundColor: '#5067FF' }}
               position="bottomRight"
               onPress={() =>
                             props.navigation.navigate('AddRecipeModal', {

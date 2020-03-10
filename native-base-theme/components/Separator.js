@@ -29,7 +29,7 @@ export default (variables /* : * */ = variable) => {
       borderColor: variables.listBorderColor
     },
     'NativeBase.Text': {
-      fontSize: variables.tabBarTextSize - 2,
+      fontSize: variables.tabBarTextSize + 9,
       color: '#777'
     },
     '.noTopBorder': {

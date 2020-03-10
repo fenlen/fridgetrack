@@ -225,6 +225,9 @@ export default (variables /* : * */ = variable) => {
     '.picker': {
       marginLeft: 0
     },
+    '.searchBar': {
+      backgroundColor: variables.containerBgColor
+    },
 
     borderWidth: variables.borderWidth * 2,
     borderTopWidth: 0,

@@ -51,7 +51,7 @@ const Statistics = props => {
                  </Button>
                  <Button onPress={() => props.navigation.navigate("Shoplist")}>
                    <Icon name="basket" />
-                   <Text>Shopping list</Text>
+                   <Text>Shop list</Text>
                  </Button>
                  <Button active>
                    <Icon name="pie" />

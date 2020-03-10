@@ -127,7 +127,7 @@ const ShopList = props => {
           </Button>
           <Button active>
             <Icon name="basket" />
-            <Text>Shopping list</Text>
+            <Text>Shop list</Text>
           </Button>
           <Button onPress={() => props.navigation.navigate('Statistics')}>
             <Icon name="pie" />

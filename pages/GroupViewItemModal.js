@@ -73,10 +73,7 @@ const getBarColour = (expDateString) => {
 const getProgress = (initDateString, expDateString) => {
     var period = getPeriod(initDateString, expDateString);
     var left = getDaysLeft(expDateString);
-    console.log(period);
-    console.log(left);
     var percentage = (period-left)*80/period+10;
-    console.log(percentage);
     if (percentage >90)
         return '100%'
     else
@@ -158,7 +155,7 @@ const GroupViewItemModal = props => {
             </Col>
             <Col>
               <Body>
-                <Text>{item.quantity}</Text>
+                <Text>{item.quantity} {item.unit}</Text>
               </Body>
             </Col>
           </Row>

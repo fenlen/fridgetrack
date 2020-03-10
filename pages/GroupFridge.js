@@ -96,7 +96,7 @@ const GroupFridge = props => {
           </Button>
           <Button onPress={() => props.navigation.navigate('GroupShopList')}>
             <Icon name="basket" />
-            <Text>Shopping list</Text>
+            <Text>Shop list</Text>
           </Button>
           <Button onPress={() => props.navigation.navigate('GroupStatistics')}>
             <Icon name="pie" />

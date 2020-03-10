@@ -17,11 +17,7 @@ import SideBar from "./sidebar";
 import AddItemModal from "./AddItemModal.js";
 import Account from "./Account.js";
 import getTheme from '../native-base-theme/components';
-import material from '../native-base-theme/variables/material';
-import materialRed from '../native-base-theme/variables/materialRed';
-import platform from '../native-base-theme/variables/platform';
-import platformFeather from '../native-base-theme/variables/platformFeather';
-import Global from "../state/global.js";
+import {material} from '../components/material';
 import AppearanceModal from "./AppearanceModal.js";
 import NotificationsModal from "./NotificationsModal.js";
 import ViewItemModal from "./ViewItemModal.js";
@@ -40,22 +36,13 @@ import ViewRecipeModal from "./ViewRecipeModal";
 class Theme extends React.Component {
 
   render() {
-  if(Global.colour == "Blue")
-        return(
-            <StyleProvider style={getTheme(material)}>
+      return(
+            <StyleProvider style={getTheme(material())}>
                 <Root>
                     <AppContainer />
                 </Root>
             </StyleProvider>
         );
-    else
-       return(
-                   <StyleProvider style={getTheme(materialRed)}>
-                       <Root>
-                           <AppContainer />
-                       </Root>
-                   </StyleProvider>
-               );
 }
 }
 

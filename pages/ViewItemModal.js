@@ -82,16 +82,21 @@ const getBarColour = expDateString => {
 const getProgress = (initDateString, expDateString) => {
   var period = getPeriod(initDateString, expDateString);
   var left = getDaysLeft(expDateString);
-  console.log(period);
-  console.log(left);
   var percentage = ((period - left) * 80) / period + 10;
-  console.log(percentage);
   if (percentage > 90) {
     return '100%';
   } else {
     return percentage.toString() + '%';
   }
 };
+
+const getDaysMessage = (expDate) =>{
+  var days=getDaysLeft(expDate);
+  if (days<0)
+    return 'the item has expired'
+  else
+    return  'The item has '+days+' days left.'
+}
 
 const formattedDate = dateString => {
   var date = new Date(parseInt(dateString));
@@ -165,7 +170,7 @@ const ViewItemModal = props => {
             </Col>
             <Col>
               <Body>
-                <Text>{item.quantity}</Text>
+                <Text>{item.quantity} {item.unit}</Text>
               </Body>
             </Col>
           </Row>
@@ -185,7 +190,7 @@ const ViewItemModal = props => {
             <Col>
               <Body>
                 <Text style={{paddingTop: 10}}>
-                  The item has {getDaysLeft(item.expDate)} days left.
+                    {getDaysMessage(item.expDate)}
                 </Text>
               </Body>
             </Col>

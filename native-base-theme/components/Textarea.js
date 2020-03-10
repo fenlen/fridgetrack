@@ -17,7 +17,8 @@ export default (variables /* : * */ = variable) => {
     color: variables.textColor,
     paddingLeft: 10,
     paddingRight: 5,
-    fontSize: 15,
+    fontSize: variables.fontSizeBase - 6,
+    fontFamily: variables.fontFamily,
     textAlignVertical: 'top'
   };
 
