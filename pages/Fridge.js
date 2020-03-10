@@ -27,18 +27,18 @@ import {
 
 const Fridge = props => {
   const [items, setItems] = useState([]);
-  const [fridgeRef, setFridgeRef] = useState('');
+  const [fridgeRef, setFridgeRef] = useState('test');
 
   useEffect(() => {
     //executes on initial component render
-    storageService.getAll().then(itemList => setItems(itemList));
+    storageService.getAll(fridgeRef).then(itemList => setItems(itemList));
   }, []);
 
   useFocusEffect(
     //executes on component focus
     useCallback(() => {
       const rerender = storageService
-        .getAll()
+        .getAll(fridgeRef)
         .then(itemList => setItems(itemList));
 
       return () => rerender;
@@ -53,7 +53,7 @@ const Fridge = props => {
 
   const refresh = () => {
     //force component rerender
-    storageService.getAll().then(itemList => setItems(itemList));
+    storageService.getAll(fridgeRef).then(itemList => setItems(itemList));
   };
 
   return (

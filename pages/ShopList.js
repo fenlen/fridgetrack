@@ -31,9 +31,10 @@ const ShopList = props => {
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [markedItem, setMark] = useState();
+  const [fridgeRef, setFridgeRef] = useState('test');
   const refHolder = useRef(true);
   useEffect(() => {
-    storageService.getAllShop().then(itemList => setItems(itemList));
+    storageService.getAllShop(fridgeRef).then(itemList => setItems(itemList));
   }, []);
 
   useEffect(() => {
@@ -67,14 +68,17 @@ const ShopList = props => {
       removedItem.name,
       removedItem.category,
       formattedDate(dateState),
+      removedItem.barcode,
+      removedItem.quantity,
+      removedItem.unit,
     );
-    storageService.remove(removedItem.id);
+    storageService.remove(removedItem.id, fridgeRef, 'shopList');
     console.log('remove');
     refresh();
   };
   const refresh = () => {
     //force component rerender
-    storageService.getAllShop().then(itemList => setItems(itemList));
+    storageService.getAllShop(fridgeRef).then(itemList => setItems(itemList));
   };
   const setDate = (event, date) => {
     //handler for the onChange function of DateTimePicker
@@ -112,7 +116,13 @@ const ShopList = props => {
         <DateTimePicker
           value={dateState}
           minimumDate={dateState}
-          maximumDate={new Date(dateState.getFullYear()+1,dateState.getMonth(),dateState.getDate())}
+          maximumDate={
+            new Date(
+              dateState.getFullYear() + 1,
+              dateState.getMonth(),
+              dateState.getDate(),
+            )
+          }
           mode={mode}
           display="default"
           onChange={(event, date) => setDate(event, date)}

@@ -108,7 +108,7 @@ const ViewItemModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
   const removeItem = id => {
-    storageService.remove(id);
+    storageService.remove(id, 'test', 'itemList');
     props.navigation.goBack();
   };
   return (
