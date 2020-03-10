@@ -27,6 +27,7 @@ import {
 
 const Fridge = props => {
   const [items, setItems] = useState([]);
+  const [fridgeRef, setFridgeRef] = useState('');
 
   useEffect(() => {
     //executes on initial component render
