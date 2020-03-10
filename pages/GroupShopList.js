@@ -67,8 +67,11 @@ const GroupShopList = props => {
       removedItem.name,
       removedItem.category,
       formattedDate(dateState),
+      removedItem.barcode,
+      removedItem.quantity,
+      removedItem.unit,
     );
-    storageService.remove(removedItem.id);
+    storageService.remove(removedItem.id, 'shopList');
     console.log('remove');
     refresh();
   };

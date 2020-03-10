@@ -22,7 +22,7 @@ import {
   Row,
   Thumbnail,
   H1,
-  H3
+  H3,
 } from 'native-base';
 import {View} from 'react-native';
 import Dairy from '../thumbnails/Dairy.png'; //icons from https://creativetacos.com/healthy-food-icons/
@@ -47,58 +47,57 @@ const getThumbnail = category => {
 };
 
 const getPeriod = (initDateString, expDateString) => {
-    var initDate = new Date(parseInt(initDateString));
-    var expDate = new Date(parseInt(expDateString.substring(6,8))+2000,parseInt(expDateString.substring(3,5))-1,parseInt(expDateString.substring(0,2)));
-    var diff = expDate.getTime() - initDate.getTime();
-    return Math.floor(diff / (1000 * 60 * 60 * 24))+1;
-}
+  let initDate = new Date(parseInt(initDateString));
+  let expDate = new Date(
+    parseInt(expDateString.substring(6, 8)) + 2000,
+    parseInt(expDateString.substring(3, 5)) - 1,
+    parseInt(expDateString.substring(0, 2)),
+  );
+  let diff = expDate.getTime() - initDate.getTime();
+  return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+};
 
-const getDaysLeft = (expDateString) => {
-    var expDate = new Date(parseInt(expDateString.substring(6,8))+2000,parseInt(expDateString.substring(3,5))-1,parseInt(expDateString.substring(0,2)));
-    var diff = expDate.getTime() - new Date().getTime();
-    return Math.floor(diff / (1000 * 60 * 60 * 24))+1;
+const getDaysLeft = expDateString => {
+  let expDate = new Date(
+    parseInt(expDateString.substring(6, 8)) + 2000,
+    parseInt(expDateString.substring(3, 5)) - 1,
+    parseInt(expDateString.substring(0, 2)),
+  );
+  let diff = expDate.getTime() - new Date().getTime();
+  return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+};
 
-}
-
-const getBarColour = (expDateString) => {
-    var days=getDaysLeft(expDateString);
-    if (days>2)
-        return '#5cb85c';
-    else if (days >= 0)
-        return '#f0ad4e';
-    else
-        return '#d9534f';
-}
+const getBarColour = expDateString => {
+  let days = getDaysLeft(expDateString);
+  if (days > 2) return '#5cb85c';
+  else if (days >= 0) return '#f0ad4e';
+  else return '#d9534f';
+};
 
 const getProgress = (initDateString, expDateString) => {
-    var period = getPeriod(initDateString, expDateString);
-    var left = getDaysLeft(expDateString);
-    var percentage = (period-left)*80/period+10;
-    if (percentage >90)
-        return '100%'
-    else
-        return percentage.toString()+'%';
-}
+  let period = getPeriod(initDateString, expDateString);
+  let left = getDaysLeft(expDateString);
+  let percentage = ((period - left) * 80) / period + 10;
+  if (percentage > 90) return '100%';
+  else return percentage.toString() + '%';
+};
 
-
-  const formattedDate = dateString => {
-    var date = new Date(parseInt(dateString));
-    return (
-      ("0" + date.getDate()).slice(-2) +
-      '/' +
-      ("0" + (date.getMonth() + 1)).slice(-2) +
-      '/' +
-      (date.getFullYear() - 2000)
-    );
-  };
-
-
+const formattedDate = dateString => {
+  let date = new Date(parseInt(dateString));
+  return (
+    ('0' + date.getDate()).slice(-2) +
+    '/' +
+    ('0' + (date.getMonth() + 1)).slice(-2) +
+    '/' +
+    (date.getFullYear() - 2000)
+  );
+};
 
 const GroupViewItemModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
   const removeItem = id => {
-    storageService.remove(id);
+    storageService.remove(id, 'itemList');
     props.navigation.goBack();
   };
   return (
@@ -155,7 +154,9 @@ const GroupViewItemModal = props => {
             </Col>
             <Col>
               <Body>
-                <Text>{item.quantity} {item.unit}</Text>
+                <Text>
+                  {item.quantity} {item.unit}
+                </Text>
               </Body>
             </Col>
           </Row>
@@ -173,14 +174,23 @@ const GroupViewItemModal = props => {
           </Row>
           <Row>
             <Col>
-                <Body>
-                    <Text style={{paddingTop:10}}>The item has {getDaysLeft(item.expDate)} days left.</Text>
-                </Body>
+              <Body>
+                <Text style={{paddingTop: 10}}>
+                  The item has {getDaysLeft(item.expDate)} days left.
+                </Text>
+              </Body>
             </Col>
           </Row>
           <Row>
             <View style={Style.daysBar}>
-                <View style={{backgroundColor: getBarColour(item.expDate), height: 16, width:getProgress(item.id,item.expDate), borderRadius: 8}}/>
+              <View
+                style={{
+                  backgroundColor: getBarColour(item.expDate),
+                  height: 16,
+                  width: getProgress(item.id, item.expDate),
+                  borderRadius: 8,
+                }}
+              />
             </View>
           </Row>
           <Row>

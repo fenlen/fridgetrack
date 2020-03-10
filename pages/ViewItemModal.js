@@ -90,13 +90,14 @@ const getProgress = (initDateString, expDateString) => {
   }
 };
 
-const getDaysMessage = (expDate) =>{
-  var days=getDaysLeft(expDate);
-  if (days<0)
-    return 'the item has expired'
-  else
-    return  'The item has '+days+' days left.'
-}
+const getDaysMessage = expDate => {
+  var days = getDaysLeft(expDate);
+  if (days < 0) {
+    return 'the item has expired';
+  } else {
+    return 'The item has ' + days + ' days left.';
+  }
+};
 
 const formattedDate = dateString => {
   var date = new Date(parseInt(dateString));
@@ -113,7 +114,7 @@ const ViewItemModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
   const removeItem = id => {
-    storageService.remove(id, 'test', 'itemList');
+    storageService.remove(id, 'itemList');
     props.navigation.goBack();
   };
   return (
@@ -170,7 +171,9 @@ const ViewItemModal = props => {
             </Col>
             <Col>
               <Body>
-                <Text>{item.quantity} {item.unit}</Text>
+                <Text>
+                  {item.quantity} {item.unit}
+                </Text>
               </Body>
             </Col>
           </Row>
@@ -190,7 +193,7 @@ const ViewItemModal = props => {
             <Col>
               <Body>
                 <Text style={{paddingTop: 10}}>
-                    {getDaysMessage(item.expDate)}
+                  {getDaysMessage(item.expDate)}
                 </Text>
               </Body>
             </Col>

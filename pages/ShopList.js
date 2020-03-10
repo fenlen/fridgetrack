@@ -23,6 +23,7 @@ import {
   View,
   Input,
 } from 'native-base';
+import Global from '../state/global';
 
 const ShopList = props => {
   const [items, setItems] = useState();
@@ -31,10 +32,10 @@ const ShopList = props => {
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [markedItem, setMark] = useState();
-  const [fridgeRef, setFridgeRef] = useState('test');
+  // const [fridgeRef, setFridgeRef] = useState('test');
   const refHolder = useRef(true);
   useEffect(() => {
-    storageService.getAllShop(fridgeRef).then(itemList => setItems(itemList));
+    storageService.getAllShop().then(itemList => setItems(itemList));
   }, []);
 
   useEffect(() => {
@@ -72,13 +73,14 @@ const ShopList = props => {
       removedItem.quantity,
       removedItem.unit,
     );
-    storageService.remove(removedItem.id, fridgeRef, 'shopList');
+    storageService.remove(removedItem.id, 'shopList');
     console.log('remove');
     refresh();
   };
   const refresh = () => {
     //force component rerender
-    storageService.getAllShop(fridgeRef).then(itemList => setItems(itemList));
+    console.log(Global.fridge);
+    storageService.getAllShop().then(itemList => setItems(itemList));
   };
   const setDate = (event, date) => {
     //handler for the onChange function of DateTimePicker
