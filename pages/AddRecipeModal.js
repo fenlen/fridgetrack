@@ -53,9 +53,9 @@ const AddItemModal = props => {
   const handleInputChange = (index, event) => {
     const values = [...inputFields];
     if (event.target.name === "firstName") {
-      values[index4].firstName = event.target.value;
+      values[index].firstName = event.target.value;
     } else {
-      values[index5].lastName = event.target.value;
+      values[index].lastName = event.target.value;
     }
 
     setInputFields(values);
