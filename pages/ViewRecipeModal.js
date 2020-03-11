@@ -23,6 +23,7 @@ import {
   Thumbnail,
   H1,
   H3,
+  Separator
 } from 'native-base';
 import Easy from '../thumbnails/easy.png';
 import Medium from '../thumbnails/medium.png';
@@ -80,34 +81,17 @@ const ViewItemModal = props => {
               </Body>
             </Col>
           </Row>
+          <Separator bordered >
+            <Text>Ingredients</Text>
+          </Separator>
           <Row>
-            <Col>
-              <Body>
-                <Text>Amount left: </Text>
-              </Body>
-            </Col>
-            <Col>
-              <Body>
-                <Text>amount data</Text>
-              </Body>
-            </Col>
+            <Text>Ingredient list goes here</Text>
           </Row>
+          <Separator bordered >
+            <Text>Method</Text>
+          </Separator>
           <Row>
-            <Col>
-              <Body>
-                <Text>Category:</Text>
-              </Body>
-            </Col>
-            <Col>
-              <Body>
-                <Text>hehe</Text>
-              </Body>
-            </Col>
-          </Row>
-          <Row>
-            <Body>
-              <Text>Progress bar goes here</Text>
-            </Body>
+            <Text>Method goes here</Text>
           </Row>
           <Row>
             <Col>
@@ -116,18 +100,8 @@ const ViewItemModal = props => {
                 large
                 primary
                 style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => removeItem(item.id)}>
-                <Text>Eaten</Text>
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                rounded
-                large
-                primary
-                style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => removeItem(item.id)}>
-                <Text>Discarted</Text>
+                onPress={() => removeRecipe(item.id)}>
+                <Text>Remove</Text>
               </Button>
             </Col>
           </Row>
