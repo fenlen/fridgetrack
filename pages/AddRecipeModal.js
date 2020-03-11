@@ -24,12 +24,42 @@ import {
     Row,
     Col,
     Footer,
-    Grid
+    Grid,
+    Separator,
+    Textarea
 } from 'native-base';
 
 const AddItemModal = props => {
   const [level, setPicker] = useState('Easy'); //initial state for the category Picker
   const [name, onChangeText] = useState('');
+  const [method, onChangeText1] = useState('');
+
+  const [inputFields, setInputFields] = useState([
+    { firstName: '', lastName: '' }
+  ]);
+  //dynamic fields adapted from https://dev.to/fuchodeveloper/dynamic-form-fields-in-react-1h6c
+  const handleAddFields = () => {
+    const values = [...inputFields];
+    values.push({ firstName: '', lastName: '' });
+    setInputFields(values);
+  };
+
+  const handleRemoveFields = () => {
+    const values = [...inputFields];
+    values.pop();
+    setInputFields(values);
+  };
+
+  const handleInputChange = (index, event) => {
+    const values = [...inputFields];
+    if (event.target.name === "firstName") {
+      values[index4].firstName = event.target.value;
+    } else {
+      values[index5].lastName = event.target.value;
+    }
+
+    setInputFields(values);
+  };
 
   const submit = (name, level) => {
 
@@ -47,8 +77,11 @@ const AddItemModal = props => {
           <Title>Add new recipe</Title>
         </Body>
       </Header>
-      <Content padder>
-          <Form>
+      <Content>
+          <Separator bordered >
+            <Text>Recipe Details</Text>
+          </Separator>
+          <Form style={{padding: 10}}>
             <Item rounded>
                  <Input
                     placeholder={props.data || 'Recipe name'}
@@ -72,7 +105,74 @@ const AddItemModal = props => {
                      </Col>
                  </Row>
              </Grid>
-          </Form>
+            </Form>
+            <Separator bordered >
+              <Text>Ingredients</Text>
+            </Separator>
+            <Form style={{padding: 10}}>
+                {inputFields.map((inputField, index) => (
+                <>
+                    <Row style={{paddingBottom: 5}}>
+                        <Col size={1} style={{justifyContent: 'center'}}>
+                            <Icon name="square" list/>
+                        </Col>
+                        <Col size={12}>
+                            <Item rounded>
+                                 <Input
+                                    placeholder={"New ingredient"}
+                                    value={inputField.firstName}
+                                    onChange={event => handleInputChange(index, event)}
+                                 />
+                            </Item>
+                        </Col>
+                        <Col size={7}>
+                            <Item rounded>
+                                 <Input
+                                    placeholder={"Quantity"}
+                                    value={inputField.firstName}
+                                    onChange={event => handleInputChange(index, event)}
+                                 />
+                            </Item>
+                        </Col>
+                    </Row>
+                </>
+                ))}
+                <Row>
+                    <Col/>
+                    <Col>
+                        <Button
+                           primary
+                           rounded
+                           style={{justifyContent: 'center'}}
+                           onPress={() => handleAddFields()}
+                        >
+                           <Icon name="add"/>
+                        </Button>
+                    </Col>
+                    <Col/>
+                    <Col>
+                        <Button
+                           primary
+                           rounded
+                           style={{justifyContent: 'center'}}
+                           onPress={() => handleRemoveFields()}
+                        >
+                           <Icon name="remove"/>
+                        </Button>
+                    </Col>
+                    <Col/>
+                 </Row>
+            </Form>
+            <Separator bordered >
+               <Text>Method</Text>
+            </Separator>
+            <Form>
+                <Textarea
+                    rowSpan={5}
+                    bordered
+                    placeholder="You start by....."
+                    onChangeText={method => onChangeText1(method)}/>
+            </Form>
       </Content>
       <Footer>
           <Button
