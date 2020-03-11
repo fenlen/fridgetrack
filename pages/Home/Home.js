@@ -60,6 +60,14 @@ const Home = props => {
           rounded
           primary
           style={{marginTop: 10}}
+          onPress={() => props.navigation.navigate('Meals')}>
+          <Text uppercase={false}>Meals</Text>
+        </Button>
+        <Button
+          full
+          rounded
+          primary
+          style={{marginTop: 10}}
           onPress={() => props.navigation.navigate('Account')}>
           <Text uppercase={false}>My account</Text>
         </Button>

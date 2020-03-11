@@ -34,6 +34,12 @@ const datas = [
     prop: null,
   },
   {
+    name: "Meals",
+    route: "Meals",
+    icon: "list",
+    prop: null,
+  },
+  {
     name: "Account",
     route: "Account",
     icon: "settings",

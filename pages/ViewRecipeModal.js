@@ -40,7 +40,7 @@ const getThumbnail = (category) =>{
     }
 }
 
-const ViewItemModal = props => {
+const ViewRecipeModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
   const removeItem = id => {
@@ -111,4 +111,4 @@ const ViewItemModal = props => {
   );
 };
 
-export default ViewItemModal;
+export default ViewRecipeModal;
