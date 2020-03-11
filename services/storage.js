@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import firestore from '@react-native-firebase/firestore';
+import firestore, {firebase} from '@react-native-firebase/firestore';
 import Global from '../state/global';
+
+const user = () => firebase.auth().currentUser.uid;
 
 const getAll = async () => {
   // let keys = [];
@@ -9,7 +11,7 @@ const getAll = async () => {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
       .collection('fridges')
-      .doc(Global.fridge.toString())
+      .doc(user())
       .collection('itemList')
       .get();
   } catch (e) {
@@ -35,7 +37,7 @@ const getAllShop = async () => {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
       .collection('fridges')
-      .doc(Global.fridge.toString())
+      .doc(user())
       .collection('shopList')
       .get();
   } catch (e) {
@@ -57,7 +59,7 @@ const get = async (key, targetList) => {
     // item = await AsyncStorage.getItem(key);
     item = await firestore()
       .collection('fridges')
-      .doc(Global.fridge)
+      .doc(user())
       .collection(targetList)
       .doc(key);
   } catch (e) {
@@ -95,10 +97,10 @@ const submit = async (
   }
   try {
     // await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));
-
+    // console.log(Global.user, Global.user.userId, firebase.auth().currentUser.uid);
     await firestore()
       .collection('fridges')
-      .doc(Global.fridge.toString())
+      .doc(user())
       .collection(targetList)
       .doc(newId.toString())
       .set(newItem);
@@ -114,7 +116,7 @@ const remove = async (id, targetList) => {
     console.log(Global.fridge, targetList);
     await firestore()
       .collection('fridges')
-      .doc(Global.fridge)
+      .doc(user())
       .collection(targetList)
       .doc(id)
       .delete();

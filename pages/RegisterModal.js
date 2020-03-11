@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import {
   Container,
   Header,
@@ -17,6 +18,7 @@ import {
   Label,
   Input,
 } from 'native-base';
+import Global from '../state/global';
 
 const RegisterModal = props => {
   const [email, onChangeEmail] = useState('');
@@ -30,10 +32,10 @@ const RegisterModal = props => {
       console.error(e.message);
     }
   };
-  const initRegister = () => {
+  const initRegister = async () => {
     let re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     let p = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g;
-    var pass=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+    var pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
     if (!email) {
       Alert.alert('Error', 'Email cannot be empty');
     } else if (!re.test(email.toLowerCase())) {
@@ -41,15 +43,44 @@ const RegisterModal = props => {
     } else if (!password) {
       Alert.alert('Error', 'Password cannot be empty');
     } else if (!p.test(password)) {
-      Alert.alert('Error', 'Password must be 6 to 20 characters long and contain uppercase, lowercase and numeric characters ')
+      Alert.alert(
+        'Error',
+        'Password must be 6 to 20 characters long and contain uppercase, lowercase and numeric characters ',
+      );
     } else if (password !== confirmPass) {
       Alert.alert('Error', 'Passwords do not match');
     } else {
-      register(email, password);
+      await register(email, password);
+      let user = auth().currentUser;
+      await firestore()
+        .collection('users')
+        .doc(user.uid)
+        .set({
+          userId: user.uid,
+          joinDate: user.metadata.creationTime,
+          email: user.email,
+          groupFridge: '',
+        });
       Alert.alert('You have registered successfully');
+      Global.user = user.uid;
       props.navigation.goBack();
     }
   };
+
+  // auth().onAuthStateChanged(async user => {
+  //   if (user) {
+  //     await firestore()
+  //       .collection('users')
+  //       .doc(user.uid)
+  //       .set({
+  //         userId: user.uid,
+  //         joinDate: user.metadata.creationTime,
+  //         groupFridge: '',
+  //       });
+  //     Global.user = user.uid;
+  //     console.log(`${user.email} has signed in!`);
+  //   }
+  // });
   return (
     <Container>
       <Header>

@@ -3,8 +3,5 @@ module.exports = {
   font: 'Roboto',
   size: 'Medium',
   fridge: '',
-  user: {
-    fridge: 'test',
-    groupFridge: 'groupTest',
-  },
+  user: {},
 };

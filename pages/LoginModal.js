@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {Alert} from 'react-native';
+import Global from '../state/global';
 import {
   Container,
   Header,
@@ -38,6 +39,10 @@ const LoginModal = props => {
           Alert.alert('Error', errorMessage);
         }
       });
+    let user = auth().currentUser;
+    if (user) {
+      Global.user = user.uid;
+    }
     Alert.alert('You have logged in successfully');
     props.navigation.goBack();
   };
@@ -55,11 +60,11 @@ const LoginModal = props => {
       </Header>
       <Content>
         <Form>
-          <Item inlineLabel>
+          <Item floatingLabel>
             <Label>Email</Label>
             <Input onChangeText={content => onChangeEmail(content)} />
           </Item>
-          <Item inlineLabel last>
+          <Item floatingLabel last>
             <Label>Password</Label>
             <Input
               secureTextEntry
