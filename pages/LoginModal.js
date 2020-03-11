@@ -38,6 +38,7 @@ const LoginModal = props => {
           Alert.alert('Error', errorMessage);
         }
       });
+    Alert.alert('You have logged in successfully');
     props.navigation.goBack();
   };
   return (

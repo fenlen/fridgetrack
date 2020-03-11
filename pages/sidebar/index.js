@@ -12,27 +12,32 @@ import {
   Body
 } from "native-base";
 import styles from "./style";
+import Global from '../../state/global.js';
 
 const datas = [
   {
     name: "Personal",
     route: "Fridge",
-    icon: "person"
+    icon: "person",
+    prop: Global.user.fridge,
   },
   {
     name: "Group",
     route: "GroupFridge",
-    icon: "people"
+    icon: "people",
+    prop: Global.user.groupFridge,
   },
   {
     name: "Recipes",
     route: "Recipes",
-    icon: "bookmarks"
+    icon: "bookmarks",
+    prop: null,
   },
   {
     name: "Account",
     route: "Account",
-    icon: "settings"
+    icon: "settings",
+    prop: null,
   }
 ];
 
@@ -43,6 +48,11 @@ class SideBar extends Component {
       shadowOffsetWidth: 1,
       shadowRadius: 4
     };
+  }
+
+  redirect(destination, fridge) {
+    Global.fridge = fridge;
+    this.props.navigation.navigate(destination);
   }
 
   render() {
@@ -58,7 +68,12 @@ class SideBar extends Component {
               <ListItem
                 button
                 noBorder
-                onPress={() => this.props.navigation.navigate(data.route)}
+                onPress={() => {
+                    if(data.prop!=null)
+                        this.redirect(data.route, data.prop);
+                    else
+                        this.props.navigation.navigate(data.route);
+                }}
               >
                 <Left>
                   <Icon name={data.icon} />

@@ -32,14 +32,21 @@ const RegisterModal = props => {
   };
   const initRegister = () => {
     let re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    if (password.length < 6) {
-      Alert.alert('Error', 'Password must be at least 6 characters');
-    } else if (password !== confirmPass) {
-      Alert.alert('Error', 'Passwords do not match');
+    let p = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g;
+    var pass=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+    if (!email) {
+      Alert.alert('Error', 'Email cannot be empty');
     } else if (!re.test(email.toLowerCase())) {
       Alert.alert('Error', 'Email is wrongly formatted');
+    } else if (!password) {
+      Alert.alert('Error', 'Password cannot be empty');
+    } else if (!p.test(password)) {
+      Alert.alert('Error', 'Password must be 6 to 20 characters long and contain uppercase, lowercase and numeric characters ')
+    } else if (password !== confirmPass) {
+      Alert.alert('Error', 'Passwords do not match');
     } else {
       register(email, password);
+      Alert.alert('You have registered successfully');
       props.navigation.goBack();
     }
   };
