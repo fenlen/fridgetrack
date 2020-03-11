@@ -115,7 +115,13 @@ const GroupShopList = props => {
         <DateTimePicker
           value={dateState}
           minimumDate={dateState}
-          maximumDate={new Date(dateState.getFullYear()+1,dateState.getMonth(),dateState.getDate())}
+          maximumDate={
+            new Date(
+              dateState.getFullYear() + 1,
+              dateState.getMonth(),
+              dateState.getDate(),
+            )
+          }
           mode={mode}
           display="default"
           onChange={(event, date) => setDate(event, date)}

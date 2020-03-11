@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
-import Style from '../components/Style';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import storageService from '../services/storage';
-import {createStackNavigator} from 'react-navigation-stack';
+import auth from '@react-native-firebase/auth';
+import {Alert} from 'react-native';
 import {
   Container,
   Header,
@@ -17,11 +15,31 @@ import {
   Form,
   Item,
   Label,
-  Input
+  Input,
 } from 'native-base';
 
 const LoginModal = props => {
+  const [email, onChangeEmail] = useState('');
+  const [password, onChangePassword] = useState('');
 
+  const login = async () => {
+    await auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(e => {
+        let errorCode = e.code;
+        let errorMessage = e.message;
+        if (errorCode === 'auth/invalid-email') {
+          Alert.alert('Error', 'Invalid Email');
+        } else if (errorCode === 'auth/user-not-found') {
+          Alert.alert('Error', 'User not found');
+        } else if (errorCode === 'auth/wrong-password') {
+          Alert.alert('Error', 'Wrong password');
+        } else {
+          Alert.alert('Error', errorMessage);
+        }
+      });
+    props.navigation.goBack();
+  };
   return (
     <Container>
       <Header>
@@ -36,21 +54,23 @@ const LoginModal = props => {
       </Header>
       <Content>
         <Form>
-            <Item inlineLabel>
-              <Label>Username</Label>
-              <Input />
-            </Item>
-            <Item inlineLabel last>
-              <Label>Password</Label>
-              <Input  secureTextEntry/>
-            </Item>
+          <Item inlineLabel>
+            <Label>Email</Label>
+            <Input onChangeText={content => onChangeEmail(content)} />
+          </Item>
+          <Item inlineLabel last>
+            <Label>Password</Label>
+            <Input
+              secureTextEntry
+              onChangeText={content => onChangePassword(content)}
+            />
+          </Item>
         </Form>
         <Button
-            rounded
-            style={{ margin: 15, marginTop: 50, justifyContent: 'center' }}
-             onPress={() => {}}
-        >
-            <Text uppercase={false}>Log in</Text>
+          rounded
+          style={{margin: 15, marginTop: 50, justifyContent: 'center'}}
+          onPress={() => login()}>
+          <Text uppercase={false}>Log in</Text>
         </Button>
       </Content>
     </Container>

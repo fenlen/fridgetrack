@@ -52,7 +52,7 @@ const Home = props => {
           rounded
           primary
           style={{marginTop: 10}}
-          onPress={() => this.props.navigation.navigate('Recipes')}>
+          onPress={() => props.navigation.navigate('Recipes')}>
           <Text uppercase={false}>Recipes</Text>
         </Button>
         <Button
@@ -60,7 +60,7 @@ const Home = props => {
           rounded
           primary
           style={{marginTop: 10}}
-          onPress={() => this.props.navigation.navigate('Account')}>
+          onPress={() => props.navigation.navigate('Account')}>
           <Text uppercase={false}>My account</Text>
         </Button>
       </Content>
