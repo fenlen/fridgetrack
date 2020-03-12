@@ -73,15 +73,8 @@ const GroupModal = props => {
       'Join a group',
       'Please enter the group identification code (you can get this from any member of the group).',
       [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {
-          text: 'Confirm',
-          onPress: password => joinGroup(password),
-        },
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'Confirm', onPress: password => joinGroup(password),},
       ],
       {
         type: 'default',

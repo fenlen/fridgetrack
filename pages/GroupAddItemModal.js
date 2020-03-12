@@ -85,9 +85,9 @@ const GroupAddItemModal = props => {
 
   const formattedDate = () => {
     return (
-      dateState.getDate() +
+      ('0' + dateState.getDate()).slice(-2) +
       '/' +
-      (dateState.getMonth() + 1) +
+      ('0' + (dateState.getMonth() + 1)).slice(-2) +
       '/' +
       (dateState.getFullYear() - 2000)
     );

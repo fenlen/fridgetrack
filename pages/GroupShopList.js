@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {SafeAreaView, FlatList} from 'react-native';
+import {Alert, SafeAreaView, FlatList} from 'react-native';
 import SubmitButton from '../components/SubmitButton';
 import FridgeItem from '../components/FridgeItem';
 import Style from '../components/Style';
@@ -54,11 +54,10 @@ const GroupShopList = props => {
     setShow(true);
   };
   const formattedDate = () => {
-    //just returns the date in a dd/mm/yy format
     return (
-      dateState.getDate() +
+      ('0' + dateState.getDate()).slice(-2) +
       '/' +
-      (dateState.getMonth() + 1) +
+      ('0' + (dateState.getMonth() + 1)).slice(-2) +
       '/' +
       (dateState.getFullYear() - 2000)
     );
@@ -68,7 +67,7 @@ const GroupShopList = props => {
     storageService.submit(
       removedItem.name,
       removedItem.category,
-      formattedDate(dateState),
+      formattedDate(),
       removedItem.barcode,
       removedItem.quantity,
       removedItem.unit,
@@ -90,6 +89,20 @@ const GroupShopList = props => {
     setNewDate(date);
     refHolder.current = dateState;
   };
+
+  const removeAlert = removedItem => {
+    Alert.alert(
+      'Remove item from shopping list',
+      'What happened to this item?',
+      [
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'Bought', onPress: () => initRemove(removedItem)},
+        {text: "Don't want", onPress: () => {storageService.remove(removedItem.id, 'shopList',true), refresh();}},
+      ],
+      {cancelable: false},
+    );
+  };
+
   return (
     <Container style={Style.container}>
       <Header searchBar>
@@ -109,7 +122,7 @@ const GroupShopList = props => {
       <FlatList
         data={groupItems}
         renderItem={({item}) => (
-          <TouchableNativeFeedback onPress={() => initRemove(item)}>
+          <TouchableNativeFeedback onPress={() => removeAlert(item)}>
             <FridgeItem name={item.name} category={item.category} />
           </TouchableNativeFeedback>
         )}
