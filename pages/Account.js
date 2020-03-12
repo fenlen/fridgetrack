@@ -37,7 +37,7 @@ const Statistics = props => {
       } else {
         loggedIn = false;
       }
-      console.log(loggedIn, auth().currentUser);
+      // console.log(loggedIn, auth().currentUser);
       return () => setState(loggedIn);
     }, []),
   );

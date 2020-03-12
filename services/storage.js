@@ -2,42 +2,63 @@ import AsyncStorage from '@react-native-community/async-storage';
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import Global from '../state/global';
 
-const user = () => firebase.auth().currentUser.uid;
+const fridge = async group => {
+  let fridgeRef;
+  const userId = firebase.auth().currentUser.uid;
 
-const getAll = async () => {
+  if (group) {
+    const getCode = async () => {
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(userId)
+        .get()
+        .then(snapshot => (fridgeRef = snapshot.get('groupFridge')));
+    };
+    await getCode();
+  } else {
+    fridgeRef = userId;
+  }
+  console.log(fridgeRef, group);
+
+  return fridgeRef;
+};
+const getAll = async (group = false) => {
   // let keys = [];
   let keys;
   try {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
       .collection('fridges')
-      .doc(user())
+      .doc(await fridge(group))
       .collection('itemList')
       .get();
   } catch (e) {
     console.log('error: retrieving all keys failed');
     throw e;
   }
-
+  // console.log(fridge(false));
+  // console.log(fridge(false) === 'zyLqoEyoiyVAsptgCQbR2RBhKXf2');
   // const promisedItems = keys.map(async itemId => {
   //   const itemPromise = await get(itemId);
   //   return itemPromise;
   // });
   // const results = await Promise.all(promisedItems);
   // const results = keys.docs();
-  // console.log('HI \n\n\n\n' + results);
   const results = keys.docs.map(item => item.data());
+  // console.log('HI \n\n\n\n' + results);
+
   // results = results.map(item => item.data());
   return results.filter(item => item.isShop !== true);
 };
 
-const getAllShop = async () => {
+const getAllShop = async (group = false) => {
   let keys;
   try {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
       .collection('fridges')
-      .doc(user())
+      .doc(await fridge(group))
       .collection('shopList')
       .get();
   } catch (e) {
@@ -53,13 +74,13 @@ const getAllShop = async () => {
   return keys.docs.map(item => item.data());
 };
 
-const get = async (key, targetList) => {
+const get = async (key, targetList, group = false) => {
   let item;
   try {
     // item = await AsyncStorage.getItem(key);
     item = await firestore()
       .collection('fridges')
-      .doc(user())
+      .doc(await fridge(group))
       .collection(targetList)
       .doc(key);
   } catch (e) {
@@ -78,6 +99,7 @@ const submit = async (
   quantity,
   unit,
   isShop = false,
+  group = false,
 ) => {
   const newId = Date.now();
   const newItem = {
@@ -100,7 +122,7 @@ const submit = async (
     // console.log(Global.user, Global.user.userId, firebase.auth().currentUser.uid);
     await firestore()
       .collection('fridges')
-      .doc(user())
+      .doc(await fridge(group))
       .collection(targetList)
       .doc(newId.toString())
       .set(newItem);
@@ -110,13 +132,13 @@ const submit = async (
   }
 };
 
-const remove = async (id, targetList) => {
+const remove = async (id, targetList, group = false) => {
   try {
     // await AsyncStorage.removeItem(id);
     console.log(Global.fridge, targetList);
     await firestore()
       .collection('fridges')
-      .doc(user())
+      .doc(await fridge(group))
       .collection(targetList)
       .doc(id)
       .delete();

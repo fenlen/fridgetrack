@@ -30,14 +30,14 @@ const GroupFridge = props => {
 
   useEffect(() => {
     //executes on initial component render
-    storageService.getAll().then(itemList => setItems(itemList));
+    storageService.getAll(true).then(itemList => setItems(itemList));
   }, []);
 
   useFocusEffect(
     //executes on component focus
     useCallback(() => {
       const rerender = storageService
-        .getAll()
+        .getAll(true)
         .then(itemList => setItems(itemList));
 
       return () => rerender;
@@ -52,7 +52,7 @@ const GroupFridge = props => {
 
   const refresh = () => {
     //force component rerender
-    storageService.getAll().then(itemList => setItems(itemList));
+    storageService.getAll(true).then(itemList => setItems(itemList));
   };
 
   return (
@@ -87,7 +87,12 @@ const GroupFridge = props => {
         )}
         keyExtractor={item => item.id}
       />
-      <SubmitButton items={items} refresh={() => refresh()} shopping={false} />
+      <SubmitButton
+        items={items}
+        refresh={() => refresh()}
+        shopping={false}
+        group={true}
+      />
       <Footer>
         <FooterTab>
           <Button active>

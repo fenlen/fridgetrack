@@ -97,7 +97,7 @@ const GroupViewItemModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
   const removeItem = id => {
-    storageService.remove(id, 'itemList');
+    storageService.remove(id, 'itemList', true);
     props.navigation.goBack();
   };
   return (

@@ -92,7 +92,7 @@ const AddItemModal = props => {
           </Button>
         </Left>
         <Body>
-          <Title>Add an item</Title>
+          <Title>Add an item *personal*</Title>
         </Body>
       </Header>
       <Content padder>

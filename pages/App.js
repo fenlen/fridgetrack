@@ -59,7 +59,7 @@ const Drawer = createDrawerNavigator(
     GroupStatistics,
     Barcode,
     Account,
-    Recipes
+    Recipes,
   },
   {
     initialRouteName: "Home",

@@ -33,7 +33,7 @@ const GroupShopList = props => {
   const [markedItem, setMark] = useState();
   const refHolder = useRef(true);
   useEffect(() => {
-    storageService.getAllShop().then(itemList => setItems(itemList));
+    storageService.getAllShop(true).then(itemList => setItems(itemList));
   }, []);
 
   useEffect(() => {
@@ -70,14 +70,16 @@ const GroupShopList = props => {
       removedItem.barcode,
       removedItem.quantity,
       removedItem.unit,
+      false,
+      true,
     );
-    storageService.remove(removedItem.id, 'shopList');
+    storageService.remove(removedItem.id, 'shopList', true);
     console.log('remove');
     refresh();
   };
   const refresh = () => {
     //force component rerender
-    storageService.getAllShop().then(itemList => setItems(itemList));
+    storageService.getAllShop(true).then(itemList => setItems(itemList));
   };
   const setDate = (event, date) => {
     //handler for the onChange function of DateTimePicker
@@ -127,7 +129,12 @@ const GroupShopList = props => {
           onChange={(event, date) => setDate(event, date)}
         />
       )}
-      <SubmitButton items={items} refresh={() => refresh()} shopping={true} />
+      <SubmitButton
+        items={items}
+        refresh={() => refresh()}
+        shopping={true}
+        group={true}
+      />
       <Footer>
         <FooterTab>
           <Button onPress={() => props.navigation.navigate('GroupFridge')}>
