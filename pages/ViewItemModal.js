@@ -113,8 +113,9 @@ const formattedDate = dateString => {
 const ViewItemModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
-  const removeItem = id => {
+  const removeItem = (id, eaten) => {
     storageService.remove(id, 'itemList');
+    storageService.submitEaten(item.name, item.quantity, eaten, true);
     props.navigation.goBack();
   };
   return (
@@ -216,7 +217,7 @@ const ViewItemModal = props => {
                 rounded
                 primary
                 style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => removeItem(item.id)}>
+                onPress={() => removeItem(item.id, true)}>
                 <Text uppercase={false}>Eaten</Text>
               </Button>
             </Col>
@@ -225,7 +226,7 @@ const ViewItemModal = props => {
                 rounded
                 primary
                 style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => removeItem(item.id)}>
+                onPress={() => removeItem(item.id, false)}>
                 <Text uppercase={false}>Discarted</Text>
               </Button>
             </Col>

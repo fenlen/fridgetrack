@@ -67,9 +67,6 @@ const getAllShop = async (search = null, group = false) => {
       .collection('fridges')
       .doc(await fridge(group))
       .collection('shopList')
-      .orderBy('name')
-      .startAt(search)
-      .endAt(search+"\uf8ff")
       .get();
   } catch (e) {
     console.log('error: retrieving all keys failed');
@@ -291,5 +288,53 @@ const getAllMeal = async (search = null) => {
   return results;
 };
 
+//Discarted/Eaten
 
-export default {getAll, getAllShop, get, submit, remove, submitRecipe, removeRecipe, getAllRecipe, submitMeal, removeMeal, getAllMeal};
+const submitEaten = async (
+  name,
+  quantity,
+  eaten=true,
+  group=false,
+) => {
+  const newId = Date.now();
+  const newItem = {
+    id: newId.toString(),
+    name: name,
+    quantity: quantity,
+    eaten: eaten,
+    group: group,
+  };
+  let targetList = 'discList';
+  try {
+    // await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));
+    // console.log(Global.user, Global.user.userId, firebase.auth().currentUser.uid);
+    await firestore()
+      .collection(targetList)
+      .doc(newId.toString())
+      .set(newItem);
+     console.log(eaten);
+  } catch (e) {
+    console.log('error: submitMeal failed');
+    throw e;
+  }
+};
+
+const getAllEaten = async () => {
+  // let keys = [];
+  let keys;
+  try {
+    // keys = await AsyncStorage.getAllKeys();
+    keys = await firestore()
+      .collection('discList')
+      .get();
+  } catch (e) {
+    console.log('error: retrieving all keys failed'+e);
+    throw e;
+  }
+  const results = keys.docs.map(item => item.data());
+  return results;
+};
+
+
+
+export default {getAll, getAllShop, get, submit, remove, submitRecipe, removeRecipe, getAllRecipe, submitMeal, removeMeal, getAllMeal, submitEaten, getAllEaten};

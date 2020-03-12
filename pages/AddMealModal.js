@@ -63,7 +63,6 @@ const AddMealModal = props => {
 var list=[];
   storageService.getAllRecipe().then(itemList => setItems(itemList));
   for (const i in items){
-           console.log(items[i]);
            list.push(<Picker.Item label={items[i].name} value={items[i].name} />);
   };
 
