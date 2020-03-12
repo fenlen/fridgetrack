@@ -23,11 +23,9 @@ const fridge = async group => {
 
   return fridgeRef;
 };
-const getAll = async (search = null, group = false) => {
+const getAll = async (search = '', group = false) => {
   // let keys = [];
   let keys;
-  if (search == '')
-    search = null;
   try {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
@@ -57,10 +55,8 @@ const getAll = async (search = null, group = false) => {
   return results.filter(item => item.isShop !== true);
 };
 
-const getAllShop = async (search = null, group = false) => {
+const getAllShop = async (search = '', group = false) => {
   let keys;
-  if (search == '')
-    search = null;
   try {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
@@ -205,11 +201,9 @@ const removeRecipe = async (id) => {
   }
 };
 
-const getAllRecipe = async (search = null) => {
+const getAllRecipe = async (search = '') => {
   // let keys = [];
   let keys;
-  if (search == '')
-    search = null;
   try {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
@@ -267,11 +261,9 @@ const removeMeal = async (id) => {
   }
 };
 
-const getAllMeal = async (search = null) => {
+const getAllMeal = async (search = '') => {
   // let keys = [];
   let keys;
-  if (search == '')
-    search = null;
   try {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
