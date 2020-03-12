@@ -124,6 +124,7 @@ const AddItemModal = props => {
                   <Picker.Item label="g" value="g" />
                   <Picker.Item label="ml" value="ml" />
                   <Picker.Item label="l" value="l" />
+                  <Picker.Item label="pcs" value="pcs" />
                 </Picker>
               </Col>
             </Row>
