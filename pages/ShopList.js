@@ -97,8 +97,21 @@ const ShopList = props => {
       'What happened to this item?',
       [
         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'Bought', onPress: () => initRemove(removedItem)},
+        {text: 'Bought', onPress: () => infoAlert(removedItem)},
         {text: "Don't want", onPress: () => {storageService.remove(removedItem.id, 'shopList'), refresh();}},
+      ],
+      {cancelable: false},
+    );
+  };
+
+
+  const infoAlert = removedItem => {
+    Alert.alert(
+      'Info screen',
+      'Next you will be prompted to pick an expiration date for your item.',
+      [
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'Ok', onPress: () => initRemove(removedItem)},
       ],
       {cancelable: false},
     );
@@ -131,6 +144,7 @@ const ShopList = props => {
       />
       {show && ( //translates to if show is true then do whatever is after &&
         <DateTimePicker
+          title='Please pick an expiration date'
           value={dateState}
           minimumDate={dateState}
           maximumDate={
