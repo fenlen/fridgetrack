@@ -32,6 +32,8 @@ const GroupShopList = props => {
   const [show, setShow] = useState(false);
   const [markedItem, setMark] = useState();
   const refHolder = useRef(true);
+  const [search, onChangeText] = useState();
+
   useEffect(() => {
     storageService.getAllShop(true).then(itemList => setItems(itemList));
   }, []);
@@ -97,10 +99,10 @@ const GroupShopList = props => {
           </Button>
         </Left>
         <Item>
-          <Input placeholder="All items in group shopping list" />
+          <Input placeholder="All items in group shopping list" value={search} onChangeText={name => {onChangeText(name); refresh();}}/>
           <Icon name="search" />
         </Item>
-        <Button transparent>
+        <Button transparent onPress={() => refresh()}>
           <Text>Search</Text>
         </Button>
       </Header>

@@ -49,7 +49,7 @@ const GroupStatistics = props => {
                    <Icon active name="pizza" />
                    <Text>Fridge</Text>
                  </Button>
-                 <Button onPress={() => props.navigation.navigate("GroupShoplist")}>
+                 <Button onPress={() => props.navigation.navigate("GroupShopList")}>
                    <Icon name="basket" />
                    <Text>Shop list</Text>
                  </Button>

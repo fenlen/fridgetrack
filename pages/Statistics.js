@@ -49,7 +49,7 @@ const Statistics = props => {
                    <Icon active name="pizza" />
                    <Text>Fridge</Text>
                  </Button>
-                 <Button onPress={() => props.navigation.navigate("Shoplist")}>
+                 <Button onPress={() => props.navigation.navigate("ShopList")}>
                    <Icon name="basket" />
                    <Text>Shop list</Text>
                  </Button>

@@ -27,6 +27,7 @@ import {
 
 const Recipes = props => {
   const [items, setItems] = useState([]);
+  const [search, onChangeText] = useState();
 
   useEffect(() => {
     //executes on initial component render
@@ -64,10 +65,10 @@ const Recipes = props => {
           </Button>
         </Left>
         <Item>
-          <Input placeholder="All your recipes" />
+          <Input placeholder="All your recipes" value={search} onChangeText={name => {onChangeText(name); refresh();}}/>
           <Icon name="search" />
         </Item>
-        <Button transparent>
+        <Button transparent onPress={() => refresh()}>
           <Text>Search</Text>
         </Button>
       </Header>

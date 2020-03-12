@@ -28,6 +28,7 @@ import {
 const Fridge = props => {
   const [items, setItems] = useState([]);
   // const [fridgeRef, setFridgeRef] = useState('test');
+  const [search, onChangeText] = useState();
 
   useEffect(() => {
     //executes on initial component render
@@ -65,10 +66,10 @@ const Fridge = props => {
           </Button>
         </Left>
         <Item searchBar>
-          <Input placeholder="All items in your fridge" />
+          <Input placeholder="All items in your fridge" value={search} onChangeText={name => {onChangeText(name); refresh();}}/>
           <Icon name="search" />
         </Item>
-        <Button transparent>
+        <Button transparent onPress={() => refresh()}>
           <Text>Search</Text>
         </Button>
       </Header>

@@ -34,6 +34,8 @@ const ShopList = props => {
   const [markedItem, setMark] = useState();
   // const [fridgeRef, setFridgeRef] = useState('test');
   const refHolder = useRef(true);
+  const [search, onChangeText] = useState();
+
   useEffect(() => {
     storageService.getAllShop().then(itemList => setItems(itemList));
   }, []);
@@ -98,10 +100,10 @@ const ShopList = props => {
           </Button>
         </Left>
         <Item>
-          <Input placeholder="All items in your shopping list" />
+          <Input placeholder="All items in your shopping list" value={search} onChangeText={name => {onChangeText(name); refresh();}}/>
           <Icon name="search" />
         </Item>
-        <Button transparent>
+        <Button transparent onPress={() => refresh()}>
           <Text>Search</Text>
         </Button>
       </Header>
