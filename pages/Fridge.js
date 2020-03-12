@@ -28,11 +28,11 @@ import {
 const Fridge = props => {
   const [items, setItems] = useState([]);
   // const [fridgeRef, setFridgeRef] = useState('test');
-  const [search, onChangeText] = useState();
+  const [search, onChangeText] = useState('');
 
   useEffect(() => {
     //executes on initial component render
-    storageService.getAll().then(itemList => setItems(itemList));
+    storageService.getAll(search).then(itemList => setItems(itemList));
   }, []);
 
   useFocusEffect(
@@ -52,9 +52,9 @@ const Fridge = props => {
     refresh();
   };
 
-  const refresh = () => {
+  const refresh = (search) => {
     //force component rerender
-    storageService.getAll().then(itemList => setItems(itemList));
+    storageService.getAll(search).then(itemList => setItems(itemList));
   };
 
   return (
@@ -66,7 +66,7 @@ const Fridge = props => {
           </Button>
         </Left>
         <Item searchBar>
-          <Input placeholder="All items in your fridge" value={search} onChangeText={name => {onChangeText(name); refresh();}}/>
+          <Input placeholder="All items in your fridge" value={search} onChangeText={name => {onChangeText(name); refresh(name);}}/>
           <Icon name="search" />
         </Item>
         <Button transparent onPress={() => refresh()}>

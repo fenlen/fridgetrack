@@ -27,18 +27,18 @@ import {
 
 const GroupFridge = props => {
   const [items, setItems] = useState([]);
-  const [search, onChangeText] = useState();
+  const [search, onChangeText] = useState('');
 
   useEffect(() => {
     //executes on initial component render
-    storageService.getAll(true).then(itemList => setItems(itemList));
+    storageService.getAll(search,true).then(itemList => setItems(itemList));
   }, []);
 
   useFocusEffect(
     //executes on component focus
     useCallback(() => {
       const rerender = storageService
-        .getAll(true)
+        .getAll(search,true)
         .then(itemList => setItems(itemList));
 
       return () => rerender;
@@ -51,9 +51,9 @@ const GroupFridge = props => {
     refresh();
   };
 
-  const refresh = () => {
+  const refresh = (search) => {
     //force component rerender
-    storageService.getAll(true).then(itemList => setItems(itemList));
+    storageService.getAll(search,true).then(itemList => setItems(itemList));
   };
 
   return (
@@ -65,10 +65,10 @@ const GroupFridge = props => {
           </Button>
         </Left>
         <Item>
-          <Input placeholder="All items in group fridge" value={search} onChangeText={name => {onChangeText(name); refresh();}}/>
+          <Input placeholder="All items in group fridge" value={search} onChangeText={name => {onChangeText(name); refresh(name);}}/>
           <Icon name="search" />
         </Item>
-        <Button transparent onPress={() => refresh()}>
+        <Button transparent onPress={() => refresh(search)}>
           <Text>Search</Text>
         </Button>
       </Header>

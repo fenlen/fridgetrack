@@ -25,17 +25,17 @@ import {
 } from 'native-base';
 
 const GroupShopList = props => {
-  const [items, setItems] = useState();
+  const [groupItems, setItems] = useState();
   const [dateState, setNewDate] = useState(new Date());
   // eslint-disable-next-line no-unused-vars
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [markedItem, setMark] = useState();
   const refHolder = useRef(true);
-  const [search, onChangeText] = useState();
+  const [search, onChangeText] = useState('');
 
   useEffect(() => {
-    storageService.getAllShop(true).then(itemList => setItems(itemList));
+    storageService.getAllShop(search,true).then(itemList => setItems(itemList));
   }, []);
 
   useEffect(() => {
@@ -79,9 +79,9 @@ const GroupShopList = props => {
     console.log('remove');
     refresh();
   };
-  const refresh = () => {
+  const refresh = (search) => {
     //force component rerender
-    storageService.getAllShop(true).then(itemList => setItems(itemList));
+    storageService.getAllShop(search,true).then(itemList => setItems(itemList));
   };
   const setDate = (event, date) => {
     //handler for the onChange function of DateTimePicker
@@ -99,15 +99,15 @@ const GroupShopList = props => {
           </Button>
         </Left>
         <Item>
-          <Input placeholder="All items in group shopping list" value={search} onChangeText={name => {onChangeText(name); refresh();}}/>
+          <Input placeholder="All items in group shopping list" value={search} onChangeText={name => {onChangeText(name); refresh(name);}}/>
           <Icon name="search" />
         </Item>
-        <Button transparent onPress={() => refresh()}>
+        <Button transparent onPress={() => refresh(search)}>
           <Text>Search</Text>
         </Button>
       </Header>
       <FlatList
-        data={items}
+        data={groupItems}
         renderItem={({item}) => (
           <TouchableNativeFeedback onPress={() => initRemove(item)}>
             <FridgeItem name={item.name} category={item.category} />
@@ -132,7 +132,7 @@ const GroupShopList = props => {
         />
       )}
       <SubmitButton
-        items={items}
+        items={groupItems}
         refresh={() => refresh()}
         shopping={true}
         group={true}

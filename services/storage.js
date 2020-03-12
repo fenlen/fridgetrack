@@ -23,15 +23,20 @@ const fridge = async group => {
 
   return fridgeRef;
 };
-const getAll = async (group = false) => {
+const getAll = async (search = null, group = false) => {
   // let keys = [];
   let keys;
+  if (search == '')
+    search = null;
   try {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
       .collection('fridges')
       .doc(await fridge(group))
       .collection('itemList')
+      .orderBy('name')
+      .startAt(search)
+      .endAt(search+"\uf8ff")
       .get();
   } catch (e) {
     console.log('error: retrieving all keys failed');
@@ -52,14 +57,19 @@ const getAll = async (group = false) => {
   return results.filter(item => item.isShop !== true);
 };
 
-const getAllShop = async (group = false) => {
+const getAllShop = async (search = null, group = false) => {
   let keys;
+  if (search == '')
+    search = null;
   try {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
       .collection('fridges')
       .doc(await fridge(group))
       .collection('shopList')
+      .orderBy('name')
+      .startAt(search)
+      .endAt(search+"\uf8ff")
       .get();
   } catch (e) {
     console.log('error: retrieving all keys failed');

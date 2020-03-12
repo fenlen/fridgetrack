@@ -11,3 +11,4 @@
 
 * Registering/logging in does not cause an update on the Account page. (Sometimes happens? Maybe fixed? Idk)
 * Removing an item from Shoplist causes two items to appear in main item list. (Happens rarely. No idea why)
+* Canceling the date selection when an item from shoplist is tapped leads to dateState error

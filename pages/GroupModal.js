@@ -87,7 +87,6 @@ const GroupModal = props => {
         type: 'default',
         cancelable: false,
         defaultValue: null,
-        placeholder: 'XXXXXX',
       },
     );
   };
@@ -131,8 +130,7 @@ const GroupModal = props => {
     Clipboard.setString(code);
     Alert.alert(
       'Get access code',
-      'The code for accessing the group has been copied to the clipboard: ' +
-        code,
+      'The code for accessing the group is'+code+'. It has also been copied to the clipboard. '
     );
   };
 

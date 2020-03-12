@@ -29,7 +29,13 @@ const RegisterModal = props => {
     try {
       await auth().createUserWithEmailAndPassword(email, password);
     } catch (e) {
-      console.error(e.message);
+        let errorCode = e.code;
+        let errorMessage = e.message;
+        if (errorCode === 'auth/email-already-in-use') {
+            Alert.alert('Error', 'Email is alreay in use');
+        } else {
+            Alert.alert('Error', errorMessage);
+        }
     }
   };
   const initRegister = async () => {

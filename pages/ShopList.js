@@ -34,7 +34,7 @@ const ShopList = props => {
   const [markedItem, setMark] = useState();
   // const [fridgeRef, setFridgeRef] = useState('test');
   const refHolder = useRef(true);
-  const [search, onChangeText] = useState();
+  const [search, onChangeText] = useState('');
 
   useEffect(() => {
     storageService.getAllShop().then(itemList => setItems(itemList));
@@ -79,10 +79,10 @@ const ShopList = props => {
     console.log('remove');
     refresh();
   };
-  const refresh = () => {
+  const refresh = (search) => {
     //force component rerender
     console.log(Global.fridge);
-    storageService.getAllShop().then(itemList => setItems(itemList));
+    storageService.getAllShop(search).then(itemList => setItems(itemList));
   };
   const setDate = (event, date) => {
     //handler for the onChange function of DateTimePicker
@@ -100,10 +100,10 @@ const ShopList = props => {
           </Button>
         </Left>
         <Item>
-          <Input placeholder="All items in your shopping list" value={search} onChangeText={name => {onChangeText(name); refresh();}}/>
+          <Input placeholder="All items in your shopping list" value={search} onChangeText={name => {onChangeText(name); refresh(name);}}/>
           <Icon name="search" />
         </Item>
-        <Button transparent onPress={() => refresh()}>
+        <Button transparent onPress={() => refresh(search)}>
           <Text>Search</Text>
         </Button>
       </Header>

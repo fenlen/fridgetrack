@@ -79,7 +79,7 @@ const Meals = props => {
             onPress={() =>
               props.navigation.navigate('ViewMealModal', {item: item})
             }>
-            <RecipeItem
+            <MealItem
               name={item.name}
               date={item.date}
               recipe={item.recipe}
