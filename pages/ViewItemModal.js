@@ -83,7 +83,7 @@ const getProgress = (initDateString, expDateString) => {
   var period = getPeriod(initDateString, expDateString);
   var left = getDaysLeft(expDateString);
   var percentage = ((period - left) * 80) / period + 10;
-  if (percentage > 90) {
+  if (percentage > 90 || left < 0 ) {
     return '100%';
   } else {
     return percentage.toString() + '%';
@@ -93,7 +93,7 @@ const getProgress = (initDateString, expDateString) => {
 const getDaysMessage = expDate => {
   var days = getDaysLeft(expDate);
   if (days < 0) {
-    return 'the item has expired';
+    return 'the item expired '+ (0-days) +' days ago';
   } else {
     return 'The item has ' + days + ' days left.';
   }

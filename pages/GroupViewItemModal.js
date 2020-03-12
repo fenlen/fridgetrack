@@ -78,8 +78,11 @@ const getProgress = (initDateString, expDateString) => {
   let period = getPeriod(initDateString, expDateString);
   let left = getDaysLeft(expDateString);
   let percentage = ((period - left) * 80) / period + 10;
-  if (percentage > 90) return '100%';
-  else return percentage.toString() + '%';
+  if (percentage > 90 || left < 0 ){
+    return '100%';
+  } else {
+    return percentage.toString() + '%';
+  }
 };
 
 const formattedDate = dateString => {
@@ -91,6 +94,15 @@ const formattedDate = dateString => {
     '/' +
     (date.getFullYear() - 2000)
   );
+};
+
+const getDaysMessage = expDate => {
+  var days = getDaysLeft(expDate);
+  if (days < 0) {
+    return 'the item expired '+ (0-days) +' days ago';
+  } else {
+    return 'The item has ' + days + ' days left.';
+  }
 };
 
 const GroupViewItemModal = props => {
@@ -176,7 +188,7 @@ const GroupViewItemModal = props => {
             <Col>
               <Body>
                 <Text style={{paddingTop: 10}}>
-                  The item has {getDaysLeft(item.expDate)} days left.
+                  {getDaysMessage(item.expDate)}
                 </Text>
               </Body>
             </Col>
