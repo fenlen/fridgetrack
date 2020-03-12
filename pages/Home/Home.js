@@ -24,12 +24,12 @@ const Home = props => {
     <Container>
       <Header>
         <Body>
-          <Title>Welcome to Fridge App</Title>
+          <Title>Welcome to Fridge Plan</Title>
         </Body>
       </Header>
       <Content padder>
         <Body>
-          <Text>Where do you wanna go?</Text>
+          <Text>Where do you want to go?</Text>
         </Body>
         <Button
           full
