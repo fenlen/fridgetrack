@@ -29,8 +29,8 @@ import {
     Textarea
 } from 'native-base';
 
-const AddItemModal = props => {
-  const [level, setPicker] = useState('Easy'); //initial state for the category Picker
+const AddRecipeModal = props => {
+  const [level, setPicker] = useState('Easy'); //initial state for the Picker
   const [name, onChangeText] = useState('');
   const [method, onChangeText1] = useState('');
 
@@ -178,7 +178,7 @@ const AddItemModal = props => {
           <Button
             primary
             full
-            title="Add item"
+            title="Add recipe"
             onPress={() => {
               submit(name, level);
             }}
@@ -190,4 +190,4 @@ const AddItemModal = props => {
   );
 };
 
-export default AddItemModal;
+export default AddRecipeModal;

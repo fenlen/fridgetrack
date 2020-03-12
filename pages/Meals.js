@@ -2,8 +2,8 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {SafeAreaView, FlatList} from 'react-native';
 import {useFocusEffect} from 'react-navigation-hooks';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
-import RecipeItem from '../components/RecipeItem';
-import RecipeSubmitButton from '../components/RecipeSubmitButton';
+import MealItem from '../components/MealItem';
+import MealSubmitButton from '../components/MealSubmitButton';
 import Style from '../components/Style';
 import storageService from '../services/storage';
 import {
@@ -25,7 +25,7 @@ import {
   List,
 } from 'native-base';
 
-const Recipes = props => {
+const Meals = props => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const Recipes = props => {
           </Button>
         </Left>
         <Item>
-          <Input placeholder="All your recipes" />
+          <Input placeholder="All your meals" />
           <Icon name="search" />
         </Item>
         <Button transparent>
@@ -76,20 +76,20 @@ const Recipes = props => {
         renderItem={({item}) => (
           <TouchableNativeFeedback
             onPress={() =>
-              props.navigation.navigate('ViewRecipeModal', {item: item})
+              props.navigation.navigate('ViewMealModal', {item: item})
             }>
             <RecipeItem
               name={item.name}
-              duration= '15'
-              level= 'Easy'
+              date={item.date}
+              recipe={item.recipe}
             />
           </TouchableNativeFeedback>
         )}
         keyExtractor={item => item.id}
       />
-      <RecipeSubmitButton items={items} refresh={() => refresh()} />
+      <MealSubmitButton items={items} refresh={() => refresh()} />
     </Container>
   );
 };
 
-export default Recipes;
+export default Meals;
