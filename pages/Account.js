@@ -4,6 +4,7 @@ import {Alert} from 'react-native';
 import Style from '../components/Style';
 import prompt from 'react-native-prompt-android';
 import auth from '@react-native-firebase/auth';
+import firestore, {firebase} from '@react-native-firebase/firestore';
 import {
   Container,
   Header,
@@ -23,6 +24,7 @@ import {
 
 const Statistics = props => {
   const [state, setState] = useState();
+  const user = firebase.auth().currentUser;
   useEffect(() => {
     if (auth().currentUser !== null) {
       setState(true);
@@ -115,25 +117,17 @@ const Statistics = props => {
           <Left>
             <Text>Email</Text>
           </Left>
-          <Right>
-            <Text>id goes here</Text>
-          </Right>
-        </ListItem>
-        <ListItem>
-          <Left>
-            <Text>Account type</Text>
-          </Left>
-          <Right>
-            <Text>type goes here</Text>
-          </Right>
+          <Body>
+            <Text>{user.email}</Text>
+          </Body>
         </ListItem>
         <ListItem>
           <Left>
             <Text>Date joined</Text>
           </Left>
-          <Right>
+          <Body>
             <Text>date goes here</Text>
-          </Right>
+          </Body>
         </ListItem>
         <Separator bordered>
           <Text>Preferences</Text>
