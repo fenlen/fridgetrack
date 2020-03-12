@@ -30,12 +30,14 @@ import {
 } from 'native-base';
 
 const AddMealModal = props => {
-  const [recipe, setPicker] = useState('recipe1'); //initial state for the Picker
+  const [type, setPicker] = useState('Breakfast'); //initial state for the Picker
+  const [recipe, setPicker1] = useState(''); //initial state for the Picker
   const [name, onChangeText] = useState('');
   const [method, onChangeText1] = useState('');
   const [dateState, setNewDate] = useState(new Date()); //set date to current date
   const [mode, setMode] = useState('date'); //mode of the date picker
   const [show, setShow] = useState(false);
+  const [items, setItems] = useState([]);
 
   const showDatePicker = () => {
     setShow(true);
@@ -58,9 +60,11 @@ const AddMealModal = props => {
     );
   };
 
-
-  const submit = (name, date, recipe) => {
-
+var list=[];
+  storageService.getAllRecipe().then(itemList => setItems(itemList));
+  for (const i in items){
+           console.log(items[i]);
+           list.push(<Picker.Item label={items[i].name} value={items[i].name} />);
   };
 
   return (
@@ -77,13 +81,23 @@ const AddMealModal = props => {
       </Header>
       <Content padder>
           <Form style={{padding: 10}}>
-            <Item rounded>
-                 <Input
-                    placeholder={props.data || 'Meal name'}
-                    onChangeText={name => onChangeText(name)}
-                    value={name}/>
-            </Item>
             <Grid>
+                 <Row>
+                    <Col size={1} style={{justifyContent: 'center', flex:1}}>
+                        <Text>Meal type:</Text>
+                    </Col>
+                    <Col size={2}>
+                        <Picker
+                          mode="dropdown"
+                          selectedValue={type}
+                          onValueChange={itemValue => setPicker(itemValue)}>
+                          <Picker.Item label="Breakfast" value="Breakfast" />
+                          <Picker.Item label="Lunch" value="Lunch" />
+                          <Picker.Item label="Dinner" value="Dinner" />
+                          <Picker.Item label="Snack" value="Snack" />
+                        </Picker>
+                     </Col>
+                 </Row>
                  <Row>
                     <Col size={1} style={{justifyContent: 'center', flex:1}}>
                         <Text>Recipe:</Text>
@@ -92,10 +106,8 @@ const AddMealModal = props => {
                         <Picker
                           mode="dropdown"
                           selectedValue={recipe}
-                          onValueChange={itemValue => setPicker(itemValue)}>
-                          <Picker.Item label="recipe1" value="recipe1" />
-                          <Picker.Item label="recipe2" value="recipe2" />
-                          <Picker.Item label="recipe3" value="recipe3" />
+                          onValueChange={itemValue => setPicker1(itemValue)}>
+                          {list}
                         </Picker>
                      </Col>
                  </Row>
@@ -115,6 +127,22 @@ const AddMealModal = props => {
                 </Row>
              </Grid>
             </Form>
+            {show && (
+                      <DateTimePicker
+                        value={dateState}
+                        minimumDate={dateState}
+                        maximumDate={
+                          new Date(
+                            dateState.getFullYear() + 1,
+                            dateState.getMonth(),
+                            dateState.getDate(),
+                          )
+                        }
+                        mode={mode}
+                        display="default"
+                        onChange={(event, date) => setDate(event, date)}
+                      />
+                    )}
       </Content>
       <Footer>
           <Button
@@ -122,7 +150,8 @@ const AddMealModal = props => {
             full
             title="Add meal"
             onPress={() => {
-              submit(name, formattedDate(), recipe);
+              submitMeal(type, formattedDate(), recipe);
+              props.navigation.navigate('Meals');
             }}
           >
             <Title>Add meal</Title>

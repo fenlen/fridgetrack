@@ -27,17 +27,17 @@ const getDaysLeft = expDateString => {
 
 
 
-const MealItem = ({name, date}) => {
+const MealItem = ({type, date}) => {
   return (
     <ListItem avatar>
        <Left>
           <Thumbnail source={getThumbnail(date)}/>
        </Left>
        <Body>
-          <Text>{name}</Text>
+          <Text>{type}</Text>
        </Body>
        <Right>
-         <Text note>{date} min</Text>
+         <Text note>{date}</Text>
        </Right>
     </ListItem>
   );

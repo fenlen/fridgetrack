@@ -43,7 +43,7 @@ const Recipes = props => {
     }, []),
   );
 
-  const removeItem = id => {
+  const removeRecipe = id => {
     //remove the item with the given id from the database
     storageService.removeRecipe(id);
     refresh(search);
