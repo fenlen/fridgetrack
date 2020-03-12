@@ -23,7 +23,8 @@ import {
   Thumbnail,
   H1,
   H3,
-  Separator
+  Separator,
+  FlatList
 } from 'native-base';
 import Easy from '../thumbnails/easy.png';
 import Medium from '../thumbnails/medium.png';
@@ -43,10 +44,27 @@ const getThumbnail = (category) =>{
 const ViewRecipeModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
-  const removeItem = id => {
-    storageService.remove(id);
+  const removeRecipe = id => {
+    storageService.removeRecipe(id);
     props.navigation.goBack();
   };
+  var list=[];
+  for (const i in item.ingredients){
+           list[i]=(
+            <Row style={{padding: 10}}>
+                <Col size={1} style={{justifyContent: 'center'}}>
+                     <Icon name="square" list/>
+                </Col>
+                <Col size={12}>
+                     <Text>{item.ingredients[i].ingredient}</Text>
+                </Col>
+                <Col size={7}>
+                     <Text>{item.ingredients[i].quantity}</Text>
+                </Col>
+            </Row>);
+  }
+
+
   return (
     <Container>
       <Header>
@@ -67,9 +85,10 @@ const ViewRecipeModal = props => {
             </Left>
             <Body>
               <H1>{item.name}</H1>
+              <Text numberOfLines={1} note>{item.level}</Text>
             </Body>
           </Row>
-          <Row>
+          <Row style={{padding: 10}}>
             <Col>
               <Body>
                 <Text>Required time: </Text>
@@ -84,16 +103,14 @@ const ViewRecipeModal = props => {
           <Separator bordered >
             <Text>Ingredients</Text>
           </Separator>
-          <Row>
-            <Text>Ingredient list goes here</Text>
-          </Row>
+            {list}
           <Separator bordered >
             <Text>Method</Text>
           </Separator>
-          <Row>
-            <Text>Method goes here</Text>
+          <Row style={{padding: 10}}>
+            <Text>{item.method}</Text>
           </Row>
-          <Row>
+          <Row style={{padding: 10}}>
             <Col>
               <Button
                 rounded

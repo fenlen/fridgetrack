@@ -33,14 +33,15 @@ const AddRecipeModal = props => {
   const [level, setPicker] = useState('Easy'); //initial state for the Picker
   const [name, onChangeText] = useState('');
   const [method, onChangeText1] = useState('');
+  const [duration, onChangeText2] = useState('');
 
   const [inputFields, setInputFields] = useState([
-    { firstName: '', lastName: '' }
+    { ingredient: '', quantity: '' }
   ]);
   //dynamic fields adapted from https://dev.to/fuchodeveloper/dynamic-form-fields-in-react-1h6c
   const handleAddFields = () => {
     const values = [...inputFields];
-    values.push({ firstName: '', lastName: '' });
+    values.push({ ingredient: '', quantity: '' });
     setInputFields(values);
   };
 
@@ -50,20 +51,19 @@ const AddRecipeModal = props => {
     setInputFields(values);
   };
 
-  const handleInputChange = (index, event) => {
+  const handleInputChange1 = (index, ing) => {
     const values = [...inputFields];
-    if (event.target.name === "firstName") {
-      values[index].firstName = event.target.value;
-    } else {
-      values[index].lastName = event.target.value;
-    }
-
+    values[index].ingredient = ing;
     setInputFields(values);
   };
 
-  const submit = (name, level) => {
-
+  const handleInputChange2 = (index, qty) => {
+    const values = [...inputFields];
+    values[index].quantity = qty;
+    setInputFields(values);
   };
+
+
 
   return (
     <Container>
@@ -84,7 +84,7 @@ const AddRecipeModal = props => {
           <Form style={{padding: 10}}>
             <Item rounded>
                  <Input
-                    placeholder={props.data || 'Recipe name'}
+                    placeholder='Recipe name'
                     onChangeText={name => onChangeText(name)}
                     value={name}/>
             </Item>
@@ -104,6 +104,19 @@ const AddRecipeModal = props => {
                         </Picker>
                      </Col>
                  </Row>
+                 <Row>
+                    <Col style={{justifyContent: 'center', flex:1}}>
+                        <Text>Duration:</Text>
+                    </Col>
+                    <Col>
+                        <Item rounded>
+                             <Input
+                                placeholder='Duration'
+                                onChangeText={duration => onChangeText2(duration)}
+                                value={duration}/>
+                        </Item>
+                     </Col>
+                 </Row>
              </Grid>
             </Form>
             <Separator bordered >
@@ -119,18 +132,18 @@ const AddRecipeModal = props => {
                         <Col size={12}>
                             <Item rounded>
                                  <Input
-                                    placeholder={"New ingredient"}
-                                    value={inputField.firstName}
-                                    onChange={event => handleInputChange(index, event)}
+                                    placeholder="New ingredient"
+                                    value={inputField.ingredient}
+                                    onChangeText={ing => handleInputChange1(index, ing)}
                                  />
                             </Item>
                         </Col>
                         <Col size={7}>
                             <Item rounded>
                                  <Input
-                                    placeholder={"Quantity"}
-                                    value={inputField.firstName}
-                                    onChange={event => handleInputChange(index, event)}
+                                    placeholder="Quantity"
+                                    value={inputField.quantity}
+                                    onChangeText={qty => handleInputChange2(index, qty)}
                                  />
                             </Item>
                         </Col>
@@ -180,7 +193,8 @@ const AddRecipeModal = props => {
             full
             title="Add recipe"
             onPress={() => {
-              submit(name, level);
+              storageService.submitRecipe(name, level, duration, inputFields, method);
+              props.navigation.navigate('Recipes');
             }}
           >
             <Title>Add recipe</Title>

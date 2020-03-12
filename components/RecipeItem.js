@@ -26,7 +26,7 @@ const RecipeItem = ({name, duration, level}) => {
           <Text numberOfLines={1} note>{level}</Text>
        </Body>
        <Right>
-         <Text note>{duration} min</Text>
+         <Text note>{duration}</Text>
        </Right>
     </ListItem>
   );

@@ -31,15 +31,13 @@ const Recipes = props => {
 
   useEffect(() => {
     //executes on initial component render
-    storageService.getAll().then(itemList => setItems(itemList));
+    storageService.getAllRecipe(search).then(itemList => setItems(itemList));
   }, []);
 
   useFocusEffect(
     //executes on component focus
     useCallback(() => {
-      const rerender = storageService
-        .getAll()
-        .then(itemList => setItems(itemList));
+      const rerender = storageService.getAllRecipe().then(itemList => setItems(itemList));
 
       return () => rerender;
     }, []),
@@ -47,13 +45,13 @@ const Recipes = props => {
 
   const removeItem = id => {
     //remove the item with the given id from the database
-    storageService.remove(id);
-    refresh();
+    storageService.removeRecipe(id);
+    refresh(search);
   };
 
-  const refresh = () => {
+  const refresh = (search) => {
     //force component rerender
-    storageService.getAll().then(itemList => setItems(itemList));
+    storageService.getAllRecipe(search).then(itemList => setItems(itemList));
   };
 
   return (
@@ -65,7 +63,7 @@ const Recipes = props => {
           </Button>
         </Left>
         <Item>
-          <Input placeholder="All your recipes" value={search} onChangeText={name => {onChangeText(name); refresh();}}/>
+          <Input placeholder="All your recipes" value={search} onChangeText={name => {onChangeText(name); refresh(name);}}/>
           <Icon name="search" />
         </Item>
         <Button transparent onPress={() => refresh()}>
@@ -81,8 +79,8 @@ const Recipes = props => {
             }>
             <RecipeItem
               name={item.name}
-              duration= '15'
-              level= 'Easy'
+              duration= {item.duration}
+              level= {item.level}
             />
           </TouchableNativeFeedback>
         )}

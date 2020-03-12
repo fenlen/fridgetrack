@@ -35,6 +35,7 @@ import ViewRecipeModal from "./ViewRecipeModal";
 import Meals from "./Meals";
 import AddMealModal from "./AddMealModal";
 import ViewMealModal from "./ViewMealModal";
+import NotifService from "../services/notifications.js";
 
 class Theme extends React.Component {
 

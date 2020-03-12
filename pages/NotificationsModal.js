@@ -17,21 +17,33 @@ import {
 } from "native-base";
 import Global from "../state/global.js";
 
-const Item = Picker.Item;
 
-const NotificationsModal = props => {
-  const [notif1, onValueChange1] = useState();
-  const [notif2, onValueChange2] = useState();
-  const [notif3, onValueChange3] = useState();
-  const [notif4, onValueChange4] = useState();
+class NotificationsModal extends Component {
+   onValueChange1(value){
+      Global.enableNotification1=value;
+      this.forceUpdate();
+    }
+   onValueChange2(value){
+      Global.enableNotification2=value;
+      this.forceUpdate();
+    }
+   onValueChange3(value){
+      Global.enableNotification3=value;
+      this.forceUpdate();
+    }
+   onValueChange4(value){
+      Global.enableNotification4=value;
+      this.forceUpdate();
+    }
 
+   render() {
     return (
       <Container>
         <Header>
           <Left>
             <Button
               transparent
-              onPress={() => props.navigation.goBack()}
+              onPress={() => this.props.navigation.goBack()}
             >
               <Icon name="arrow-back" />
             </Button>
@@ -39,9 +51,7 @@ const NotificationsModal = props => {
           <Body>
             <Title>Notifications</Title>
           </Body>
-          <Right>
-            <Title  onPress={() => props.navigation.navigate("Theme")}>Save</Title>
-          </Right>
+          <Right/>
         </Header>
 
         <Content>
@@ -50,7 +60,7 @@ const NotificationsModal = props => {
                   <Text>Notify items about to expire from my fridge</Text>
               </Body>
               <Right>
-                   <Switch value={notif1} trackColor="#50B948" onValueChange={value => onValueChange1(value)}/>
+                   <Switch value={Global.enableNotification1} trackColor="#50B948" onValueChange={this.onValueChange1.bind(this)}/>
               </Right>
           </ListItem>
           <ListItem>
@@ -58,7 +68,7 @@ const NotificationsModal = props => {
                   <Text>Notify expired from my fridge</Text>
               </Body>
               <Right>
-                   <Switch value={notif2} trackColor="#50B948" onValueChange={value => onValueChange2(value)}/>
+                   <Switch value={Global.enableNotification2} trackColor="#50B948" onValueChange={this.onValueChange2.bind(this)}/>
               </Right>
           </ListItem>
           <ListItem>
@@ -66,7 +76,7 @@ const NotificationsModal = props => {
                   <Text>Notify items about to expire from group fridge</Text>
               </Body>
               <Right>
-                   <Switch value={notif3} trackColor="#50B948" onValueChange={value => onValueChange3(value)}/>
+                   <Switch value={Global.enableNotification3} trackColor="#50B948" onValueChange={this.onValueChange3.bind(this)}/>
               </Right>
           </ListItem>
           <ListItem>
@@ -74,12 +84,12 @@ const NotificationsModal = props => {
                   <Text>Notify expored items from group fridge</Text>
               </Body>
               <Right>
-                   <Switch value={notif4} trackColor="#50B948" onValueChange={value => onValueChange4(value)}/>
+                   <Switch value={Global.enableNotification4} trackColor="#50B948" onValueChange={this.onValueChange4.bind(this)}/>
               </Right>
           </ListItem>
         </Content>
       </Container>
-    );
+    );}
 };
 
 export default NotificationsModal;

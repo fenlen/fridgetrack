@@ -142,6 +142,7 @@ const submit = async (
   }
 };
 
+
 const remove = async (id, targetList, group = false) => {
   try {
     // await AsyncStorage.removeItem(id);
@@ -158,4 +159,76 @@ const remove = async (id, targetList, group = false) => {
   }
 };
 
-export default {getAll, getAllShop, get, submit, remove};
+//Recipes
+
+const submitRecipe = async (
+  name,
+  level,
+  duration,
+  ingredients,
+  method,
+) => {
+  const newId = Date.now();
+  const newItem = {
+    id: newId.toString(),
+    name: name,
+    level: level,
+    duration: duration,
+    ingredients: [],
+    method: method,
+  };
+  console.log(ingredients);
+  for (const i in ingredients) {
+        newItem.ingredients.push(ingredients[i]);
+   }
+   console.log(newItem.ingredients)
+
+  let targetList = 'recipeList';
+  try {
+    // await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));
+    // console.log(Global.user, Global.user.userId, firebase.auth().currentUser.uid);
+    await firestore()
+      .collection(targetList)
+      .doc(newId.toString())
+      .set(newItem);
+  } catch (e) {
+    console.log('error: submitMeal failed');
+    throw e;
+  }
+};
+
+const removeRecipe = async (id) => {
+  try {
+    // await AsyncStorage.removeItem(id);
+    await firestore()
+      .collection('recipeList')
+      .doc(id)
+      .delete();
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+};
+
+const getAllRecipe = async (search = null) => {
+  // let keys = [];
+  let keys;
+  if (search == '')
+    search = null;
+  try {
+    // keys = await AsyncStorage.getAllKeys();
+    keys = await firestore()
+      .collection('recipeList')
+      .orderBy('name')
+      .startAt(search)
+      .endAt(search+"\uf8ff")
+      .get();
+  } catch (e) {
+    console.log('error: retrieving all keys failed'+e);
+    throw e;
+  }
+  const results = keys.docs.map(item => item.data());
+  return results;
+};
+
+export default {getAll, getAllShop, get, submit, remove, submitRecipe, removeRecipe, getAllRecipe};

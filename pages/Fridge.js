@@ -49,7 +49,7 @@ const Fridge = props => {
   const removeItem = id => {
     //remove the item with the given id from the database
     storageService.remove(id);
-    refresh();
+    refresh(search);
   };
 
   const refresh = (search) => {
