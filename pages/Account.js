@@ -22,7 +22,7 @@ import {
   Separator,
 } from 'native-base';
 
-const Statistics = props => {
+const Account = props => {
   const [state, setState] = useState();
   const user = firebase.auth().currentUser;
   useEffect(() => {
@@ -95,6 +95,7 @@ const Statistics = props => {
     await auth().signOut();
     Alert.alert('Logging out', "You've logged out successfuly");
     setState(false);
+    props.navigation.navigate('Theme');
   };
 
   return (
@@ -110,6 +111,8 @@ const Statistics = props => {
         </Body>
       </Header>
       <Content>
+        {state && ( //if authenticated
+        <>
         <Separator bordered>
           <Text>Account Details</Text>
         </Separator>
@@ -148,7 +151,25 @@ const Statistics = props => {
             <Text>Group settings</Text>
           </Left>
         </ListItem>
-        {!state && (
+         <Button
+            primary
+            rounded
+            style={{margin: 20, justifyContent: 'center'}}
+            onPress={() => logOut()}>
+            <Text uppercase={false}>Log out</Text>
+         </Button>
+         <Button
+            primary
+            rounded
+            style={{margin: 20, justifyContent: 'center'}}
+            onPress={() => props.navigation.navigate('UpdatePasswordModal')}>
+            <Text uppercase={false}>Update Password</Text>
+         </Button>
+         </>
+        )}
+        {!state && ( //if not authenticated
+          <>
+          <Text style={{padding: 10}}>In order to gain access to the full features of the app, please log in or register for a subscription.</Text>
           <Button
             primary
             rounded
@@ -156,8 +177,6 @@ const Statistics = props => {
             onPress={() => props.navigation.navigate('RegisterModal')}>
             <Text uppercase={false}>Register</Text>
           </Button>
-        )}
-        {!state && (
           <Button
             primary
             rounded
@@ -165,19 +184,11 @@ const Statistics = props => {
             onPress={() => props.navigation.navigate('LoginModal')}>
             <Text uppercase={false}>Log in</Text>
           </Button>
-        )}
-        {state && (
-          <Button
-            primary
-            rounded
-            style={{margin: 20, justifyContent: 'center'}}
-            onPress={() => logOut()}>
-            <Text uppercase={false}>Log out</Text>
-          </Button>
+          </>
         )}
       </Content>
     </Container>
   );
 };
 
-export default Statistics;
+export default Account;

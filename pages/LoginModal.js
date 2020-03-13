@@ -24,9 +24,16 @@ const LoginModal = props => {
   const [password, onChangePassword] = useState('');
 
   const login = async () => {
-    await auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch(e => {
+    try {
+    await auth().signInWithEmailAndPassword(email, password);
+    let user = auth().currentUser;
+    if (user) {
+      Global.user = user.uid;
+    }
+    props.navigation.navigate("Theme");
+    Alert.alert('You have logged in successfully');
+    }
+    catch(e) {
         let errorCode = e.code;
         let errorMessage = e.message;
         if (errorCode === 'auth/invalid-email') {
@@ -35,16 +42,12 @@ const LoginModal = props => {
           Alert.alert('Error', 'User not found');
         } else if (errorCode === 'auth/wrong-password') {
           Alert.alert('Error', 'Wrong password');
+        } else if (errorCode === 'auth/unknown') {
+          Alert.alert('Error', 'Too many unsuccessful log in attempts, please try again later');
         } else {
           Alert.alert('Error', errorMessage);
         }
-      });
-    let user = auth().currentUser;
-    if (user) {
-      Global.user = user.uid;
     }
-    Alert.alert('You have logged in successfully');
-    props.navigation.goBack();
   };
   return (
     <Container>
