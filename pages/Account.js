@@ -92,10 +92,21 @@ const Account = props => {
   };
 
   const logOut = async () => {
+    props.navigation.navigate('Theme'); //has to render new screen as it will throw error for missing user info on the account screen
     await auth().signOut();
     Alert.alert('Logging out', "You've logged out successfuly");
     setState(false);
-    props.navigation.navigate('Theme');
+  };
+
+  const formattedDate = dateString => {
+    var date = new Date(parseInt(dateString));
+    return (
+      ('0' + date.getDate()).slice(-2) +
+      '/' +
+      ('0' + (date.getMonth() + 1)).slice(-2) +
+      '/' +
+      (date.getFullYear() - 2000)
+    );
   };
 
   return (
@@ -129,7 +140,7 @@ const Account = props => {
             <Text>Date joined</Text>
           </Left>
           <Body>
-            <Text>date goes here</Text>
+            <Text>{formattedDate(user.metadata.creationTime)}</Text>
           </Body>
         </ListItem>
         <Separator bordered>
