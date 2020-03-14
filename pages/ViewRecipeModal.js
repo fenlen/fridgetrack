@@ -44,10 +44,24 @@ const getThumbnail = (category) =>{
 const ViewRecipeModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
+
   const removeRecipe = id => {
     storageService.removeRecipe(id);
     props.navigation.goBack();
   };
+
+  const toggleFavorite = (item) =>{
+    storageService.toggleFavorite(item.id, item.favorite);
+    props.navigation.navigate('ViewRecipeModal', {item: item});
+  };
+
+  const formatFav = (value) =>{
+    if (value)
+        return 'Favorite recipe';
+    else
+        return '';
+  };
+
   var list=[];
   for (const i in item.ingredients){
            list[i]=(
@@ -86,6 +100,7 @@ const ViewRecipeModal = props => {
             <Body>
               <H1>{item.name}</H1>
               <Text numberOfLines={1} note>{item.level}</Text>
+              <Text numberOfLines={1} note>{formatFav(item.favorite)}</Text>
             </Body>
           </Row>
           <Row style={{padding: 10}}>
@@ -110,15 +125,40 @@ const ViewRecipeModal = props => {
           <Row style={{padding: 10}}>
             <Text>{item.method}</Text>
           </Row>
+          {item.favorite &&(
           <Row style={{padding: 10}}>
             <Col>
               <Button
                 rounded
-                large
                 primary
                 style={{margin: 20, justifyContent: 'center'}}
+                onPress={() => toggleFavorite(item)}>
+                <Text uppercase={false}>Remove favorite</Text>
+              </Button>
+            </Col>
+          </Row>
+          )}
+          {!item.favorite &&(
+          <Row style={{padding: 10}}>
+            <Col>
+              <Button
+                rounded
+                primary
+                style={{margin: 20, justifyContent: 'center'}}
+                onPress={() => toggleFavorite(item)}>
+                <Text uppercase={false}>Make favorite</Text>
+              </Button>
+            </Col>
+          </Row>
+          )}
+          <Row style={{padding: 10}}>
+            <Col>
+              <Button
+                rounded
+                primary
+                style={{margin: 20, marginTop:0, justifyContent: 'center'}}
                 onPress={() => removeRecipe(item.id)}>
-                <Text>Remove</Text>
+                <Text uppercase={false}>Remove</Text>
               </Button>
             </Col>
           </Row>

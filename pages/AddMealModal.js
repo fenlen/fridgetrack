@@ -149,7 +149,7 @@ var list=[];
             full
             title="Add meal"
             onPress={() => {
-              submitMeal(type, formattedDate(), recipe);
+              storageService.submitMeal(type, formattedDate(), recipe);
               props.navigation.navigate('Meals');
             }}
           >

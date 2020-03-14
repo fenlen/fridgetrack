@@ -15,7 +15,14 @@ const getThumbnail = (category) =>{
     }
 }
 
-const RecipeItem = ({name, duration, level}) => {
+  const formatFav = (value) =>{
+    if (value)
+        return ', Favorite';
+    else
+        return '';
+  };
+
+const RecipeItem = ({name, duration, level, favorite}) => {
   return (
     <ListItem avatar>
        <Left>
@@ -23,7 +30,7 @@ const RecipeItem = ({name, duration, level}) => {
        </Left>
        <Body>
           <Text>{name}</Text>
-          <Text numberOfLines={1} note>{level}</Text>
+          <Text numberOfLines={1} note>{level}{formatFav(favorite)}</Text>
        </Body>
        <Right>
          <Text note>{duration}</Text>

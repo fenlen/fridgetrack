@@ -81,6 +81,7 @@ const Recipes = props => {
               name={item.name}
               duration= {item.duration}
               level= {item.level}
+              favorite= {item.favorite}
             />
           </TouchableNativeFeedback>
         )}

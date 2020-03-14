@@ -169,6 +169,7 @@ const submitRecipe = async (
     duration: duration,
     ingredients: [],
     method: method,
+    favorite: false,
   };
   for (const i in ingredients) {
         newItem.ingredients.push(ingredients[i]);
@@ -218,6 +219,18 @@ const getAllRecipe = async (search = '') => {
   }
   const results = keys.docs.map(item => item.data());
   return results;
+};
+
+const toggleFavorite = async (id, favorite) => {
+  try {
+    await firestore()
+      .collection('recipeList')
+      .doc(id)
+      .update({'favorite': !favorite});
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
 };
 
 //Meals
@@ -329,4 +342,4 @@ const getAllEaten = async () => {
 
 
 
-export default {getAll, getAllShop, get, submit, remove, submitRecipe, removeRecipe, getAllRecipe, submitMeal, removeMeal, getAllMeal, submitEaten, getAllEaten};
+export default {getAll, getAllShop, get, submit, remove, submitRecipe, removeRecipe, getAllRecipe, toggleFavorite, submitMeal, removeMeal, getAllMeal, submitEaten, getAllEaten};

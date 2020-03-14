@@ -111,7 +111,7 @@ const ViewMealModal = props => {
                     large
                     primary
                     style={{margin: 20, justifyContent: 'center'}}
-                    onPress={() => removeMeal(item.id)}>
+                    onPress={() => storageService.removeMeal(item.id)}>
                     <Text>Skipped</Text>
                   </Button>
                 </Col>
@@ -124,7 +124,7 @@ const ViewMealModal = props => {
                     large
                     primary
                     style={{margin: 20, justifyContent: 'center'}}
-                    onPress={() => removeMeal(item.id)}>
+                    onPress={() => storageService.removeMeal(item.id)}>
                     <Text>Remove</Text>
                   </Button>
                 </Col>
