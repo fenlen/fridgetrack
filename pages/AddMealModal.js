@@ -1,5 +1,5 @@
 // /* eslint-disable no-undef */
-import React, {useState} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
@@ -38,6 +38,54 @@ const AddMealModal = props => {
   const [mode, setMode] = useState('date'); //mode of the date picker
   const [show, setShow] = useState(false);
   const [items, setItems] = useState([]);
+  const [groupItems, setGroupItems] = useState([]);
+  const [recipes, setRecipes] = useState([]);
+  const [list, setList]= useState([]);
+  const [wait, setWait]= useState(true);
+
+  useLayoutEffect( () => {
+      //executes on initial component render
+      var list=[];
+      var count=0;
+      var found=false;
+      storageService.getAll().then(itemList => setItems(itemList));
+      storageService.getAll('',true).then(itemList => setGroupItems(itemList));
+      storageService.getAllRecipe().then(recipeList => setRecipes(recipeList));
+      for (const i in recipes){
+          count=0;
+          for (const j in recipes[i].ingredients){
+               found=false;
+               for (const k in items)
+                   if (items[k].name == recipes[i].ingredients[j].ingredient)
+                        found=true;
+               for (const k in groupItems)
+                   if (groupItems[k].name == recipes[i].ingredients[j].ingredient)
+                        found=true;
+               if (found)
+                   count++;
+               }
+           list.push({code:<Picker.Item label={recipes[i].name} value={recipes[i].name} />, timesFound: count});
+      };
+
+      function compare(a, b) {
+        // Use toUpperCase() to ignore character casing
+        const A = a.timesFound
+        const B = b.timesFound
+
+        let comparison = 0;
+        if (A < B) {
+          comparison = 1;
+        } else if (A > B) {
+          comparison = -1;
+        }
+        return comparison;
+      }
+
+      list.sort(compare);
+      console.log(list);
+      setList(list);
+      setWait(false);
+    }, []);
 
   const showDatePicker = () => {
     setShow(true);
@@ -60,13 +108,9 @@ const AddMealModal = props => {
     );
   };
 
-var list=[];
-  storageService.getAllRecipe().then(itemList => setItems(itemList));
-  for (const i in items){
-           list.push(<Picker.Item label={items[i].name} value={items[i].name} />);
-  };
-
   return (
+    <>
+    {!wait && (
     <Container>
       <Header>
         <Left>
@@ -157,6 +201,8 @@ var list=[];
           </Button>
       </Footer>
     </Container>
+    )}
+    </>
   );
 };
 

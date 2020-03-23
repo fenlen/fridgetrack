@@ -3,6 +3,7 @@ import {Alert, Clipboard} from 'react-native';
 import Style from '../components/Style';
 import prompt from 'react-native-prompt-android';
 import firebase from '@react-native-firebase/app';
+import storageService from '../services/storage';
 
 import {
   Container,
@@ -23,6 +24,9 @@ import {
 
 const GroupModal = props => {
   const user = firebase.auth().currentUser;
+  var groupFridge = storageService.fridge(true);
+  console.log(groupFridge);
+
   const createGroup = async () => {
     await firebase
       .firestore()
@@ -140,6 +144,8 @@ const GroupModal = props => {
         </Body>
       </Header>
       <Content>
+        {!groupFridge=='' && (
+        <>
         <Separator bordered>
           <Text>Group Details</Text>
         </Separator>
@@ -159,6 +165,8 @@ const GroupModal = props => {
             <Text>date goes here</Text>
           </Right>
         </ListItem>
+        </>
+        )}
         <Button
           primary
           rounded
@@ -173,6 +181,8 @@ const GroupModal = props => {
           onPress={() => CreateAlert()}>
           <Text uppercase={false}>Create a group</Text>
         </Button>
+        {!groupFridge=='' && (
+        <>
         <Button
           primary
           rounded
@@ -187,6 +197,8 @@ const GroupModal = props => {
           onPress={() => CodeAlert()}>
           <Text uppercase={false}>Get access code</Text>
         </Button>
+        </>
+        )}
       </Content>
     </Container>
   );

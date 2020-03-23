@@ -50,6 +50,11 @@ const getDaysLeft = expDateString => {
   return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
 };
 
+  const removeMeal = id => {
+    storageService.removeMeal(id);
+    props.navigation.goBack();
+  };
+
 const ViewMealModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
@@ -111,7 +116,7 @@ const ViewMealModal = props => {
                     large
                     primary
                     style={{margin: 20, justifyContent: 'center'}}
-                    onPress={() => storageService.removeMeal(item.id)}>
+                    onPress={() => removeMeal(item.id)}>
                     <Text>Skipped</Text>
                   </Button>
                 </Col>
@@ -124,7 +129,7 @@ const ViewMealModal = props => {
                     large
                     primary
                     style={{margin: 20, justifyContent: 'center'}}
-                    onPress={() => storageService.removeMeal(item.id)}>
+                    onPress={() => removeMeal(item.id)}>
                     <Text>Remove</Text>
                   </Button>
                 </Col>

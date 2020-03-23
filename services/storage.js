@@ -19,10 +19,11 @@ const fridge = async group => {
   } else {
     fridgeRef = userId;
   }
-  console.log(fridgeRef, group);
+  //console.log(fridgeRef, group);
 
   return fridgeRef;
 };
+
 const getAll = async (search = '', group = false) => {
   // let keys = [];
   let keys;
@@ -162,6 +163,7 @@ const submitRecipe = async (
   method,
 ) => {
   const newId = Date.now();
+  const userId = firebase.auth().currentUser.uid;
   const newItem = {
     id: newId.toString(),
     name: name,
@@ -180,6 +182,8 @@ const submitRecipe = async (
     // await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));
     // console.log(Global.user, Global.user.userId, firebase.auth().currentUser.uid);
     await firestore()
+      .collection('recipes')
+      .doc(userId)
       .collection(targetList)
       .doc(newId.toString())
       .set(newItem);
@@ -190,9 +194,12 @@ const submitRecipe = async (
 };
 
 const removeRecipe = async (id) => {
+  const userId = firebase.auth().currentUser.uid;
   try {
     // await AsyncStorage.removeItem(id);
     await firestore()
+      .collection('recipes')
+      .doc(userId)
       .collection('recipeList')
       .doc(id)
       .delete();
@@ -204,10 +211,13 @@ const removeRecipe = async (id) => {
 
 const getAllRecipe = async (search = '') => {
   // let keys = [];
+  const userId = firebase.auth().currentUser.uid;
   let keys;
   try {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
+      .collection('recipes')
+      .doc(userId)
       .collection('recipeList')
       .orderBy('name')
       .startAt(search)
@@ -222,8 +232,11 @@ const getAllRecipe = async (search = '') => {
 };
 
 const toggleFavorite = async (id, favorite) => {
+  const userId = firebase.auth().currentUser.uid;
   try {
     await firestore()
+      .collection('recipes')
+      .doc(userId)
       .collection('recipeList')
       .doc(id)
       .update({'favorite': !favorite});
@@ -241,6 +254,7 @@ const submitMeal = async (
   recipe,
 ) => {
   const newId = Date.now();
+  const userId = firebase.auth().currentUser.uid;
   const newItem = {
     id: newId.toString(),
     type: type,
@@ -252,6 +266,8 @@ const submitMeal = async (
     // await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));
     // console.log(Global.user, Global.user.userId, firebase.auth().currentUser.uid);
     await firestore()
+      .collection('meals')
+      .doc(userId)
       .collection(targetList)
       .doc(newId.toString())
       .set(newItem);
@@ -262,9 +278,12 @@ const submitMeal = async (
 };
 
 const removeMeal = async (id) => {
+  const userId = firebase.auth().currentUser.uid;
   try {
     // await AsyncStorage.removeItem(id);
     await firestore()
+      .collection('meals')
+      .doc(userId)
       .collection('mealList')
       .doc(id)
       .delete();
@@ -276,10 +295,13 @@ const removeMeal = async (id) => {
 
 const getAllMeal = async (search = '') => {
   // let keys = [];
+  const userId = firebase.auth().currentUser.uid;
   let keys;
   try {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
+      .collection('meals')
+      .doc(userId)
       .collection('mealList')
       .orderBy('type')
       .startAt(search)
@@ -302,6 +324,7 @@ const submitEaten = async (
   group=false,
 ) => {
   const newId = Date.now();
+  const userId = firebase.auth().currentUser.uid;
   const newItem = {
     id: newId.toString(),
     name: name,
@@ -314,6 +337,8 @@ const submitEaten = async (
     // await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));
     // console.log(Global.user, Global.user.userId, firebase.auth().currentUser.uid);
     await firestore()
+      .collection('disc')
+      .doc(userId)
       .collection(targetList)
       .doc(newId.toString())
       .set(newItem);
@@ -327,9 +352,12 @@ const submitEaten = async (
 const getAllEaten = async () => {
   // let keys = [];
   let keys;
+  const userId = firebase.auth().currentUser.uid;
   try {
     // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
+      .collection('disc')
+      .doc(userId)
       .collection('discList')
       .get();
   } catch (e) {
@@ -342,4 +370,4 @@ const getAllEaten = async () => {
 
 
 
-export default {getAll, getAllShop, get, submit, remove, submitRecipe, removeRecipe, getAllRecipe, toggleFavorite, submitMeal, removeMeal, getAllMeal, submitEaten, getAllEaten};
+export default {fridge, getAll, getAllShop, get, submit, remove, submitRecipe, removeRecipe, getAllRecipe, toggleFavorite, submitMeal, removeMeal, getAllMeal, submitEaten, getAllEaten};

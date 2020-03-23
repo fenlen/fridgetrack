@@ -57,13 +57,15 @@ const RegisterModal = props => {
     } else {
       await register(email, password);
       let user = auth().currentUser;
-      const fields = {
-          userId: user.uid,
-          joinDate: user.metadata.creationTime,
-          email: user.email,
-          groupFridge: '',
-      };
-      await auth().currentUser.updateProfile(fields);
+      await firestore()
+         .collection('users')
+         .doc(user.uid)
+         .set({
+             userId: user.uid,
+             joinDate: user.metadata.creationTime,
+             email: user.email,
+             groupFridge: '',
+         });
       Alert.alert('You have registered successfully');
       Global.user = user.uid;
       props.navigation.navigate("Theme");

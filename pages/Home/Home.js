@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {StatusBar} from 'react-native';
 import {
   Button,
@@ -14,8 +14,17 @@ import {
 } from 'native-base';
 import Global from '../../state/global.js';
 import Theme from '../App.js';
+import firestore, {firebase} from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 const Home = props => {
+  const [state, setState] = useState();
+  const user = firebase.auth().currentUser;
+  useEffect(() => {
+    if (auth().currentUser !== null) {
+      setState(true);
+    }
+  }, []);
   const redirect = (destination, fridge) => {
     Global.fridge = fridge;
     props.navigation.navigate(destination);
@@ -39,6 +48,8 @@ const Home = props => {
           onPress={() => redirect('Fridge', Global.user.fridge)}>
           <Text uppercase={false}>Personal organizer</Text>
         </Button>
+        {state && (
+        <>
         <Button
           full
           rounded
@@ -63,6 +74,8 @@ const Home = props => {
           onPress={() => props.navigation.navigate('Meals')}>
           <Text uppercase={false}>Meals</Text>
         </Button>
+        </>
+        )}
         <Button
           full
           rounded
