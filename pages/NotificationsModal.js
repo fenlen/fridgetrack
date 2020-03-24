@@ -16,23 +16,42 @@ import {
   Switch
 } from "native-base";
 import Global from "../state/global.js";
+import firestore, {firebase} from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 
 class NotificationsModal extends Component {
+
    onValueChange1(value){
       Global.enableNotification1=value;
+      firestore()
+            .collection('users')
+            .doc(auth().currentUser.uid)
+            .update({enableNotification1: value});
       this.forceUpdate();
     }
    onValueChange2(value){
       Global.enableNotification2=value;
+      firestore()
+            .collection('users')
+            .doc(auth().currentUser.uid)
+            .update({enableNotification2: value});
       this.forceUpdate();
     }
    onValueChange3(value){
       Global.enableNotification3=value;
+      firestore()
+            .collection('users')
+            .doc(auth().currentUser.uid)
+            .update({enableNotification3: value});
       this.forceUpdate();
     }
    onValueChange4(value){
       Global.enableNotification4=value;
+      firestore()
+            .collection('users')
+            .doc(auth().currentUser.uid)
+            .update({enableNotification4: value});
       this.forceUpdate();
     }
 

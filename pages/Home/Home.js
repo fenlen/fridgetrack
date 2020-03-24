@@ -19,7 +19,7 @@ import auth from '@react-native-firebase/auth';
 
 const Home = props => {
   const [state, setState] = useState();
-  const user = firebase.auth().currentUser;
+  const user = auth().currentUser;
   useEffect(() => {
     if (auth().currentUser !== null) {
       setState(true);

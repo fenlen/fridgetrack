@@ -368,6 +368,26 @@ const getAllEaten = async () => {
   return results;
 };
 
+//UserData
 
 
-export default {fridge, getAll, getAllShop, get, submit, remove, submitRecipe, removeRecipe, getAllRecipe, toggleFavorite, submitMeal, removeMeal, getAllMeal, submitEaten, getAllEaten};
+const getUserData = async () => {
+  // let keys = [];
+  let result;
+  const userId = firebase.auth().currentUser.uid;
+  try {
+    // keys = await AsyncStorage.getAllKeys();
+    result = await firestore()
+      .collection('users')
+      .doc(userId)
+      .get();
+  } catch (e) {
+    console.log('error: retrieving all keys failed'+e);
+    throw e;
+  }
+  return result.data();
+};
+
+
+
+export default {fridge, getAll, getAllShop, get, submit, remove, submitRecipe, removeRecipe, getAllRecipe, toggleFavorite, submitMeal, removeMeal, getAllMeal, submitEaten, getAllEaten, getUserData};

@@ -4,7 +4,8 @@
  */
 
 import React from 'react';
-import { Root, StyleProvider } from "native-base";
+import {Image, Dimensions} from 'react-native';
+import { Root, StyleProvider, View } from "native-base";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
@@ -37,17 +38,49 @@ import AddMealModal from "./AddMealModal";
 import ViewMealModal from "./ViewMealModal";
 import UpdatePasswordModal from "./UpdatePasswordModal";
 import NotifService from "../services/notifications.js";
+import auth from '@react-native-firebase/auth';
+import storageService from '../services/storage';
+import Global from "../state/global.js";
+import Logo from "../logo/logo.png"
 
 class Theme extends React.Component {
+    constructor(){
+       super()
+       this.state = {
+          loaded: false,
+       }
+    }
 
-  render() {
-      return(
-            <StyleProvider style={getTheme(material())}>
-                <Root>
-                    <AppContainer />
-                </Root>
-            </StyleProvider>
-        );
+   componentDidMount(){
+      this.loadData();
+   }
+   async loadData(){
+       if (auth().currentUser !== null)
+           {let data = {};
+           await storageService.getUserData().then(dataList => data=dataList);
+           Global.colour=data["colour"];
+           Global.size=data["size"];
+           Global.font=data["font"];
+           this.setState({loaded:true})
+           }
+   }
+
+   render() {
+      if (this.state.loaded)
+          return(
+                <StyleProvider style={getTheme(material())}>
+                    <Root>
+                        <AppContainer />
+                    </Root>
+                </StyleProvider>
+                );
+
+      return(<View style={{justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+                     <Image
+                       style={{ width: '70%', height: Dimensions.get('window').width*0.7}}
+                       source={Logo}
+                     />
+              </View>);
 }
 }
 

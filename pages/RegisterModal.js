@@ -65,6 +65,13 @@ const RegisterModal = props => {
              joinDate: user.metadata.creationTime,
              email: user.email,
              groupFridge: '',
+             colour: 'Blue',
+             font: 'Roboto',
+             size: 'Medium',
+             enableNotification1: true,
+             enableNotification2: true,
+             enableNotification3: true,
+             enableNotification4: true,
          });
       Alert.alert('You have registered successfully');
       Global.user = user.uid;

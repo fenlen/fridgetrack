@@ -15,20 +15,34 @@ import {
   Separator
 } from "native-base";
 import Global from "../state/global.js";
+import firestore, {firebase} from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 const Item = Picker.Item;
 
 class AppearanceModal extends Component {
   onValueChange1(value: string) {
     Global.colour=value;
+      firestore()
+            .collection('users')
+            .doc(auth().currentUser.uid)
+            .update({colour: value});
     this.forceUpdate();
   }
   onValueChange2(value: string) {
       Global.font=value;
+      firestore()
+            .collection('users')
+            .doc(auth().currentUser.uid)
+            .update({font: value});
       this.forceUpdate();
     }
   onValueChange3(value: string) {
       Global.size=value;
+      firestore()
+            .collection('users')
+            .doc(auth().currentUser.uid)
+            .update({size: value});
       this.forceUpdate();
     }
   render() {

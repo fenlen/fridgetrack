@@ -28,6 +28,7 @@ import materialLargeCourierBlack from '../native-base-theme/variables/materialLa
 import Global from "../state/global.js";
 
 export const material = () => {
+
       switch (Global.size+Global.font+Global.colour) {
       case 'SmallRobotoBlue':
         return(materialSmallRobotoBlue);

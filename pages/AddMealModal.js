@@ -43,14 +43,18 @@ const AddMealModal = props => {
   const [list, setList]= useState([]);
   const [wait, setWait]= useState(true);
 
-  useLayoutEffect( () => {
+  useLayoutEffect(  () => {
       //executes on initial component render
+      getPickerList();
+    }, []);
+
+  const getPickerList = async () => {
       var list=[];
       var count=0;
       var found=false;
-      storageService.getAll().then(itemList => setItems(itemList));
-      storageService.getAll('',true).then(itemList => setGroupItems(itemList));
-      storageService.getAllRecipe().then(recipeList => setRecipes(recipeList));
+      await storageService.getAll().then(itemList => setItems(itemList));
+      await storageService.getAll('',true).then(itemList => setGroupItems(itemList));
+      await storageService.getAllRecipe().then(recipeList => setRecipes(recipeList));
       for (const i in recipes){
           count=0;
           for (const j in recipes[i].ingredients){
@@ -85,7 +89,8 @@ const AddMealModal = props => {
       console.log(list);
       setList(list);
       setWait(false);
-    }, []);
+
+  }
 
   const showDatePicker = () => {
     setShow(true);

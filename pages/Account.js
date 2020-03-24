@@ -92,8 +92,8 @@ const Account = props => {
   };
 
   const logOut = async () => {
-    props.navigation.navigate('Theme'); //has to render new screen as it will throw error for missing user info on the account screen
     await auth().signOut();
+    props.navigation.navigate('Theme');
     Alert.alert('Logging out', "You've logged out successfuly");
     setState(false);
   };
