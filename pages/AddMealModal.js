@@ -1,5 +1,5 @@
 // /* eslint-disable no-undef */
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
@@ -43,18 +43,32 @@ const AddMealModal = props => {
   const [list, setList]= useState([]);
   const [wait, setWait]= useState(true);
 
-  useLayoutEffect(  () => {
+  useEffect(  () => {
       //executes on initial component render
       getPickerList();
     }, []);
 
+  const getData = async () =>{
+
+  }
+
   const getPickerList = async () => {
       var list=[];
+      var formattedList=[];
+      var items=[];
+      var groupItems=[];
+      var recipes=[];
       var count=0;
       var found=false;
-      await storageService.getAll().then(itemList => setItems(itemList));
-      await storageService.getAll('',true).then(itemList => setGroupItems(itemList));
-      await storageService.getAllRecipe().then(recipeList => setRecipes(recipeList));
+      await Promise.all([
+          storageService.getAll(),//.then(itemList => setItems(itemList)),
+          storageService.getAll('',true),//.then(itemList => setGroupItems(itemList)),
+          storageService.getAllRecipe()//.then(recipeList => setRecipes(recipeList))
+      ]).then(function(values) {
+          items=values[0];
+          groupItems=values[1];
+          recipes=values[2];
+          });
       for (const i in recipes){
           count=0;
           for (const j in recipes[i].ingredients){
@@ -86,8 +100,9 @@ const AddMealModal = props => {
       }
 
       list.sort(compare);
-      console.log(list);
-      setList(list);
+      for (const i in list)
+        formattedList.push(list[i].code);
+      setList(formattedList);
       setWait(false);
 
   }
@@ -115,7 +130,6 @@ const AddMealModal = props => {
 
   return (
     <>
-    {!wait && (
     <Container>
       <Header>
         <Left>
@@ -127,6 +141,7 @@ const AddMealModal = props => {
           <Title>Add new meal</Title>
         </Body>
       </Header>
+      {!wait && (
       <Content padder>
           <Form style={{padding: 10}}>
             <Grid>
@@ -192,6 +207,8 @@ const AddMealModal = props => {
                       />
                     )}
       </Content>
+    )}
+    {wait &&(<Content/>)}
       <Footer>
           <Button
             primary
@@ -206,7 +223,6 @@ const AddMealModal = props => {
           </Button>
       </Footer>
     </Container>
-    )}
     </>
   );
 };
