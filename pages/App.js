@@ -37,7 +37,6 @@ import Meals from "./Meals";
 import AddMealModal from "./AddMealModal";
 import ViewMealModal from "./ViewMealModal";
 import UpdatePasswordModal from "./UpdatePasswordModal";
-import NotifService from "../services/notifications.js";
 import auth from '@react-native-firebase/auth';
 import storageService from '../services/storage';
 import Global from "../state/global.js";
