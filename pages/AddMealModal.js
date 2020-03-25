@@ -59,6 +59,7 @@ const AddMealModal = props => {
       var groupItems=[];
       var recipes=[];
       var count=0;
+      var size=0;
       var found=false;
       await Promise.all([
           storageService.getAll(),//.then(itemList => setItems(itemList)),
@@ -71,6 +72,7 @@ const AddMealModal = props => {
           });
       for (const i in recipes){
           count=0;
+          size=0;
           for (const j in recipes[i].ingredients){
                found=false;
                for (const k in items)
@@ -81,14 +83,15 @@ const AddMealModal = props => {
                         found=true;
                if (found)
                    count++;
+               size++;
                }
-           list.push({code:<Picker.Item label={recipes[i].name} value={recipes[i].name} />, timesFound: count});
+           list.push({code:<Picker.Item label={recipes[i].name} value={recipes[i].name} />, completion: count/size});
       };
 
       function compare(a, b) {
         // Use toUpperCase() to ignore character casing
-        const A = a.timesFound
-        const B = b.timesFound
+        const A = a.completion
+        const B = b.completion
 
         let comparison = 0;
         if (A < B) {
@@ -142,6 +145,13 @@ const AddMealModal = props => {
         </Body>
       </Header>
       {!wait && (
+      <>
+      {list.length==0 && (
+      <Content padder>
+        <Text>You have no saved recipes, you need at least one recipe in order to plan a meal. Please create a recipe and come back.</Text>
+      </Content>
+      )}
+      {list.length>0 &&(
       <Content padder>
           <Form style={{padding: 10}}>
             <Grid>
@@ -207,6 +217,8 @@ const AddMealModal = props => {
                       />
                     )}
       </Content>
+      )}
+    </>
     )}
     {wait &&(<Content/>)}
       <Footer>
