@@ -102,7 +102,7 @@ const GroupAddItemModal = props => {
           </Button>
         </Left>
         <Body>
-          <Title>Add an item *group*</Title>
+          <Title>Add an item</Title>
         </Body>
       </Header>
       <Content padder>

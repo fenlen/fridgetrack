@@ -100,7 +100,7 @@ class NotificationsModal extends Component {
           </ListItem>
           <ListItem>
               <Body>
-                  <Text>Notify expored items from group fridge</Text>
+                  <Text>Notify expired items from group fridge</Text>
               </Body>
               <Right>
                    <Switch value={Global.enableNotification4} trackColor="#50B948" onValueChange={this.onValueChange4.bind(this)}/>

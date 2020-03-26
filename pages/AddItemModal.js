@@ -1,10 +1,11 @@
 // /* eslint-disable no-undef */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
 import {TextInput} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
+import auth from '@react-native-firebase/auth';
 import {
   Form,
   Text,
@@ -36,6 +37,13 @@ const AddItemModal = props => {
   const [show, setShow] = useState(false); //determines whether to show the date picker
   const [name, onChangeText] = useState('');
   const [quantity, onChangeText2] = useState('');
+  const [logged, setLogged] = useState();
+
+  useEffect(() => {
+    if (auth().currentUser != null) {
+      setLogged(true);
+    }
+  }, []);
 
   const params = props.navigation.state.params;
 
@@ -54,6 +62,23 @@ const AddItemModal = props => {
       props.navigation.navigate('ShopList');
     } else {
       storageService.submit(name, category, expDate, barcode, quantity, unit);
+      props.navigation.navigate('Fridge');
+    }
+  };
+  const submitUnreg = (name, category, expDate, quantity, unit) => {
+    if (params.shopping) {
+      storageService.submitUnreg(
+        name,
+        category,
+        expDate,
+        quantity,
+        unit,
+        true,
+      );
+      params.refresh();
+      props.navigation.navigate('ShopList');
+    } else {
+      storageService.submitUnreg(name, category, expDate, quantity, unit);
       props.navigation.navigate('Fridge');
     }
   };
@@ -92,7 +117,7 @@ const AddItemModal = props => {
           </Button>
         </Left>
         <Body>
-          <Title>Add an item *personal*</Title>
+          <Title>Add an item</Title>
         </Body>
       </Header>
       <Content padder>
@@ -161,6 +186,7 @@ const AddItemModal = props => {
                     </Button>
                   </Col>
                 </Row>
+                {logged && (
                 <Row style={{justifyContent: 'center'}}>
                   <Button
                     rounded
@@ -170,6 +196,7 @@ const AddItemModal = props => {
                     <Text uppercase={false}>Scan barcode</Text>
                   </Button>
                 </Row>
+                )}
               </>
             )}
           </Grid>
@@ -192,6 +219,7 @@ const AddItemModal = props => {
         )}
       </Content>
       <Footer>
+        {logged && (
         <Button
           primary
           full
@@ -208,6 +236,23 @@ const AddItemModal = props => {
           }}>
           <Title>Add item</Title>
         </Button>
+        ),(
+        <Button
+          primary
+          full
+          title="Add item"
+          onPress={() => {
+            submitUnreg(
+              name,
+              pickerItems,
+              formattedDate(),
+              quantity,
+              pickerUnits,
+            );
+          }}>
+          <Title>Add item</Title>
+        </Button>
+        )}
       </Footer>
     </Container>
   );

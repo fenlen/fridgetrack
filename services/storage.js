@@ -388,6 +388,82 @@ const getUserData = async () => {
   return result.data();
 };
 
+//unregistered user
+
+const getAllUnreg = async () => {
+  let keys = [];
+  try {
+    keys = await AsyncStorage.getAllKeys();
+  } catch (e) {
+    console.log('error: retrieving all keys failed');
+    throw e;
+  }
+
+  const promisedItems = keys.map(async itemId => {
+    const itemPromise = await getUnreg(itemId);
+    return itemPromise;
+  });
+  const results = await Promise.all(promisedItems);
+  return results.filter(item => item.isShop !== true);
+};
+
+const getAllShopUnreg = async () => {
+  let keys = [];
+  try {
+    keys = await AsyncStorage.getAllKeys();
+  } catch (e) {
+    console.log('error: retrieving all keys failed');
+    throw e;
+  }
+
+  const promisedItems = keys.map(async itemId => {
+    const itemPromise = await getUnreg(itemId);
+    return itemPromise;
+  });
+  const results = await Promise.all(promisedItems);
+  return results.filter(item => item.isShop === true);
+};
+
+const getUnreg = async key => {
+  let item;
+  try {
+    item = await AsyncStorage.getItem(key);
+  } catch (e) {
+    console.log('error: fetching item failed');
+    throw e;
+  }
+  // console.log(typeof item, ' Hi');
+  return JSON.parse(item);
+};
+
+const submitUnreg = async (name, category, expDate, quantity, unit, isShop = false) => {
+  const newId = Date.now();
+  const newItem = {
+    id: newId.toString(),
+    name: name,
+    category: category,
+    expDate: expDate,
+    quantity: quantity,
+    unit: unit,
+    isShop: isShop,
+
+  };
+  try {
+    await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));
+  } catch (e) {
+    console.log('error: submitItem failed');
+    throw e;
+  }
+};
+
+const removeUnreg = async (id) => {
+  try {
+    await AsyncStorage.removeItem(id);
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+};
 
 
-export default {fridge, getAll, getAllShop, get, submit, remove, submitRecipe, removeRecipe, getAllRecipe, toggleFavorite, submitMeal, removeMeal, getAllMeal, submitEaten, getAllEaten, getUserData};
+export default {fridge, getAll, getAllShop, get, submit, remove, submitRecipe, removeRecipe, getAllRecipe, toggleFavorite, submitMeal, removeMeal, getAllMeal, submitEaten, getAllEaten, getUserData, getAllUnreg, getAllShopUnreg, submitUnreg, removeUnreg, getUnreg};

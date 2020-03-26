@@ -60,8 +60,8 @@ class Theme extends React.Component {
            Global.colour=data["colour"];
            Global.size=data["size"];
            Global.font=data["font"];
-           this.setState({loaded:true})
            }
+       this.setState({loaded:true});
    }
 
    render() {

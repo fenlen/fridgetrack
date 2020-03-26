@@ -6,6 +6,7 @@ import Style from '../components/Style';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
+import auth from '@react-native-firebase/auth';
 import {
   Container,
   Header,
@@ -35,9 +36,16 @@ const ShopList = props => {
   // const [fridgeRef, setFridgeRef] = useState('test');
   const refHolder = useRef(true);
   const [search, onChangeText] = useState('');
+  const [logged, setLogged] = useState();
 
   useEffect(() => {
-    storageService.getAllShop().then(itemList => setItems(itemList));
+    //executes on initial component render
+    if (auth().currentUser != null) {
+      setLogged(true);
+      storageService.getAllShop(search).then(itemList => setItems(itemList));
+    }
+    else
+      storageService.getAllShopUnreg().then(itemList => setItems(itemList));
   }, []);
 
   useEffect(() => {
@@ -66,22 +74,34 @@ const ShopList = props => {
   };
   const removeItem = removedItem => {
     //first adds the item into itemList and then removes it from shopList
-    storageService.submit(
-      removedItem.name,
-      removedItem.category,
-      formattedDate(),
-      removedItem.barcode,
-      removedItem.quantity,
-      removedItem.unit,
-    );
-    storageService.remove(removedItem.id, 'shopList');
-    console.log('remove');
+    if (logged)
+        {storageService.submit(
+          removedItem.name,
+          removedItem.category,
+          formattedDate(),
+          removedItem.barcode,
+          removedItem.quantity,
+          removedItem.unit,
+        );
+        storageService.remove(removedItem.id, 'shopList');}
+    else
+        {storageService.submitUnreg(
+          removedItem.name,
+          removedItem.category,
+          formattedDate(),
+          removedItem.quantity,
+          removedItem.unit,
+        );
+        storageService.removeUnreg(removedItem.id);}
     refresh();
   };
   const refresh = (search) => {
     //force component rerender
-    console.log(Global.fridge);
-    storageService.getAllShop(search).then(itemList => setItems(itemList));
+    if (logged)
+        storageService.getAllShop(search).then(itemList => setItems(itemList));
+    else
+        storageService.getAllShopUnreg().then(itemList => setItems(itemList));
+
   };
   const setDate = (event, date) => {
     //handler for the onChange function of DateTimePicker
@@ -98,7 +118,7 @@ const ShopList = props => {
       [
         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
         {text: 'Bought', onPress: () => infoAlert(removedItem)},
-        {text: "Don't want", onPress: () => {storageService.remove(removedItem.id, 'shopList'), refresh();}},
+        {text: "Don't want", onPress: () => {if(logged) storageService.remove(removedItem.id, 'shopList'); else storageService.removeUnreg(removedItem.id); refresh();}},
       ],
       {cancelable: false},
     );
@@ -125,6 +145,8 @@ const ShopList = props => {
             <Icon name="menu" />
           </Button>
         </Left>
+        {logged && (
+        <>
         <Item>
           <Input placeholder="All items in your shopping list" value={search} onChangeText={name => {onChangeText(name); refresh(name);}}/>
           <Icon name="search" />
@@ -132,6 +154,12 @@ const ShopList = props => {
         <Button transparent onPress={() => refresh(search)}>
           <Text>Search</Text>
         </Button>
+        </>
+        ),(
+        <Body>
+          <Title>Your shopping list</Title>
+        </Body>
+        )}
       </Header>
       <FlatList
         data={items}
@@ -170,10 +198,12 @@ const ShopList = props => {
             <Icon name="basket" />
             <Text>Shop list</Text>
           </Button>
+          {logged &&(
           <Button onPress={() => props.navigation.navigate('Statistics')}>
             <Icon name="pie" />
             <Text>Statistics</Text>
           </Button>
+          )}
         </FooterTab>
       </Footer>
     </Container>

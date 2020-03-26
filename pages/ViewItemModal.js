@@ -1,10 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable radix */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
 import {createStackNavigator} from 'react-navigation-stack';
+import auth from '@react-native-firebase/auth';
 import {
   Container,
   Header,
@@ -113,9 +114,21 @@ const formattedDate = dateString => {
 const ViewItemModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
+  const [logged, setLogged] = useState();
+
+  useEffect(() => {
+    if (auth().currentUser != null) {
+      setLogged(true);
+    }
+  }, []);
+
   const removeItem = (id, eaten) => {
     storageService.remove(id, 'itemList');
     storageService.submitEaten(item.name, item.quantity, eaten, true);
+    props.navigation.goBack();
+  };
+  const removeItemUnreg = (id, eaten) => {
+    storageService.removeUnreg(id, 'itemList');
     props.navigation.goBack();
   };
   return (
@@ -211,6 +224,7 @@ const ViewItemModal = props => {
               />
             </View>
           </Row>
+          {logged &&(
           <Row>
             <Col>
               <Button
@@ -231,6 +245,19 @@ const ViewItemModal = props => {
               </Button>
             </Col>
           </Row>
+          ),(
+          <Row>
+            <Col>
+                <Button
+                  rounded
+                  primary
+                  style={{margin: 20, justifyContent: 'center'}}
+                  onPress={() => removeItemUnreg(item.id, true)}>
+                  <Text uppercase={false}>Remove</Text>
+                </Button>
+            </Col>
+          </Row>
+          )}
         </Grid>
       </Content>
     </Container>

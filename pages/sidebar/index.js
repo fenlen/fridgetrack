@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Image } from "react-native";
+import auth from '@react-native-firebase/auth';
 import {
   Content,
   Text,
@@ -14,7 +15,7 @@ import {
 import styles from "./style";
 import Global from '../../state/global.js';
 
-const datas = [
+var datas = [
   {
     name: "Personal",
     route: "Fridge",
@@ -47,19 +48,40 @@ const datas = [
   }
 ];
 
+const datasUnreg = [
+  {
+    name: "Personal",
+    route: "Fridge",
+    icon: "person",
+    prop: Global.user.fridge,
+  },
+  {
+    name: "Account",
+    route: "Account",
+    icon: "settings",
+    prop: null,
+  }
+];
+
 class SideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       shadowOffsetWidth: 1,
-      shadowRadius: 4
+      shadowRadius: 4,
+      logged: false
+    }
+  };
+
+  componentDidMount() {
+    if (auth().currentUser == null)
+        datas=datasUnreg;
     };
-  }
 
   redirect(destination, fridge) {
     Global.fridge = fridge;
     this.props.navigation.navigate(destination);
-  }
+  };
 
   render() {
     return (
