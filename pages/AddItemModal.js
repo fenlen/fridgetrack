@@ -236,7 +236,8 @@ const AddItemModal = props => {
           }}>
           <Title>Add item</Title>
         </Button>
-        ),(
+        )}
+        {!logged &&(
         <Button
           primary
           full

@@ -155,7 +155,8 @@ const ShopList = props => {
           <Text>Search</Text>
         </Button>
         </>
-        ),(
+        )}
+        {!logged &&(
         <Body>
           <Title>Your shopping list</Title>
         </Body>

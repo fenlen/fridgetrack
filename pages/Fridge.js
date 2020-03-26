@@ -30,7 +30,7 @@ const Fridge = props => {
   const [items, setItems] = useState([]);
   // const [fridgeRef, setFridgeRef] = useState('test');
   const [search, onChangeText] = useState('');
-  const [logged, setLogged] = useState();
+  const [logged, setLogged] = useState(true);
 
   useEffect(() => {
     //executes on initial component render
@@ -86,7 +86,8 @@ const Fridge = props => {
           <Text>Search</Text>
         </Button>
         </>
-        ),(
+        )}
+        {!logged &&(
         <Body>
           <Title>Your Fridge</Title>
         </Body>

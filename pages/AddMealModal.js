@@ -219,7 +219,8 @@ const AddMealModal = props => {
       </Content>
       )}
     </>
-    ),(<Content/>)}
+    )}
+    {wait &&(<Content/>)}
       <Footer>
           <Button
             primary
