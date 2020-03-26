@@ -67,14 +67,7 @@ const AddItemModal = props => {
   };
   const submitUnreg = (name, category, expDate, quantity, unit) => {
     if (params.shopping) {
-      storageService.submitUnreg(
-        name,
-        category,
-        expDate,
-        quantity,
-        unit,
-        true,
-      );
+      storageService.submitUnreg(name, category, expDate, quantity, unit, true);
       params.refresh();
       props.navigation.navigate('ShopList');
     } else {
@@ -187,15 +180,15 @@ const AddItemModal = props => {
                   </Col>
                 </Row>
                 {logged && (
-                <Row style={{justifyContent: 'center'}}>
-                  <Button
-                    rounded
-                    primary
-                    style={{margin: 20, flex: 0.7, justifyContent: 'center'}}
-                    onPress={() => {}}>
-                    <Text uppercase={false}>Scan barcode</Text>
-                  </Button>
-                </Row>
+                  <Row style={{justifyContent: 'center'}}>
+                    <Button
+                      rounded
+                      primary
+                      style={{margin: 20, flex: 0.7, justifyContent: 'center'}}
+                      onPress={() => props.navigation.navigate('Barcode')}>
+                      <Text uppercase={false}>Scan barcode</Text>
+                    </Button>
+                  </Row>
                 )}
               </>
             )}
@@ -220,39 +213,39 @@ const AddItemModal = props => {
       </Content>
       <Footer>
         {logged && (
-        <Button
-          primary
-          full
-          title="Add item"
-          onPress={() => {
-            submit(
-              name,
-              pickerItems,
-              formattedDate(),
-              params.barcode,
-              quantity,
-              pickerUnits,
-            );
-          }}>
-          <Title>Add item</Title>
-        </Button>
+          <Button
+            primary
+            full
+            title="Add item"
+            onPress={() => {
+              submit(
+                name,
+                pickerItems,
+                formattedDate(),
+                params.barcode,
+                quantity,
+                pickerUnits,
+              );
+            }}>
+            <Title>Add item</Title>
+          </Button>
         )}
-        {!logged &&(
-        <Button
-          primary
-          full
-          title="Add item"
-          onPress={() => {
-            submitUnreg(
-              name,
-              pickerItems,
-              formattedDate(),
-              quantity,
-              pickerUnits,
-            );
-          }}>
-          <Title>Add item</Title>
-        </Button>
+        {!logged && (
+          <Button
+            primary
+            full
+            title="Add item"
+            onPress={() => {
+              submitUnreg(
+                name,
+                pickerItems,
+                formattedDate(),
+                quantity,
+                pickerUnits,
+              );
+            }}>
+            <Title>Add item</Title>
+          </Button>
         )}
       </Footer>
     </Container>

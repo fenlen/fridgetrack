@@ -43,8 +43,7 @@ const ShopList = props => {
     if (auth().currentUser != null) {
       setLogged(true);
       storageService.getAllShop(search).then(itemList => setItems(itemList));
-    }
-    else
+    } else
       storageService.getAllShopUnreg().then(itemList => setItems(itemList));
   }, []);
 
@@ -74,36 +73,35 @@ const ShopList = props => {
   };
   const removeItem = removedItem => {
     //first adds the item into itemList and then removes it from shopList
-    if (logged)
-        {storageService.submit(
-          removedItem.name,
-          removedItem.category,
-          formattedDate(),
-          removedItem.barcode,
-          removedItem.quantity,
-          removedItem.unit,
-        );
-        storageService.remove(removedItem.id, 'shopList');}
-    else
-        {storageService.submitUnreg(
-          removedItem.name,
-          removedItem.category,
-          formattedDate(),
-          removedItem.quantity,
-          removedItem.unit,
-        );
-        storageService.removeUnreg(removedItem.id);}
+    if (logged) {
+      storageService.submit(
+        removedItem.name,
+        removedItem.category,
+        formattedDate(),
+        removedItem.barcode,
+        removedItem.quantity,
+        removedItem.unit,
+      );
+      storageService.remove(removedItem.id, 'shopList');
+    } else {
+      storageService.submitUnreg(
+        removedItem.name,
+        removedItem.category,
+        formattedDate(),
+        removedItem.quantity,
+        removedItem.unit,
+      );
+      storageService.removeUnreg(removedItem.id);
+    }
     refresh();
   };
-  const refresh = (search) => {
+  const refresh = search => {
     //force component rerender
     if (logged)
-        storageService.getAllShop(search).then(itemList => setItems(itemList));
-    else
-        storageService.getAllShopUnreg().then(itemList => setItems(itemList));
-
+      storageService.getAllShop(search).then(itemList => setItems(itemList));
+    else storageService.getAllShopUnreg().then(itemList => setItems(itemList));
   };
-  const setDate = (event, date) => {
+  const setDate = (event, date = dateState) => {
     //handler for the onChange function of DateTimePicker
     // date = date || dateState;
     setShow(false);
@@ -116,21 +114,35 @@ const ShopList = props => {
       'Remove item from shopping list',
       'What happened to this item?',
       [
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
         {text: 'Bought', onPress: () => infoAlert(removedItem)},
-        {text: "Don't want", onPress: () => {if(logged) storageService.remove(removedItem.id, 'shopList'); else storageService.removeUnreg(removedItem.id); refresh();}},
+        {
+          text: "Don't want",
+          onPress: () => {
+            if (logged) storageService.remove(removedItem.id, 'shopList');
+            else storageService.removeUnreg(removedItem.id);
+            refresh();
+          },
+        },
       ],
       {cancelable: false},
     );
   };
-
 
   const infoAlert = removedItem => {
     Alert.alert(
       'Info screen',
       'Next you will be prompted to pick an expiration date for your item.',
       [
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
         {text: 'Ok', onPress: () => initRemove(removedItem)},
       ],
       {cancelable: false},
@@ -146,20 +158,27 @@ const ShopList = props => {
           </Button>
         </Left>
         {logged && (
-        <>
-        <Item>
-          <Input placeholder="All items in your shopping list" value={search} onChangeText={name => {onChangeText(name); refresh(name);}}/>
-          <Icon name="search" />
-        </Item>
-        <Button transparent onPress={() => refresh(search)}>
-          <Text>Search</Text>
-        </Button>
-        </>
+          <>
+            <Item>
+              <Input
+                placeholder="All items in your shopping list"
+                value={search}
+                onChangeText={name => {
+                  onChangeText(name);
+                  refresh(name);
+                }}
+              />
+              <Icon name="search" />
+            </Item>
+            <Button transparent onPress={() => refresh(search)}>
+              <Text>Search</Text>
+            </Button>
+          </>
         )}
-        {!logged &&(
-        <Body>
-          <Title>Your shopping list</Title>
-        </Body>
+        {!logged && (
+          <Body>
+            <Title>Your shopping list</Title>
+          </Body>
         )}
       </Header>
       <FlatList
@@ -173,7 +192,7 @@ const ShopList = props => {
       />
       {show && ( //translates to if show is true then do whatever is after &&
         <DateTimePicker
-          title='Please pick an expiration date'
+          title="Please pick an expiration date"
           value={dateState}
           minimumDate={dateState}
           maximumDate={
@@ -199,11 +218,11 @@ const ShopList = props => {
             <Icon name="basket" />
             <Text>Shop list</Text>
           </Button>
-          {logged &&(
-          <Button onPress={() => props.navigation.navigate('Statistics')}>
-            <Icon name="pie" />
-            <Text>Statistics</Text>
-          </Button>
+          {logged && (
+            <Button onPress={() => props.navigation.navigate('Statistics')}>
+              <Icon name="pie" />
+              <Text>Statistics</Text>
+            </Button>
           )}
         </FooterTab>
       </Footer>

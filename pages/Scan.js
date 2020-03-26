@@ -27,5 +27,3 @@ const styles = {
     flex: 1,
   },
 };
-
-AppRegistry.registerComponent('BarcodeApp', () => BarcodeApp);
