@@ -36,7 +36,7 @@ const ShopList = props => {
   // const [fridgeRef, setFridgeRef] = useState('test');
   const refHolder = useRef(true);
   const [search, onChangeText] = useState('');
-  const [logged, setLogged] = useState();
+  const [logged, setLogged] = useState(false);
 
   useEffect(() => {
     //executes on initial component render

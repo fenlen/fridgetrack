@@ -30,42 +30,43 @@ const Fridge = props => {
   const [items, setItems] = useState([]);
   // const [fridgeRef, setFridgeRef] = useState('test');
   const [search, onChangeText] = useState('');
-  const [logged, setLogged] = useState(true);
+  const [logged, setLogged] = useState(false);
 
   useEffect(() => {
     //executes on initial component render
     if (auth().currentUser != null) {
       setLogged(true);
       storageService.getAll(search).then(itemList => setItems(itemList));
-    }
-    else
+    } else {
+      console.log('HI THERE\n\n\n');
+      console.log(auth().currentUser);
       storageService.getAllUnreg().then(itemList => setItems(itemList));
+    }
   }, []);
 
   useFocusEffect(
     //executes on component focus
     useCallback(() => {
       var rerender;
-      if(logged)
-          rerender = storageService
-            .getAll()
-            .then(itemList => setItems(itemList));
-      else
-          rerender = storageService
-            .getAllUnreg()
-            .then(itemList => setItems(itemList));
-
+      if (logged) {
+        rerender = storageService.getAll().then(itemList => setItems(itemList));
+      } else {
+        rerender = storageService
+          .getAllUnreg()
+          .then(itemList => setItems(itemList));
+      }
 
       return () => rerender;
     }, []),
   );
 
-  const refresh = (search) => {
+  const refresh = search => {
     //force component rerender
-    if(logged)
-        storageService.getAll(search).then(itemList => setItems(itemList));
-    else
-        storageService.getAllUnreg().then(itemList => setItems(itemList));
+    if (logged) {
+      storageService.getAll(search).then(itemList => setItems(itemList));
+    } else {
+      storageService.getAllUnreg().then(itemList => setItems(itemList));
+    }
   };
 
   return (
@@ -77,20 +78,27 @@ const Fridge = props => {
           </Button>
         </Left>
         {logged && (
-        <>
-        <Item searchBar>
-          <Input placeholder="All items in your fridge" value={search} onChangeText={name => {onChangeText(name); refresh(name);}}/>
-          <Icon name="search" />
-        </Item>
-        <Button transparent onPress={() => refresh()}>
-          <Text>Search</Text>
-        </Button>
-        </>
+          <>
+            <Item searchBar>
+              <Input
+                placeholder="All items in your fridge"
+                value={search}
+                onChangeText={name => {
+                  onChangeText(name);
+                  refresh(name);
+                }}
+              />
+              <Icon name="search" />
+            </Item>
+            <Button transparent onPress={() => refresh()}>
+              <Text>Search</Text>
+            </Button>
+          </>
         )}
-        {!logged &&(
-        <Body>
-          <Title>Your Fridge</Title>
-        </Body>
+        {!logged && (
+          <Body>
+            <Title>Your Fridge</Title>
+          </Body>
         )}
       </Header>
       <FlatList
@@ -121,10 +129,10 @@ const Fridge = props => {
             <Text>Shop list</Text>
           </Button>
           {logged && (
-          <Button onPress={() => props.navigation.navigate('Statistics')}>
-            <Icon name="pie" />
-            <Text>Statistics</Text>
-          </Button>
+            <Button onPress={() => props.navigation.navigate('Statistics')}>
+              <Icon name="pie" />
+              <Text>Statistics</Text>
+            </Button>
           )}
         </FooterTab>
       </Footer>

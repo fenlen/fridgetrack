@@ -35,10 +35,10 @@ const getAll = async (search = '', group = false) => {
       .collection('itemList')
       .orderBy('name')
       .startAt(search)
-      .endAt(search+"\uf8ff")
+      .endAt(search + '\uf8ff')
       .get();
   } catch (e) {
-    console.log('error: retrieving all keys failed');
+    console.log('error: retrieving all keys failed here');
     throw e;
   }
   // console.log(fridge(false));
@@ -136,7 +136,6 @@ const submit = async (
   }
 };
 
-
 const remove = async (id, targetList, group = false) => {
   try {
     // await AsyncStorage.removeItem(id);
@@ -155,13 +154,7 @@ const remove = async (id, targetList, group = false) => {
 
 //Recipes
 
-const submitRecipe = async (
-  name,
-  level,
-  duration,
-  ingredients,
-  method,
-) => {
+const submitRecipe = async (name, level, duration, ingredients, method) => {
   const newId = Date.now();
   const userId = firebase.auth().currentUser.uid;
   const newItem = {
@@ -174,8 +167,8 @@ const submitRecipe = async (
     favorite: false,
   };
   for (const i in ingredients) {
-        newItem.ingredients.push(ingredients[i]);
-   }
+    newItem.ingredients.push(ingredients[i]);
+  }
 
   let targetList = 'recipeList';
   try {
@@ -193,7 +186,7 @@ const submitRecipe = async (
   }
 };
 
-const removeRecipe = async (id) => {
+const removeRecipe = async id => {
   const userId = firebase.auth().currentUser.uid;
   try {
     // await AsyncStorage.removeItem(id);
@@ -221,10 +214,10 @@ const getAllRecipe = async (search = '') => {
       .collection('recipeList')
       .orderBy('name')
       .startAt(search)
-      .endAt(search+"\uf8ff")
+      .endAt(search + '\uf8ff')
       .get();
   } catch (e) {
-    console.log('error: retrieving all keys failed'+e);
+    console.log('error: retrieving all keys failed' + e);
     throw e;
   }
   const results = keys.docs.map(item => item.data());
@@ -239,7 +232,7 @@ const toggleFavorite = async (id, favorite) => {
       .doc(userId)
       .collection('recipeList')
       .doc(id)
-      .update({'favorite': !favorite});
+      .update({favorite: !favorite});
   } catch (e) {
     console.log(e);
     throw e;
@@ -248,11 +241,7 @@ const toggleFavorite = async (id, favorite) => {
 
 //Meals
 
-const submitMeal = async (
-  type,
-  date,
-  recipe,
-) => {
+const submitMeal = async (type, date, recipe) => {
   const newId = Date.now();
   const userId = firebase.auth().currentUser.uid;
   const newItem = {
@@ -277,7 +266,7 @@ const submitMeal = async (
   }
 };
 
-const removeMeal = async (id) => {
+const removeMeal = async id => {
   const userId = firebase.auth().currentUser.uid;
   try {
     // await AsyncStorage.removeItem(id);
@@ -305,10 +294,10 @@ const getAllMeal = async (search = '') => {
       .collection('mealList')
       .orderBy('type')
       .startAt(search)
-      .endAt(search+"\uf8ff")
+      .endAt(search + '\uf8ff')
       .get();
   } catch (e) {
-    console.log('error: retrieving all keys failed'+e);
+    console.log('error: retrieving all keys failed' + e);
     throw e;
   }
   const results = keys.docs.map(item => item.data());
@@ -317,12 +306,7 @@ const getAllMeal = async (search = '') => {
 
 //Discarted/Eaten
 
-const submitEaten = async (
-  name,
-  quantity,
-  eaten=true,
-  group=false,
-) => {
+const submitEaten = async (name, quantity, eaten = true, group = false) => {
   const newId = Date.now();
   const userId = firebase.auth().currentUser.uid;
   const newItem = {
@@ -342,7 +326,7 @@ const submitEaten = async (
       .collection(targetList)
       .doc(newId.toString())
       .set(newItem);
-     console.log(eaten);
+    console.log(eaten);
   } catch (e) {
     console.log('error: submitMeal failed');
     throw e;
@@ -361,7 +345,7 @@ const getAllEaten = async () => {
       .collection('discList')
       .get();
   } catch (e) {
-    console.log('error: retrieving all keys failed'+e);
+    console.log('error: retrieving all keys failed' + e);
     throw e;
   }
   const results = keys.docs.map(item => item.data());
@@ -369,7 +353,6 @@ const getAllEaten = async () => {
 };
 
 //UserData
-
 
 const getUserData = async () => {
   // let keys = [];
@@ -382,7 +365,7 @@ const getUserData = async () => {
       .doc(userId)
       .get();
   } catch (e) {
-    console.log('error: retrieving all keys failed'+e);
+    console.log('error: retrieving all keys failed' + e);
     throw e;
   }
   return result.data();
@@ -395,7 +378,7 @@ const getAllUnreg = async () => {
   try {
     keys = await AsyncStorage.getAllKeys();
   } catch (e) {
-    console.log('error: retrieving all keys failed');
+    console.log('error: UNREG retrieving all keys failed');
     throw e;
   }
 
@@ -436,7 +419,14 @@ const getUnreg = async key => {
   return JSON.parse(item);
 };
 
-const submitUnreg = async (name, category, expDate, quantity, unit, isShop = false) => {
+const submitUnreg = async (
+  name,
+  category,
+  expDate,
+  quantity,
+  unit,
+  isShop = false,
+) => {
   const newId = Date.now();
   const newItem = {
     id: newId.toString(),
@@ -446,7 +436,6 @@ const submitUnreg = async (name, category, expDate, quantity, unit, isShop = fal
     quantity: quantity,
     unit: unit,
     isShop: isShop,
-
   };
   try {
     await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));
@@ -456,7 +445,7 @@ const submitUnreg = async (name, category, expDate, quantity, unit, isShop = fal
   }
 };
 
-const removeUnreg = async (id) => {
+const removeUnreg = async id => {
   try {
     await AsyncStorage.removeItem(id);
   } catch (e) {
@@ -465,5 +454,26 @@ const removeUnreg = async (id) => {
   }
 };
 
-
-export default {fridge, getAll, getAllShop, get, submit, remove, submitRecipe, removeRecipe, getAllRecipe, toggleFavorite, submitMeal, removeMeal, getAllMeal, submitEaten, getAllEaten, getUserData, getAllUnreg, getAllShopUnreg, submitUnreg, removeUnreg, getUnreg};
+export default {
+  fridge,
+  getAll,
+  getAllShop,
+  get,
+  submit,
+  remove,
+  submitRecipe,
+  removeRecipe,
+  getAllRecipe,
+  toggleFavorite,
+  submitMeal,
+  removeMeal,
+  getAllMeal,
+  submitEaten,
+  getAllEaten,
+  getUserData,
+  getAllUnreg,
+  getAllShopUnreg,
+  submitUnreg,
+  removeUnreg,
+  getUnreg,
+};
