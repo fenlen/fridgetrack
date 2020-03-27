@@ -245,7 +245,6 @@ const ViewItemModal = props => {
               </Button>
             </Col>
           </Row>
-  
         )}
         {!logged &&(
           <Row>

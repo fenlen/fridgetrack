@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
-import {TextInput} from 'react-native';
+import {Alert} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {
     Form,
@@ -62,6 +62,27 @@ const AddRecipeModal = props => {
     values[index].quantity = qty;
     setInputFields(values);
   };
+
+  const submitRecipe = (name, level, duration, inputFields, method) => {
+    var ok = true;
+    for (const i in inputFields)
+        if(!inputFields[i].ingredient || !inputFields[i].quantity)
+            ok=false;
+    if(!name) {
+        Alert.alert("The recipe must have a name");
+    } else if (!duration) {
+        Alert.alert("Please enter the recipe duration");
+    } else if (!ok) {
+        Alert.alert("Something is missing from your ingredient list please check again.");
+    } else if (!method) {
+        console.log(inputFields)
+        Alert.alert("Please enter the steps for this recipe");
+    } else {
+        storageService.submitRecipe(name, level, duration, inputFields, method);
+        props.navigation.navigate('Recipes');
+    }
+
+  }
 
 
 
@@ -193,8 +214,7 @@ const AddRecipeModal = props => {
             full
             title="Add recipe"
             onPress={() => {
-              storageService.submitRecipe(name, level, duration, inputFields, method);
-              props.navigation.navigate('Recipes');
+              submitRecipe(name, level, duration, inputFields, method);
             }}
           >
             <Title>Add recipe</Title>

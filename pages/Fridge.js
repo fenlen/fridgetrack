@@ -30,7 +30,7 @@ const Fridge = props => {
   const [items, setItems] = useState([]);
   // const [fridgeRef, setFridgeRef] = useState('test');
   const [search, onChangeText] = useState('');
-  const [logged, setLogged] = useState(false);
+  const [logged, setLogged] = useState();
 
   useEffect(() => {
     //executes on initial component render
@@ -38,8 +38,7 @@ const Fridge = props => {
       setLogged(true);
       storageService.getAll(search).then(itemList => setItems(itemList));
     } else {
-      console.log('HI THERE\n\n\n');
-      console.log(auth().currentUser);
+      setLogged(false);
       storageService.getAllUnreg().then(itemList => setItems(itemList));
     }
   }, []);

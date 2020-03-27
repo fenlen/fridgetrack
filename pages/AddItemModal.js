@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
-import {TextInput} from 'react-native';
+import {Alert} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import auth from '@react-native-firebase/auth';
 import {
@@ -48,31 +48,45 @@ const AddItemModal = props => {
   const params = props.navigation.state.params;
 
   const submit = (name, category, expDate, barcode, quantity, unit) => {
-    if (params.shopping) {
-      storageService.submit(
-        name,
-        category,
-        expDate,
-        barcode,
-        quantity,
-        unit,
-        true,
-      );
-      params.refresh();
-      props.navigation.navigate('ShopList');
+    const numbers = /^[0-9]+$/;
+    if(!name) {
+        Alert.alert("The item must have a name");
+    } else if (!quantity) {
+        Alert.alert("Please input a quantity for your item");
+    } else if (!numbers.test(quantity)) {
+        Alert.alert("The quantity must be a number");
+    } else if (params.shopping) {
+        storageService.submit(
+          name,
+          category,
+          expDate,
+          barcode,
+          quantity,
+          unit,
+          true,
+        );
+        params.refresh();
+        props.navigation.navigate('ShopList');
     } else {
-      storageService.submit(name, category, expDate, barcode, quantity, unit);
-      props.navigation.navigate('Fridge');
+        storageService.submit(name, category, expDate, barcode, quantity, unit);
+        props.navigation.navigate('Fridge');
     }
   };
   const submitUnreg = (name, category, expDate, quantity, unit) => {
-    if (params.shopping) {
-      storageService.submitUnreg(name, category, expDate, quantity, unit, true);
-      params.refresh();
-      props.navigation.navigate('ShopList');
+    const numbers = /^[0-9]+$/;
+    if(!name) {
+        Alert.alert("The item must have a name");
+    } else if (quantity) {
+        Alert.alert("Please input a quantity for your item");
+    } else if (!numbers.test(quantity)) {
+        Alert.alert("The quantity must be a number");
+    } else  if (params.shopping) {
+        storageService.submitUnreg(name, category, expDate, quantity, unit, true);
+        params.refresh();
+        props.navigation.navigate('ShopList');
     } else {
-      storageService.submitUnreg(name, category, expDate, quantity, unit);
-      props.navigation.navigate('Fridge');
+        storageService.submitUnreg(name, category, expDate, quantity, unit);
+        props.navigation.navigate('Fridge');
     }
   };
 
