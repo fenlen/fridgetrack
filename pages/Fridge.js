@@ -47,7 +47,7 @@ const Fridge = props => {
     //executes on component focus
     useCallback(() => {
       var rerender;
-      if (logged) {
+      if (auth().currentUser != null) {
         rerender = storageService.getAll().then(itemList => setItems(itemList));
       } else {
         rerender = storageService
@@ -61,7 +61,7 @@ const Fridge = props => {
 
   const refresh = search => {
     //force component rerender
-    if (logged) {
+    if (auth().currentUser != null) {
       storageService.getAll(search).then(itemList => setItems(itemList));
     } else {
       storageService.getAllUnreg().then(itemList => setItems(itemList));

@@ -1,29 +1,76 @@
-/* eslint-disable react-native/no-inline-styles */
-import React, {Component, Button} from 'react';
-import {AppRegistry, StyleSheet, Text, View, Alert} from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
-import {RNCamera} from 'react-native-camera';
+import React, { Component } from 'react'; //class from tut https://medium.com/@dinukadilshanfernando/implementing-a-barcode-scanner-by-using-react-native-camera-b170de4b7f51
+import {
+Text,
+View,
+StyleSheet,
+Alert,
+TouchableOpacity,
+Image
+} from 'react-native';
+import { RNCamera } from 'react-native-camera';
 
 export default class Barcode extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <RNCamera
-          ref={ref => {
-            this.camera = ref;
-          }}
-          style={{
-            flex: 1,
-            width: '100%',
-          }}
-        />
-      </View>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.handleTourch = this.handleTourch.bind(this);
+        this.state = {
+        torchOn: false
+        }
+    }
+    onBarCodeRead = (e) => {
+        Alert.alert("Barcode value is" + e.data, "Barcode type is" + e.type);
+    }
+    //flash icons from https://www.materialui.co/
+    render() {
+        return (
+            <View style={styles.container}>
+                <RNCamera
+                style={styles.preview}
+                torchMode={this.state.torchOn ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
+                onBarCodeRead={this.onBarCodeRead}
+                ref={cam => this.camera = cam}
+                aspect={RNCamera.Constants.fill}
+                >
+                    <Text style={{backgroundColor: 'white' }}>Scan your item</Text>
+                </RNCamera>
+                <View style={styles.bottomOverlay}>
+                    <TouchableOpacity onPress={() => this.handleTourch(this.state.torchOn)}>
+                        <Image style={styles.cameraIcon}
+                            source={this.state.torchOn === true ? require('../images/flash_on.png') : require('../images/flash_off.png')} />
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
+    handleTourch(value) {
+        if (value === true) {
+            this.setState({ torchOn: false });
+        } else {
+            this.setState({ torchOn: true });
+        }
+    }
 }
 
-const styles = {
-  container: {
-    flex: 1,
-  },
-};
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+    preview: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+    },
+    cameraIcon: {
+        margin: 5,
+        height: 40,
+        width: 40
+    },
+    bottomOverlay: {
+        position: "absolute",
+        width: "100%",
+        flex: 20,
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+});
