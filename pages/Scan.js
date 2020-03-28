@@ -19,19 +19,22 @@ export default class Barcode extends Component {
     }
     onBarCodeRead = (e) => {
         Alert.alert("Barcode value is" + e.data, "Barcode type is" + e.type);
+        this.setState({ torchOn: false });
     }
+
     //flash icons from https://www.materialui.co/
     render() {
         return (
             <View style={styles.container}>
                 <RNCamera
                 style={styles.preview}
-                torchMode={this.state.torchOn ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
+                flashMode={this.state.torchOn ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
                 onBarCodeRead={this.onBarCodeRead}
+                captureAudio={false}
                 ref={cam => this.camera = cam}
                 aspect={RNCamera.Constants.fill}
                 >
-                    <Text style={{backgroundColor: 'white' }}>Scan your item</Text>
+                    <Text style={styles.textArea}>Scan your item</Text>
                 </RNCamera>
                 <View style={styles.bottomOverlay}>
                     <TouchableOpacity onPress={() => this.handleTourch(this.state.torchOn)}>
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     cameraIcon: {
-        margin: 5,
+        margin: 20,
         height: 40,
         width: 40
     },
@@ -72,5 +75,14 @@ const styles = StyleSheet.create({
         flex: 20,
         flexDirection: "row",
         justifyContent: "space-between"
+    },
+    textArea: {
+        backgroundColor: 'white',
+        width: "100%",
+        textAlign: "center",
+        padding: 5,
+        fontSize: 25,
+        marginBottom: 100,
+        opacity: 0.6
     },
 });
