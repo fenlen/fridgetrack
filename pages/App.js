@@ -60,6 +60,7 @@ class Theme extends React.Component {
       Global.colour = data['colour'];
       Global.size = data['size'];
       Global.font = data['font'];
+      await storageService.getFridgeData(data['groupFridge']).then(fridge =>(Global.groupFridge = fridge));
     }
     this.setState({loaded: true});
   }

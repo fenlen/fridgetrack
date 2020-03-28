@@ -8,6 +8,7 @@ import Style from '../components/Style';
 import storageService from '../services/storage';
 import auth from '@react-native-firebase/auth';
 import firestore, {firebase} from '@react-native-firebase/firestore';
+import Global from '../state/global.js';
 import {
   Container,
   Header,
@@ -32,7 +33,8 @@ const GroupFridge = props => {
   const [items, setItems] = useState([]);
   const [search, onChangeText] = useState('');
   const user = firebase.auth().currentUser;
-  var groupFridge = storageService.fridge(true);
+  const groupFridge = Global.groupFridge;
+  console.log(groupFridge);
 
   useEffect(() => {
     //executes on initial component render
@@ -82,7 +84,7 @@ const GroupFridge = props => {
         </Button>
       </Header>
       <Content>
-        <Text style={{padding:10}}>You are not part of a group fridge</Text>
+        <Text style={{padding:10}}>You are not part of a group. Please create or join one to use the group functionality.</Text>
       </Content>
         <View>
           <Fab

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Alert, Clipboard} from 'react-native';
 import Style from '../components/Style';
 import prompt from 'react-native-prompt-android';
 import firebase from '@react-native-firebase/app';
 import storageService from '../services/storage';
+import Global from '../state/global.js';
 
 import {
   Container,
@@ -24,19 +25,31 @@ import {
 
 const GroupModal = props => {
   const user = firebase.auth().currentUser;
-  var groupFridge = storageService.fridge(true);
-  console.log(groupFridge);
+  const[groupFridge, setFridge]= useState(Global.groupFridge);
+  const[ready, serReady] = useState(true);
 
   const createGroup = async () => {
+    if (groupFridge)
+        await leaveGroup();
+    let docId;
     await firebase
       .firestore()
       .collection('fridges')
       .add({
         creator: user.email,
         members: [user.email],
+        date: Date.now(),
       })
-      .then(docRef => joinGroup(docRef.id));
+      .then(docRef => docId=docRef.id);
+    await firebase
+      .firestore()
+      .collection('users')
+      .doc(user.uid)
+      .update({groupFridge: docId});
+    await storageService.getFridgeData(docId).then(fridge =>(Global.groupFridge = fridge));
+    setFridge(Global.groupFridge);
   };
+
   const joinGroup = async docId => {
     await firebase
       .firestore()
@@ -48,6 +61,8 @@ const GroupModal = props => {
       .collection('fridges')
       .doc(docId)
       .update({members: firebase.firestore.FieldValue.arrayUnion(user.email)});
+    await storageService.getFridgeData(docId).then(fridge =>(Global.groupFridge = fridge));
+    setFridge(global.groupFridge);
   };
 
   const leaveGroup = async () => {
@@ -71,6 +86,8 @@ const GroupModal = props => {
       .collection('fridges')
       .doc(code)
       .update({members: firebase.firestore.FieldValue.arrayRemove(user.email)});
+    await storageService.getFridgeData(code).then(fridge =>(Global.groupFridge = fridge));
+    setFridge(global.groupFridge);
   };
   const JoinPrompt = () => {
     prompt(
@@ -123,13 +140,23 @@ const GroupModal = props => {
         .then(snapshot => (code = snapshot.get('groupFridge')));
     };
     await getCode();
-    console.log(code);
     Clipboard.setString(code);
     Alert.alert(
       'Get access code',
       'The code for accessing the group is'+code+'. It has also been copied to the clipboard. '
     );
   };
+
+const formattedDate = dateString => {
+  var date = new Date(parseInt(dateString));
+  return (
+    ('0' + date.getDate()).slice(-2) +
+    '/' +
+    ('0' + (date.getMonth() + 1)).slice(-2) +
+    '/' +
+    (date.getFullYear() - 2000)
+  );
+};
 
   return (
     <Container style={Style.container}>
@@ -143,27 +170,37 @@ const GroupModal = props => {
           <Title>Your Group</Title>
         </Body>
       </Header>
+      {!ready && (<Content/>)}
+      {ready && (
       <Content>
-        {!groupFridge=='' && (
+        {groupFridge && (
         <>
         <Separator bordered>
           <Text>Group Details</Text>
         </Separator>
         <ListItem>
           <Left>
+            <Text>Group Creator</Text>
+          </Left>
+          <Body>
+            <Text>{groupFridge.creator}</Text>
+          </Body>
+        </ListItem>
+        <ListItem>
+          <Left>
             <Text>Number of members</Text>
           </Left>
           <Right>
-            <Text>number goes here</Text>
+            <Text>{groupFridge.members.length}</Text>
           </Right>
         </ListItem>
         <ListItem>
           <Left>
             <Text>Date created</Text>
           </Left>
-          <Right>
-            <Text>date goes here</Text>
-          </Right>
+          <Body>
+            <Text>{formattedDate(groupFridge.date)}</Text>
+          </Body>
         </ListItem>
         </>
         )}
@@ -181,7 +218,7 @@ const GroupModal = props => {
           onPress={() => CreateAlert()}>
           <Text uppercase={false}>Create a group</Text>
         </Button>
-        {!groupFridge=='' && (
+        {groupFridge && (
         <>
         <Button
           primary
@@ -200,6 +237,7 @@ const GroupModal = props => {
         </>
         )}
       </Content>
+      )}
     </Container>
   );
 };

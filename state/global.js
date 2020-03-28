@@ -6,6 +6,6 @@ module.exports = {
   enableNotification2: true,
   enableNotification3: true,
   enableNotification4: true,
-  fridge: '',
+  groupFridge: '',
   user: {},
 };

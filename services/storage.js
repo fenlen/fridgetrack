@@ -462,6 +462,22 @@ const submitBarcode = async (
   }
 };
 
+//get fridge info
+
+const getFridgeData = async (key) => {
+  let item;
+  try {
+    item = await firestore()
+      .collection('fridges')
+      .doc(key)
+      .get();
+  } catch (e) {
+    console.log('error: fetching fridge failed');
+    throw e;
+  }
+  return item.data();
+};
+
 
 export default {
   fridge,
@@ -486,5 +502,6 @@ export default {
   removeUnreg,
   getUnreg,
   submitBarcode,
-  getBarcode
+  getBarcode,
+  getFridgeData
 };
