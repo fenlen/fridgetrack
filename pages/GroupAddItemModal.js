@@ -36,7 +36,6 @@ const GroupAddItemModal = props => {
   const [show, setShow] = useState(false); //determines whether to show the date picker
   const [name, onChangeText] = useState('');
   const [quantity, onChangeText2] = useState('');
-  const [found, setFound] = useState();
   const [ready, setReady] = useState();
 
   const params = props.navigation.state.params;
@@ -58,7 +57,6 @@ const GroupAddItemModal = props => {
             onChangeText2(item.quantity);
             setPicker(item.category);
             setPicker2(item.unit);
-            setFound(true);
         } else {
             Alert.alert("Barcode not found, please introduce the item information.");
         }
@@ -97,10 +95,7 @@ const GroupAddItemModal = props => {
         true,
       );
         if (params.barcode!=null)
-            if (found)
-                console.log("yehaw");//update item in the db here
-            else
-                storageService.submitBarcode(name, category, params.barcode, quantity, unit);
+            storageService.submitBarcode(name, category, params.barcode, quantity, unit);
       props.navigation.navigate('GroupFridge');
     }
   };

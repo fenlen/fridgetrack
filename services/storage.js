@@ -412,7 +412,20 @@ const removeUnreg = async id => {
 const getBarcode = async (key) => {
   let item;
   try {
-    // item = await AsyncStorage.getItem(key);
+    item = await firestore()
+      .collection('barcodes')
+      .doc(key)
+      .get();
+  } catch (e) {
+    console.log('error: fetching barcode failed');
+    throw e;
+  }
+  return item.data();
+};
+
+const updateBarcode = async (name, category, barcode, quantity, unit) => {
+  let item;
+  try {
     item = await firestore()
       .collection('barcodes')
       .doc(key)
