@@ -143,7 +143,7 @@ const GroupModal = props => {
     Clipboard.setString(code);
     Alert.alert(
       'Get access code',
-      'The code for accessing the group is'+code+'. It has also been copied to the clipboard. '
+      'The code for accessing the group is '+code+' . It has also been copied to the clipboard. '
     );
   };
 
@@ -216,7 +216,7 @@ const formattedDate = dateString => {
           rounded
           style={{margin: 20, justifyContent: 'center'}}
           onPress={() => CreateAlert()}>
-          <Text uppercase={false}>Create a group</Text>
+          <Text uppercase={false}>Create a new group</Text>
         </Button>
         {groupFridge && (
         <>
@@ -225,7 +225,7 @@ const formattedDate = dateString => {
           rounded
           style={{margin: 20, justifyContent: 'center'}}
           onPress={() => LeaveAlert()}>
-          <Text uppercase={false}>Leave a group</Text>
+          <Text uppercase={false}>Leave group</Text>
         </Button>
         <Button
           primary
