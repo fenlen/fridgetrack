@@ -6,15 +6,15 @@ const SubmitButton = props => {
   const f = () => {
     if (props.group) {
       props.navigation.navigate('GroupItemModal', {
-        items: props.items,
         refresh: props.refresh,
         shopping: props.shopping,
+        barcode: null,
       });
     } else {
       props.navigation.navigate('ItemModal', {
-        items: props.items,
         refresh: props.refresh,
         shopping: props.shopping,
+        barcode: null,
       });
     }
   };

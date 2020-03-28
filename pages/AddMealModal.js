@@ -48,10 +48,6 @@ const AddMealModal = props => {
       getPickerList();
     }, []);
 
-  const getData = async () =>{
-
-  }
-
   const getPickerList = async () => {
       var list=[];
       var formattedList=[];

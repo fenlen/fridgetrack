@@ -1,5 +1,5 @@
 // /* eslint-disable no-undef */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
@@ -36,16 +36,49 @@ const GroupAddItemModal = props => {
   const [show, setShow] = useState(false); //determines whether to show the date picker
   const [name, onChangeText] = useState('');
   const [quantity, onChangeText2] = useState('');
+  const [found, setFound] = useState();
+  const [ready, setReady] = useState();
 
   const params = props.navigation.state.params;
 
-  const submit = (name, category, expDate, barcode, quantity, unit) => {
-    if (params.shopping) {
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    if (params.barcode!=null) {
+        var item;
+        await Promise.all([
+            storageService.getBarcode(params.barcode)
+        ]).then(function(values) {
+            item=values[0];
+              });
+        if (item) {
+            onChangeText(item.name);
+            onChangeText2(item.quantity);
+            setPicker(item.category);
+            setPicker2(item.unit);
+            setFound(true);
+        } else {
+            Alert.alert("Barcode not found, please introduce the item information.");
+        }
+    }
+    setReady(true);
+  };
+
+  const submit = (name, category, expDate, quantity, unit) => {
+    const numbers = /^[0-9]+$/;
+    if(!name) {
+        Alert.alert("The item must have a name");
+    } else if (!quantity) {
+        Alert.alert("Please introduce a quantity for your item");
+    } else if (!numbers.test(quantity)) {
+        Alert.alert("The quantity must be a number");
+    } else if (params.shopping) {
       storageService.submit(
         name,
         category,
         expDate,
-        barcode,
         quantity,
         unit,
         true,
@@ -58,12 +91,16 @@ const GroupAddItemModal = props => {
         name,
         category,
         expDate,
-        barcode,
         quantity,
         unit,
         false,
         true,
       );
+        if (params.barcode!=null)
+            if (found)
+                console.log("yehaw");//update item in the db here
+            else
+                storageService.submitBarcode(name, category, params.barcode, quantity, unit);
       props.navigation.navigate('GroupFridge');
     }
   };
@@ -97,7 +134,7 @@ const GroupAddItemModal = props => {
     <Container>
       <Header>
         <Left>
-          <Button transparent onPress={() => props.navigation.goBack()}>
+          <Button transparent onPress={() => props.navigation.navigate('GroupFridge')}>
             <Icon name="arrow-back" />
           </Button>
         </Left>
@@ -181,7 +218,7 @@ const GroupAddItemModal = props => {
                     rounded
                     primary
                     style={{margin: 20, flex: 0.7, justifyContent: 'center'}}
-                    onPress={() => {}}>
+                    onPress={() => props.navigation.navigate('Barcode',params)}>
                     <Text uppercase={false}>Scan barcode</Text>
                   </Button>
                 </Row>
@@ -216,7 +253,6 @@ const GroupAddItemModal = props => {
               name,
               pickerItems,
               formattedDate(),
-              params.barcode,
               quantity,
               pickerUnits,
             );

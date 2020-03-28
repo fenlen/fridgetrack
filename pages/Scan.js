@@ -16,10 +16,24 @@ export default class Barcode extends Component {
         this.state = {
         torchOn: false
         }
+        this.params = props.navigation.state.params;
     }
+
     onBarCodeRead = (e) => {
-        Alert.alert("Barcode value is" + e.data, "Barcode type is" + e.type);
-        this.setState({ torchOn: false });
+        if (this.params.group) {
+          this.props.navigation.navigate('GroupItemModal', {
+            refresh: this.params.refresh,
+            shopping: this.params.shopping,
+            barcode: e.data,
+          });
+        } else {
+          this.props.navigation.navigate('ItemModal', {
+            refresh: this.params.refresh,
+            shopping: this.params.shopping,
+            barcode: e.data,
+          });
+        }
+            this.setState({ torchOn: false });
     }
 
     //flash icons from https://www.materialui.co/

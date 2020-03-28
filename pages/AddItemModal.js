@@ -38,37 +38,58 @@ const AddItemModal = props => {
   const [name, onChangeText] = useState('');
   const [quantity, onChangeText2] = useState('');
   const [logged, setLogged] = useState();
+  const [found, setFound] = useState();
+  const [ready, setReady] = useState();
 
   useEffect(() => {
     if (auth().currentUser != null) {
       setLogged(true);
     }
+    getData();
   }, []);
+
+  const getData = async () => {
+    if (params.barcode!=null) {
+        var item;
+        await Promise.all([
+            storageService.getBarcode(params.barcode)
+        ]).then(function(values) {
+            item=values[0];
+              });
+        if (item) {
+            onChangeText(item.name);
+            onChangeText2(item.quantity);
+            setPicker(item.category);
+            setPicker2(item.unit);
+            setFound(true);
+        } else {
+            Alert.alert("Barcode not found, please introduce the item information.");
+        }
+    }
+    setReady(true);
+  };
 
   const params = props.navigation.state.params;
 
-  const submit = (name, category, expDate, barcode, quantity, unit) => {
+  const submit = (name, category, expDate, quantity, unit) => {
     const numbers = /^[0-9]+$/;
     if(!name) {
         Alert.alert("The item must have a name");
     } else if (!quantity) {
-        Alert.alert("Please input a quantity for your item");
+        Alert.alert("Please introduce a quantity for your item");
     } else if (!numbers.test(quantity)) {
         Alert.alert("The quantity must be a number");
     } else if (params.shopping) {
-        storageService.submit(
-          name,
-          category,
-          expDate,
-          barcode,
-          quantity,
-          unit,
-          true,
-        );
+        storageService.submit(name, category, expDate, quantity, unit, true);
         params.refresh();
         props.navigation.navigate('ShopList');
     } else {
-        storageService.submit(name, category, expDate, barcode, quantity, unit);
+        storageService.submit(name, category, expDate, quantity, unit);
+        if (params.barcode!=null)
+            if (found)
+                console.log("yehaw");//update item in the db here
+            else
+                storageService.submitBarcode(name, category, params.barcode, quantity, unit);
         props.navigation.navigate('Fridge');
     }
   };
@@ -77,7 +98,7 @@ const AddItemModal = props => {
     if(!name) {
         Alert.alert("The item must have a name");
     } else if (quantity) {
-        Alert.alert("Please input a quantity for your item");
+        Alert.alert("Please introduce a quantity for your item");
     } else if (!numbers.test(quantity)) {
         Alert.alert("The quantity must be a number");
     } else  if (params.shopping) {
@@ -99,7 +120,6 @@ const AddItemModal = props => {
   };
 
   const setDate = (event, date) => {
-    console.log(date);
     date = date || dateState;
     setShow(false);
     setNewDate(date);
@@ -119,7 +139,7 @@ const AddItemModal = props => {
     <Container>
       <Header>
         <Left>
-          <Button transparent onPress={() => props.navigation.goBack()}>
+          <Button transparent onPress={() => props.navigation.navigate('Fridge')}>
             <Icon name="arrow-back" />
           </Button>
         </Left>
@@ -127,11 +147,13 @@ const AddItemModal = props => {
           <Title>Add an item</Title>
         </Body>
       </Header>
+      {!ready && (<Content/>)}
+      {ready && (
       <Content padder>
         <Form>
           <Item rounded>
             <Input
-              placeholder={props.data || 'Item name'}
+              placeholder={'Item name'}
               onChangeText={name => onChangeText(name)}
               value={name}
             />
@@ -141,7 +163,7 @@ const AddItemModal = props => {
               <Col>
                 <Item rounded>
                   <Input
-                    placeholder={props.data || 'Quantity'}
+                    placeholder={'Quantity'}
                     keyboardType="numeric"
                     onChangeText={quantity => onChangeText2(quantity)}
                     value={quantity}
@@ -199,7 +221,7 @@ const AddItemModal = props => {
                       rounded
                       primary
                       style={{margin: 20, flex: 0.7, justifyContent: 'center'}}
-                      onPress={() => props.navigation.navigate('Barcode')}>
+                      onPress={() => props.navigation.navigate('Barcode',params)}>
                       <Text uppercase={false}>Scan barcode</Text>
                     </Button>
                   </Row>
@@ -225,6 +247,7 @@ const AddItemModal = props => {
           />
         )}
       </Content>
+      )}
       <Footer>
         {logged && (
           <Button
@@ -236,7 +259,6 @@ const AddItemModal = props => {
                 name,
                 pickerItems,
                 formattedDate(),
-                params.barcode,
                 quantity,
                 pickerUnits,
               );

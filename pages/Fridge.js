@@ -116,7 +116,7 @@ const Fridge = props => {
         )}
         keyExtractor={item => item.id}
       />
-      <SubmitButton items={items} refresh={() => refresh()} shopping={false} />
+      <SubmitButton refresh={() => refresh()} shopping={false} />
       <Footer>
         <FooterTab>
           <Button active>

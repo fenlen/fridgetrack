@@ -19,16 +19,12 @@ const fridge = async group => {
   } else {
     fridgeRef = userId;
   }
-  //console.log(fridgeRef, group);
-
   return fridgeRef;
 };
 
 const getAll = async (search = '', group = false) => {
-  // let keys = [];
   let keys;
   try {
-    // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
       .collection('fridges')
       .doc(await fridge(group))
@@ -41,25 +37,13 @@ const getAll = async (search = '', group = false) => {
     console.log('error: retrieving all keys failed here');
     throw e;
   }
-  // console.log(fridge(false));
-  // console.log(fridge(false) === 'zyLqoEyoiyVAsptgCQbR2RBhKXf2');
-  // const promisedItems = keys.map(async itemId => {
-  //   const itemPromise = await get(itemId);
-  //   return itemPromise;
-  // });
-  // const results = await Promise.all(promisedItems);
-  // const results = keys.docs();
   const results = keys.docs.map(item => item.data());
-  // console.log('HI \n\n\n\n' + results);
-
-  // results = results.map(item => item.data());
   return results.filter(item => item.isShop !== true);
 };
 
 const getAllShop = async (search = '', group = false) => {
   let keys;
   try {
-    // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
       .collection('fridges')
       .doc(await fridge(group))
@@ -69,19 +53,12 @@ const getAllShop = async (search = '', group = false) => {
     console.log('error: retrieving all keys failed');
     throw e;
   }
-
-  // const promisedItems = keys.map(async itemId => {
-  //   const itemPromise = await get(itemId);
-  //   return itemPromise;
-  // });
-  // const results = await Promise.all(promisedItems);
   return keys.docs.map(item => item.data());
 };
 
 const get = async (key, targetList, group = false) => {
   let item;
   try {
-    // item = await AsyncStorage.getItem(key);
     item = await firestore()
       .collection('fridges')
       .doc(await fridge(group))
@@ -91,7 +68,6 @@ const get = async (key, targetList, group = false) => {
     console.log('error: fetching item failed');
     throw e;
   }
-  // console.log(typeof item, ' Hi');
   return JSON.parse(item);
 };
 
@@ -99,7 +75,6 @@ const submit = async (
   name,
   category,
   expDate,
-  barcode,
   quantity,
   unit,
   isShop = false,
@@ -111,7 +86,6 @@ const submit = async (
     name: name,
     category: category,
     expDate: expDate,
-    barcode: barcode,
     quantity: quantity,
     unit: unit,
   };
@@ -122,8 +96,6 @@ const submit = async (
     targetList = 'itemList';
   }
   try {
-    // await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));
-    // console.log(Global.user, Global.user.userId, firebase.auth().currentUser.uid);
     await firestore()
       .collection('fridges')
       .doc(await fridge(group))
@@ -138,8 +110,6 @@ const submit = async (
 
 const remove = async (id, targetList, group = false) => {
   try {
-    // await AsyncStorage.removeItem(id);
-    console.log(Global.fridge, targetList);
     await firestore()
       .collection('fridges')
       .doc(await fridge(group))
@@ -172,8 +142,6 @@ const submitRecipe = async (name, level, duration, ingredients, method) => {
 
   let targetList = 'recipeList';
   try {
-    // await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));
-    // console.log(Global.user, Global.user.userId, firebase.auth().currentUser.uid);
     await firestore()
       .collection('recipes')
       .doc(userId)
@@ -189,7 +157,6 @@ const submitRecipe = async (name, level, duration, ingredients, method) => {
 const removeRecipe = async id => {
   const userId = firebase.auth().currentUser.uid;
   try {
-    // await AsyncStorage.removeItem(id);
     await firestore()
       .collection('recipes')
       .doc(userId)
@@ -203,11 +170,9 @@ const removeRecipe = async id => {
 };
 
 const getAllRecipe = async (search = '') => {
-  // let keys = [];
   const userId = firebase.auth().currentUser.uid;
   let keys;
   try {
-    // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
       .collection('recipes')
       .doc(userId)
@@ -252,8 +217,6 @@ const submitMeal = async (type, date, recipe) => {
   };
   let targetList = 'mealList';
   try {
-    // await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));
-    // console.log(Global.user, Global.user.userId, firebase.auth().currentUser.uid);
     await firestore()
       .collection('meals')
       .doc(userId)
@@ -269,7 +232,6 @@ const submitMeal = async (type, date, recipe) => {
 const removeMeal = async id => {
   const userId = firebase.auth().currentUser.uid;
   try {
-    // await AsyncStorage.removeItem(id);
     await firestore()
       .collection('meals')
       .doc(userId)
@@ -287,7 +249,6 @@ const getAllMeal = async (search = '') => {
   const userId = firebase.auth().currentUser.uid;
   let keys;
   try {
-    // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
       .collection('meals')
       .doc(userId)
@@ -318,15 +279,12 @@ const submitEaten = async (name, quantity, eaten = true, group = false) => {
   };
   let targetList = 'discList';
   try {
-    // await AsyncStorage.setItem(newId.toString(), JSON.stringify(newItem));
-    // console.log(Global.user, Global.user.userId, firebase.auth().currentUser.uid);
     await firestore()
       .collection('disc')
       .doc(userId)
       .collection(targetList)
       .doc(newId.toString())
       .set(newItem);
-    console.log(eaten);
   } catch (e) {
     console.log('error: submitMeal failed');
     throw e;
@@ -334,11 +292,9 @@ const submitEaten = async (name, quantity, eaten = true, group = false) => {
 };
 
 const getAllEaten = async () => {
-  // let keys = [];
   let keys;
   const userId = firebase.auth().currentUser.uid;
   try {
-    // keys = await AsyncStorage.getAllKeys();
     keys = await firestore()
       .collection('disc')
       .doc(userId)
@@ -355,11 +311,9 @@ const getAllEaten = async () => {
 //UserData
 
 const getUserData = async () => {
-  // let keys = [];
   let result;
   const userId = firebase.auth().currentUser.uid;
   try {
-    // keys = await AsyncStorage.getAllKeys();
     result = await firestore()
       .collection('users')
       .doc(userId)
@@ -415,7 +369,6 @@ const getUnreg = async key => {
     console.log('error: fetching item failed');
     throw e;
   }
-  // console.log(typeof item, ' Hi');
   return JSON.parse(item);
 };
 
@@ -454,6 +407,49 @@ const removeUnreg = async id => {
   }
 };
 
+//Barcode list
+
+const getBarcode = async (key) => {
+  let item;
+  try {
+    // item = await AsyncStorage.getItem(key);
+    item = await firestore()
+      .collection('barcodes')
+      .doc(key)
+      .get();
+  } catch (e) {
+    console.log('error: fetching barcode failed');
+    throw e;
+  }
+  return item.data();
+};
+
+const submitBarcode = async (
+  name,
+  category,
+  barcode,
+  quantity,
+  unit,
+) => {
+  const newItem = {
+    id: barcode,
+    name: name,
+    category: category,
+    quantity: quantity,
+    unit: unit,
+  };
+  try {
+    await firestore()
+      .collection('barcodes')
+      .doc(barcode)
+      .set(newItem);
+  } catch (e) {
+    console.log('error: submitBarcode failed');
+    throw e;
+  }
+};
+
+
 export default {
   fridge,
   getAll,
@@ -476,4 +472,6 @@ export default {
   submitUnreg,
   removeUnreg,
   getUnreg,
+  submitBarcode,
+  getBarcode
 };

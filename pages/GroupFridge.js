@@ -142,12 +142,7 @@ const GroupFridge = props => {
         )}
         keyExtractor={item => item.id}
       />
-      <SubmitButton
-        items={items}
-        refresh={() => refresh()}
-        shopping={false}
-        group={true}
-      />
+      <SubmitButton refresh={() => refresh()} shopping={false} group={true} />
       <Footer>
         <FooterTab>
           <Button active>
