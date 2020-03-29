@@ -97,7 +97,10 @@ const submit = async (
     targetList = 'shopList';
   } else {
     targetList = 'itemList';
-    notif.scheduleNotif(newId,expDate,name);
+    if(group)
+        notif.scheduleGroupNotif(newId,expDate,name);
+    else
+        notif.scheduleNotif(newId,expDate,name);
   }
   try {
     await firestore()

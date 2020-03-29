@@ -30,18 +30,22 @@ class NotificationsModal extends Component {
     this.notif = new NotifService();
   }
 
-   async updatePersonalNotifications(){
+   async updateNotifications(){
       const items = await storageService.getAll();
+      const groupItems = await storageService.getAll('',true);
       this.notif.cancelAll();
       for (const i in items) {
         this.notif.scheduleNotif(parseInt(items[i].id),items[i].expDate,items[i].name);
+      }
+      for (const i in groupItems) {
+        this.notif.scheduleGroupNotif(parseInt(groupItems[i].id),groupItems[i].expDate,groupItems[i].name);
       }
 
    }
 
    onValueChange1(value){
       Global.enableNotification1=value;
-      this.updatePersonalNotifications();
+      this.updateNotifications();
       firestore()
             .collection('users')
             .doc(auth().currentUser.uid)
@@ -49,7 +53,7 @@ class NotificationsModal extends Component {
       this.forceUpdate();
     }
    onValueChange2(value){
-      Global.enablePersonalNotification2=value;
+      Global.enableNotification2=value;
       this.updateNotifications();
       firestore()
             .collection('users')
@@ -59,6 +63,7 @@ class NotificationsModal extends Component {
     }
    onValueChange3(value){
       Global.enableNotification3=value;
+      this.updateNotifications();
       firestore()
             .collection('users')
             .doc(auth().currentUser.uid)
@@ -67,6 +72,7 @@ class NotificationsModal extends Component {
     }
    onValueChange4(value){
       Global.enableNotification4=value;
+      this.updateNotifications();
       firestore()
             .collection('users')
             .doc(auth().currentUser.uid)

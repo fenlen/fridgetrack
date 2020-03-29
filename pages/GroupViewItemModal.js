@@ -4,6 +4,7 @@ import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
 import {createStackNavigator} from 'react-navigation-stack';
+import NotifService from '../services/NotifService';
 import {
   Container,
   Header,
@@ -111,6 +112,7 @@ const GroupViewItemModal = props => {
   const removeItem = (id, eaten) => {
     storageService.remove(id, 'itemList', true);
     storageService.submitEaten(item.name, item.quantity, eaten, true);
+    notif.cancelNotif(id);
     props.navigation.goBack();
   };
   return (

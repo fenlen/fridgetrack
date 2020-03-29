@@ -34,7 +34,6 @@ const GroupFridge = props => {
   const [search, onChangeText] = useState('');
   const user = firebase.auth().currentUser;
   const groupFridge = Global.groupFridge;
-  console.log(groupFridge);
 
   useEffect(() => {
     //executes on initial component render
