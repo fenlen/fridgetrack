@@ -25,12 +25,13 @@ import {
 
 const GroupModal = props => {
   const user = firebase.auth().currentUser;
-  const[groupFridge, setFridge]= useState(Global.groupFridge);
-  const[ready, serReady] = useState(true);
+  const [groupFridge, setFridge] = useState(Global.groupFridge);
+  const [ready, serReady] = useState(true);
 
   const createGroup = async () => {
-    if (groupFridge)
-        await leaveGroup();
+    if (groupFridge) {
+      await leaveGroup();
+    }
     let docId;
     await firebase
       .firestore()
@@ -40,13 +41,15 @@ const GroupModal = props => {
         members: [user.email],
         date: Date.now(),
       })
-      .then(docRef => docId=docRef.id);
+      .then(docRef => (docId = docRef.id));
     await firebase
       .firestore()
       .collection('users')
       .doc(user.uid)
       .update({groupFridge: docId});
-    await storageService.getFridgeData(docId).then(fridge =>(Global.groupFridge = fridge));
+    await storageService
+      .getFridgeData(docId)
+      .then(fridge => (Global.groupFridge = fridge));
     setFridge(Global.groupFridge);
   };
 
@@ -61,7 +64,9 @@ const GroupModal = props => {
       .collection('fridges')
       .doc(docId)
       .update({members: firebase.firestore.FieldValue.arrayUnion(user.email)});
-    await storageService.getFridgeData(docId).then(fridge =>(Global.groupFridge = fridge));
+    await storageService
+      .getFridgeData(docId)
+      .then(fridge => (Global.groupFridge = fridge));
     setFridge(global.groupFridge);
   };
 
@@ -86,7 +91,9 @@ const GroupModal = props => {
       .collection('fridges')
       .doc(code)
       .update({members: firebase.firestore.FieldValue.arrayRemove(user.email)});
-    await storageService.getFridgeData(code).then(fridge =>(Global.groupFridge = fridge));
+    await storageService
+      .getFridgeData(code)
+      .then(fridge => (Global.groupFridge = fridge));
     setFridge(global.groupFridge);
   };
   const JoinPrompt = () => {
@@ -94,8 +101,12 @@ const GroupModal = props => {
       'Join a group',
       'Please enter the group identification code (you can get this from any member of the group).',
       [
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'Confirm', onPress: password => joinGroup(password),},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'Confirm', onPress: password => joinGroup(password)},
       ],
       {
         type: 'default',
@@ -143,20 +154,22 @@ const GroupModal = props => {
     Clipboard.setString(code);
     Alert.alert(
       'Get access code',
-      'The code for accessing the group is '+code+' . It has also been copied to the clipboard. '
+      'The code for accessing the group is ' +
+        code +
+        ' . It has also been copied to the clipboard. ',
     );
   };
 
-const formattedDate = dateString => {
-  var date = new Date(parseInt(dateString));
-  return (
-    ('0' + date.getDate()).slice(-2) +
-    '/' +
-    ('0' + (date.getMonth() + 1)).slice(-2) +
-    '/' +
-    (date.getFullYear() - 2000)
-  );
-};
+  const formattedDate = dateString => {
+    var date = new Date(parseInt(dateString));
+    return (
+      ('0' + date.getDate()).slice(-2) +
+      '/' +
+      ('0' + (date.getMonth() + 1)).slice(-2) +
+      '/' +
+      (date.getFullYear() - 2000)
+    );
+  };
 
   return (
     <Container style={Style.container}>
@@ -170,73 +183,73 @@ const formattedDate = dateString => {
           <Title>Your Group</Title>
         </Body>
       </Header>
-      {!ready && (<Content/>)}
+      {!ready && <Content />}
       {ready && (
-      <Content>
-        {groupFridge && (
-        <>
-        <Separator bordered>
-          <Text>Group Details</Text>
-        </Separator>
-        <ListItem>
-          <Left>
-            <Text>Group Creator</Text>
-          </Left>
-          <Body>
-            <Text>{groupFridge.creator}</Text>
-          </Body>
-        </ListItem>
-        <ListItem>
-          <Left>
-            <Text>Number of members</Text>
-          </Left>
-          <Right>
-            <Text>{groupFridge.members.length}</Text>
-          </Right>
-        </ListItem>
-        <ListItem>
-          <Left>
-            <Text>Date created</Text>
-          </Left>
-          <Body>
-            <Text>{formattedDate(groupFridge.date)}</Text>
-          </Body>
-        </ListItem>
-        </>
-        )}
-        <Button
-          primary
-          rounded
-          style={{margin: 20, justifyContent: 'center'}}
-          onPress={() => JoinPrompt()}>
-          <Text uppercase={false}>Join a group</Text>
-        </Button>
-        <Button
-          primary
-          rounded
-          style={{margin: 20, justifyContent: 'center'}}
-          onPress={() => CreateAlert()}>
-          <Text uppercase={false}>Create a new group</Text>
-        </Button>
-        {groupFridge && (
-        <>
-        <Button
-          primary
-          rounded
-          style={{margin: 20, justifyContent: 'center'}}
-          onPress={() => LeaveAlert()}>
-          <Text uppercase={false}>Leave group</Text>
-        </Button>
-        <Button
-          primary
-          rounded
-          style={{margin: 20, justifyContent: 'center'}}
-          onPress={() => CodeAlert()}>
-          <Text uppercase={false}>Get access code</Text>
-        </Button>
-        </>
-        )}
-      </Content>
+        <Content>
+          {groupFridge && (
+            <>
+              <Separator bordered>
+                <Text>Group Details</Text>
+              </Separator>
+              <ListItem>
+                <Left>
+                  <Text>Group Creator</Text>
+                </Left>
+                <Body>
+                  <Text>{groupFridge.creator}</Text>
+                </Body>
+              </ListItem>
+              <ListItem>
+                <Left>
+                  <Text>Number of members</Text>
+                </Left>
+                <Right>
+                  <Text>{groupFridge.members.length}</Text>
+                </Right>
+              </ListItem>
+              <ListItem>
+                <Left>
+                  <Text>Date created</Text>
+                </Left>
+                <Body>
+                  <Text>{formattedDate(groupFridge.date)}</Text>
+                </Body>
+              </ListItem>
+            </>
+          )}
+          <Button
+            primary
+            rounded
+            style={{margin: 20, justifyContent: 'center'}}
+            onPress={() => JoinPrompt()}>
+            <Text uppercase={false}>Join a group</Text>
+          </Button>
+          <Button
+            primary
+            rounded
+            style={{margin: 20, justifyContent: 'center'}}
+            onPress={() => CreateAlert()}>
+            <Text uppercase={false}>Create a new group</Text>
+          </Button>
+          {groupFridge && (
+            <>
+              <Button
+                primary
+                rounded
+                style={{margin: 20, justifyContent: 'center'}}
+                onPress={() => LeaveAlert()}>
+                <Text uppercase={false}>Leave group</Text>
+              </Button>
+              <Button
+                primary
+                rounded
+                style={{margin: 20, justifyContent: 'center'}}
+                onPress={() => CodeAlert()}>
+                <Text uppercase={false}>Get access code</Text>
+              </Button>
+            </>
+          )}
+        </Content>
       )}
     </Container>
   );

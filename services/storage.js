@@ -97,10 +97,11 @@ const submit = async (
     targetList = 'shopList';
   } else {
     targetList = 'itemList';
-    if(group)
-        notif.scheduleGroupNotif(newId,expDate,name);
-    else
-        notif.scheduleNotif(newId,expDate,name);
+    if (group) {
+      notif.scheduleGroupNotif(newId, expDate, name);
+    } else {
+      notif.scheduleNotif(newId, expDate, name);
+    }
   }
   try {
     await firestore()
@@ -322,14 +323,13 @@ const getUserData = async () => {
   const userId = firebase.auth().currentUser.uid;
   try {
     result = await firestore()
-      .collection('users')
-      .doc(userId)
+      .doc(`users/${userId}`)
       .get();
   } catch (e) {
     console.log('error: retrieving all keys failed' + e);
     throw e;
   }
-  return result.data();
+  return result;
 };
 
 //unregistered user
@@ -416,7 +416,7 @@ const removeUnreg = async id => {
 
 //Barcode list
 
-const getBarcode = async (key) => {
+const getBarcode = async key => {
   let item;
   try {
     item = await firestore()
@@ -444,13 +444,7 @@ const updateBarcode = async (name, category, barcode, quantity, unit) => {
   return item.data();
 };
 
-const submitBarcode = async (
-  name,
-  category,
-  barcode,
-  quantity,
-  unit,
-) => {
+const submitBarcode = async (name, category, barcode, quantity, unit) => {
   const newItem = {
     id: barcode,
     name: name,
@@ -471,7 +465,7 @@ const submitBarcode = async (
 
 //get fridge info
 
-const getFridgeData = async (key) => {
+const getFridgeData = async key => {
   let item;
   try {
     item = await firestore()
@@ -484,7 +478,6 @@ const getFridgeData = async (key) => {
   }
   return item.data();
 };
-
 
 export default {
   fridge,
@@ -510,5 +503,5 @@ export default {
   getUnreg,
   submitBarcode,
   getBarcode,
-  getFridgeData
+  getFridgeData,
 };
