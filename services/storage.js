@@ -1,6 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import Global from '../state/global';
+import NotifService from './NotifService';
+
+const notif = new NotifService();
 
 const fridge = async group => {
   let fridgeRef;
@@ -94,6 +97,7 @@ const submit = async (
     targetList = 'shopList';
   } else {
     targetList = 'itemList';
+    notif.scheduleNotif(newId,expDate,name);
   }
   try {
     await firestore()

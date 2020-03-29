@@ -60,6 +60,10 @@ class Theme extends React.Component {
       Global.colour = data['colour'];
       Global.size = data['size'];
       Global.font = data['font'];
+      Global.enableNotiication1 = data['enableNotification1'];
+      Global.enableNotiication2 = data['enableNotification2'];
+      Global.enableNotiication3 = data['enableNotification3'];
+      Global.enableNotiication4 = data['enableNotification4'];
       await storageService.getFridgeData(data['groupFridge']).then(fridge =>(Global.groupFridge = fridge));
     }
     this.setState({loaded: true});

@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {Alert} from 'react-native';
 import Global from '../state/global';
+import NotifService from '../services/NotifService';
+import storageService from '../services/storage';
 import {
   Container,
   Header,
@@ -23,13 +25,26 @@ const LoginModal = props => {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
 
+  const notif = new NotifService();
+
   const login = async () => {
     try {
     await auth().signInWithEmailAndPassword(email, password);
     let user = auth().currentUser;
+    let data = {};
     if (user) {
+      await storageService.getUserData().then(dataList => (data = dataList));
       Global.user = user.uid;
+      Global.enableNotiication1 = data['enableNotification1'];
+      Global.enableNotiication2 = data['enableNotification2'];
+      Global.enableNotiication3 = data['enableNotification3'];
+      Global.enableNotiication4 = data['enableNotification4'];
+      const items = await storageService.getAll();
+            for (const i in items) {
+              notif.scheduleNotif(parseInt(items[i].id),items[i].expDate,items[i].name);
+            }
     }
+
     props.navigation.navigate("Theme");
     Alert.alert('You have logged in successfully');
     }

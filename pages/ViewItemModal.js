@@ -6,6 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
 import {createStackNavigator} from 'react-navigation-stack';
 import auth from '@react-native-firebase/auth';
+import NotifService from '../services/NotifService';
 import {
   Container,
   Header,
@@ -116,6 +117,8 @@ const ViewItemModal = props => {
   const item = params ? params.item : null;
   const [logged, setLogged] = useState();
 
+  const notif = new NotifService();
+
   useEffect(() => {
     if (auth().currentUser != null) {
       setLogged(true);
@@ -125,6 +128,7 @@ const ViewItemModal = props => {
   const removeItem = (id, eaten) => {
     storageService.remove(id, 'itemList');
     storageService.submitEaten(item.name, item.quantity, eaten, true);
+    notif.cancelNotif(id);
     props.navigation.goBack();
   };
   const removeItemUnreg = (id, eaten) => {

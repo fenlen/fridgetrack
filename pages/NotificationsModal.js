@@ -18,12 +18,30 @@ import {
 import Global from "../state/global.js";
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import NotifService from '../services/NotifService';
+import storageService from '../services/storage';
 
 
 class NotificationsModal extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.notif = new NotifService();
+  }
+
+   async updatePersonalNotifications(){
+      const items = await storageService.getAll();
+      this.notif.cancelAll();
+      for (const i in items) {
+        this.notif.scheduleNotif(parseInt(items[i].id),items[i].expDate,items[i].name);
+      }
+
+   }
+
    onValueChange1(value){
       Global.enableNotification1=value;
+      this.updatePersonalNotifications();
       firestore()
             .collection('users')
             .doc(auth().currentUser.uid)
@@ -31,7 +49,8 @@ class NotificationsModal extends Component {
       this.forceUpdate();
     }
    onValueChange2(value){
-      Global.enableNotification2=value;
+      Global.enablePersonalNotification2=value;
+      this.updateNotifications();
       firestore()
             .collection('users')
             .doc(auth().currentUser.uid)
