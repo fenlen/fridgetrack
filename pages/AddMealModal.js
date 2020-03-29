@@ -81,7 +81,7 @@ const AddMealModal = props => {
                    count++;
                size++;
                }
-           list.push({code:<Picker.Item label={recipes[i].name} value={recipes[i].name} />, completion: count/size});
+           list.push({code:<Picker.Item label={recipes[i].name+' ('+count/size*100+'% of ingredients)' } value={recipes[i].name} />, completion: count/size});
       };
 
       function compare(a, b) {
