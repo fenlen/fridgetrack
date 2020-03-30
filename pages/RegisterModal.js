@@ -24,6 +24,8 @@ const RegisterModal = props => {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
   const [confirmPass, onChangeConfirm] = useState('');
+  const [name, onChangeName] = useState('');
+
 
   const register = async (email, password) => {
     try {
@@ -45,6 +47,8 @@ const RegisterModal = props => {
       Alert.alert('Error', 'Email cannot be empty');
     } else if (!re.test(email.toLowerCase())) {
       Alert.alert('Error', 'Email is wrongly formatted');
+    } else if (!name) {
+      Alert.alert('Error', 'Name cannot be empty');
     } else if (!password) {
       Alert.alert('Error', 'Password cannot be empty');
     } else if (!p.test(password)) {
@@ -64,6 +68,7 @@ const RegisterModal = props => {
           userId: user.uid,
           joinDate: user.metadata.creationTime,
           email: user.email,
+          name: name,
           groupFridge: '',
           accountType: 'basic',
           colour: 'Blue',
@@ -79,21 +84,6 @@ const RegisterModal = props => {
       props.navigation.navigate('Theme');
     }
   };
-
-  // auth().onAuthStateChanged(async user => {
-  //   if (user) {
-  //     await firestore()
-  //       .collection('users')
-  //       .doc(user.uid)
-  //       .set({
-  //         userId: user.uid,
-  //         joinDate: user.metadata.creationTime,
-  //         groupFridge: '',
-  //       });
-  //     Global.user = user.uid;
-  //     console.log(`${user.email} has signed in!`);
-  //   }
-  // });
   return (
     <Container>
       <Header>
@@ -111,6 +101,10 @@ const RegisterModal = props => {
           <Item floatingLabel>
             <Label>Email</Label>
             <Input onChangeText={content => onChangeEmail(content)} />
+          </Item>
+          <Item floatingLabel>
+            <Label>Name</Label>
+            <Input onChangeText={content => onChangeName(content)} />
           </Item>
           <Item floatingLabel>
             <Label>Password</Label>

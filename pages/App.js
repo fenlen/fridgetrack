@@ -37,6 +37,7 @@ import Meals from './Meals';
 import AddMealModal from './AddMealModal';
 import ViewMealModal from './ViewMealModal';
 import UpdatePasswordModal from './UpdatePasswordModal';
+import UpdateDetailsModal from './UpdateDetailsModal';
 import Premium from './Premium';
 import auth from '@react-native-firebase/auth';
 import storageService from '../services/storage';
@@ -205,6 +206,9 @@ const RootStack = createStackNavigator(
     },
     UpdatePasswordModal: {
       screen: UpdatePasswordModal,
+    },
+    UpdateDetailsModal: {
+      screen: UpdateDetailsModal,
     },
     Premium: {
       screen: Premium,

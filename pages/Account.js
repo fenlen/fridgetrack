@@ -145,6 +145,14 @@ const Account = props => {
             </Separator>
             <ListItem>
               <Left>
+                <Text>Name</Text>
+              </Left>
+              <Body>
+                <Text>{userData.name}</Text>
+              </Body>
+            </ListItem>
+            <ListItem>
+              <Left>
                 <Text>Email</Text>
               </Left>
               <Body>
@@ -206,7 +214,14 @@ const Account = props => {
             <Button
               primary
               rounded
-              style={{margin: 20, justifyContent: 'center'}}
+              style={{margin: 20, marginTop:0, justifyContent: 'center'}}
+              onPress={() => props.navigation.navigate('UpdateDetailsModal',{name: userData.name, email: user.email})}>
+              <Text uppercase={false}>Update Details</Text>
+            </Button>
+            <Button
+              primary
+              rounded
+              style={{margin: 20, marginTop:0, justifyContent: 'center'}}
               onPress={() => props.navigation.navigate('UpdatePasswordModal')}>
               <Text uppercase={false}>Update Password</Text>
             </Button>
@@ -228,7 +243,7 @@ const Account = props => {
             <Button
               primary
               rounded
-              style={{margin: 20, justifyContent: 'center'}}
+              style={{margin: 20, marginTop:0, justifyContent: 'center'}}
               onPress={() => props.navigation.navigate('LoginModal')}>
               <Text uppercase={false}>Log in</Text>
             </Button>
