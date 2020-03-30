@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {Alert} from 'react-native';
 import Global from '../state/global';
+import firestore from '@react-native-firebase/firestore';
 import {
   Container,
   Header,
@@ -28,7 +29,7 @@ const UpdateDetailsModal = props => {
     try {
       let user = auth().currentUser;
       await auth().currentUser.updateEmail(email);
-      await firestore().doc(`users/${userId}`).update({name: name});
+      await firestore().doc(`users/${auth().currentUser.uid}`).update({name: name, email: email});
       Alert.alert('You have updated your details successfully');
       Global.user = user.uid;
       props.navigation.goBack();
