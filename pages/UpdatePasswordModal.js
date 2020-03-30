@@ -24,8 +24,9 @@ const UpdatePasswordModal = props => {
   const [password, onChangePassword] = useState('');
   const [passwordConfirm, onChangePasswordConfirm] = useState('');
 
-  const update = async (password) => {
-      auth().currentUser.updatePassword(password)
+  const update = async password => {
+    auth()
+      .currentUser.updatePassword(password)
       .catch(e => {
         let errorMessage = e.message;
         Alert.alert('Error', errorMessage);
@@ -33,37 +34,37 @@ const UpdatePasswordModal = props => {
   };
 
   const initUpdate = async () => {
-      try {
-          let p = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g;
-          let user = auth().currentUser;
-          if (!oldPassword) {
-            Alert.alert('Error', ' Old Password cannot be empty');
-          } else if (!password) {
-            Alert.alert('Error', 'New Password cannot be empty');
-          } else if (!p.test(password)) {
-            Alert.alert(
-              'Error',
-              'The new password must be 6 to 20 characters long and contain uppercase, lowercase and numeric characters ',
-            );
-          } else if (password !== passwordConfirm) {
-            Alert.alert('Error', 'Passwords do not match');
-          } else {
-            await auth().signInWithEmailAndPassword(user.email, oldPassword);
-            await auth().currentUser.updatePassword(password);
-            Alert.alert('You have updated you password successfully');
-            Global.user = user.uid;
-            props.navigation.goBack();
-          }
-      } catch(e) {
+    try {
+      let p = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g;
+      let user = auth().currentUser;
+      if (!oldPassword) {
+        Alert.alert('Error', ' Old Password cannot be empty');
+      } else if (!password) {
+        Alert.alert('Error', 'New Password cannot be empty');
+      } else if (!p.test(password)) {
+        Alert.alert(
+          'Error',
+          'The new password must be 6 to 20 characters long and contain uppercase, lowercase and numeric characters ',
+        );
+      } else if (password !== passwordConfirm) {
+        Alert.alert('Error', 'Passwords do not match');
+      } else {
+        await auth().signInWithEmailAndPassword(user.email, oldPassword);
+        await auth().currentUser.updatePassword(password);
+        Alert.alert('You have updated you password successfully');
+        Global.user = user.uid;
+        props.navigation.goBack();
+      }
+    } catch (e) {
       let errorCode = e.code;
       let errorMessage = e.message;
       if (errorCode === 'auth/wrong-password') {
-          Alert.alert('Error', 'Wrong old password');
-      }else {
-          Alert.alert('Error', errorMessage);
+        Alert.alert('Error', 'Wrong old password');
+      } else {
+        Alert.alert('Error', errorMessage);
       }
-      }
-    };
+    }
+  };
   return (
     <Container>
       <Header>
@@ -82,13 +83,15 @@ const UpdatePasswordModal = props => {
             <Label>Old Password</Label>
             <Input
               secureTextEntry
-              onChangeText={content => onChangeOldPassword(content)} />
+              onChangeText={content => onChangeOldPassword(content)}
+            />
           </Item>
           <Item floatingLabel>
             <Label>New Password</Label>
             <Input
               secureTextEntry
-              onChangeText={content => onChangePassword(content)} />
+              onChangeText={content => onChangePassword(content)}
+            />
           </Item>
           <Item floatingLabel last>
             <Label>Confirm new Password</Label>

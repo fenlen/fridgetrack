@@ -22,20 +22,32 @@ import {
   ListItem,
   Separator,
 } from 'native-base';
+import storage from '../services/storage';
 
 const Account = props => {
   const [state, setState] = useState();
+  const [userData, setUserData] = useState({accountType: 'basic'});
   const user = firebase.auth().currentUser;
   const notif = new NotifService();
 
+  const wrapper = () => {
+    // console.log(storage.getUserData());
+    storage.getUserData().then(result => {
+      setUserData(result.data());
+      console.log(result.data());
+    });
+  };
   useEffect(() => {
     if (auth().currentUser !== null) {
       setState(true);
+      wrapper();
     }
   }, []);
   useFocusEffect(
     //executes on component focus
     useCallback(() => {
+      // console.log(userData.accountType);
+      wrapper();
       let loggedIn;
       if (auth().currentUser !== null) {
         loggedIn = true;
@@ -127,78 +139,99 @@ const Account = props => {
       </Header>
       <Content>
         {state && ( //if authenticated
-        <>
-        <Separator bordered>
-          <Text>Account Details</Text>
-        </Separator>
-        <ListItem>
-          <Left>
-            <Text>Email</Text>
-          </Left>
-          <Body>
-            <Text>{user.email}</Text>
-          </Body>
-        </ListItem>
-        <ListItem>
-          <Left>
-            <Text>Date joined</Text>
-          </Left>
-          <Body>
-            <Text>{formattedDate(user.metadata.creationTime)}</Text>
-          </Body>
-        </ListItem>
-        <Separator bordered>
-          <Text>Preferences</Text>
-        </Separator>
-        <ListItem onPress={() => props.navigation.navigate('AppearanceModal')}>
-          <Left>
-            <Text>Appearance settings</Text>
-          </Left>
-        </ListItem>
-        <ListItem
-          onPress={() => props.navigation.navigate('NotificationsModal')}>
-          <Left>
-            <Text>Notification settings</Text>
-          </Left>
-        </ListItem>
-        <ListItem onPress={() => props.navigation.navigate('GroupModal')}>
-          <Left>
-            <Text>Group settings</Text>
-          </Left>
-        </ListItem>
-         <Button
-            primary
-            rounded
-            style={{margin: 20, justifyContent: 'center'}}
-            onPress={() => logOut()}>
-            <Text uppercase={false}>Log out</Text>
-         </Button>
-         <Button
-            primary
-            rounded
-            style={{margin: 20, justifyContent: 'center'}}
-            onPress={() => props.navigation.navigate('UpdatePasswordModal')}>
-            <Text uppercase={false}>Update Password</Text>
-         </Button>
-         </>
+          <>
+            <Separator bordered>
+              <Text>Account Details</Text>
+            </Separator>
+            <ListItem>
+              <Left>
+                <Text>Email</Text>
+              </Left>
+              <Body>
+                <Text>{user.email}</Text>
+              </Body>
+            </ListItem>
+            <ListItem>
+              <Left>
+                <Text>Date joined</Text>
+              </Left>
+              <Body>
+                <Text>{formattedDate(user.metadata.creationTime)}</Text>
+              </Body>
+            </ListItem>
+            <ListItem>
+              <Left>
+                <Text>Account type</Text>
+              </Left>
+              <Body>
+                <Text>{userData.accountType}</Text>
+              </Body>
+            </ListItem>
+            <Separator bordered>
+              <Text>Preferences</Text>
+            </Separator>
+            <ListItem
+              onPress={() => props.navigation.navigate('AppearanceModal')}>
+              <Left>
+                <Text>Appearance settings</Text>
+              </Left>
+            </ListItem>
+            <ListItem
+              onPress={() => props.navigation.navigate('NotificationsModal')}>
+              <Left>
+                <Text>Notification settings</Text>
+              </Left>
+            </ListItem>
+            {userData.accountType === 'basic' && (
+              <ListItem onPress={() => props.navigation.navigate('Premium')}>
+                <Left>
+                  <Text>Premium</Text>
+                </Left>
+              </ListItem>
+            )}
+            {userData.accountType !== 'basic' && (
+              <ListItem onPress={() => props.navigation.navigate('GroupModal')}>
+                <Left>
+                  <Text>Group settings</Text>
+                </Left>
+              </ListItem>
+            )}
+            <Button
+              primary
+              rounded
+              style={{margin: 20, justifyContent: 'center'}}
+              onPress={() => logOut()}>
+              <Text uppercase={false}>Log out</Text>
+            </Button>
+            <Button
+              primary
+              rounded
+              style={{margin: 20, justifyContent: 'center'}}
+              onPress={() => props.navigation.navigate('UpdatePasswordModal')}>
+              <Text uppercase={false}>Update Password</Text>
+            </Button>
+          </>
         )}
         {!state && ( //if not authenticated
           <>
-          <Text style={{padding: 10}}>In order to gain access to the full features of the app, please log in or register for a subscription.</Text>
-          <Button
-            primary
-            rounded
-            style={{margin: 20, justifyContent: 'center'}}
-            onPress={() => props.navigation.navigate('RegisterModal')}>
-            <Text uppercase={false}>Register</Text>
-          </Button>
-          <Button
-            primary
-            rounded
-            style={{margin: 20, justifyContent: 'center'}}
-            onPress={() => props.navigation.navigate('LoginModal')}>
-            <Text uppercase={false}>Log in</Text>
-          </Button>
+            <Text style={{padding: 10}}>
+              In order to gain access to the full features of the app, please
+              log in or register for a subscription.
+            </Text>
+            <Button
+              primary
+              rounded
+              style={{margin: 20, justifyContent: 'center'}}
+              onPress={() => props.navigation.navigate('RegisterModal')}>
+              <Text uppercase={false}>Register</Text>
+            </Button>
+            <Button
+              primary
+              rounded
+              style={{margin: 20, justifyContent: 'center'}}
+              onPress={() => props.navigation.navigate('LoginModal')}>
+              <Text uppercase={false}>Log in</Text>
+            </Button>
           </>
         )}
       </Content>

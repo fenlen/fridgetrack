@@ -29,13 +29,13 @@ const RegisterModal = props => {
     try {
       await auth().createUserWithEmailAndPassword(email, password);
     } catch (e) {
-        let errorCode = e.code;
-        let errorMessage = e.message;
-        if (errorCode === 'auth/email-already-in-use') {
-            Alert.alert('Error', 'Email is alreay in use');
-        } else {
-            Alert.alert('Error', errorMessage);
-        }
+      let errorCode = e.code;
+      let errorMessage = e.message;
+      if (errorCode === 'auth/email-already-in-use') {
+        Alert.alert('Error', 'Email is already in use');
+      } else {
+        Alert.alert('Error', errorMessage);
+      }
     }
   };
   const initRegister = async () => {
@@ -58,24 +58,25 @@ const RegisterModal = props => {
       await register(email, password);
       let user = auth().currentUser;
       await firestore()
-         .collection('users')
-         .doc(user.uid)
-         .set({
-             userId: user.uid,
-             joinDate: user.metadata.creationTime,
-             email: user.email,
-             groupFridge: '',
-             colour: 'Blue',
-             font: 'Roboto',
-             size: 'Medium',
-             enableNotification1: true,
-             enableNotification2: true,
-             enableNotification3: true,
-             enableNotification4: true,
-         });
+        .collection('users')
+        .doc(user.uid)
+        .set({
+          userId: user.uid,
+          joinDate: user.metadata.creationTime,
+          email: user.email,
+          groupFridge: '',
+          accountType: 'basic',
+          colour: 'Blue',
+          font: 'Roboto',
+          size: 'Medium',
+          enableNotification1: true,
+          enableNotification2: true,
+          enableNotification3: true,
+          enableNotification4: true,
+        });
       Alert.alert('You have registered successfully');
       Global.user = user.uid;
-      props.navigation.navigate("Theme");
+      props.navigation.navigate('Theme');
     }
   };
 

@@ -37,6 +37,7 @@ import Meals from './Meals';
 import AddMealModal from './AddMealModal';
 import ViewMealModal from './ViewMealModal';
 import UpdatePasswordModal from './UpdatePasswordModal';
+import Premium from './Premium';
 import auth from '@react-native-firebase/auth';
 import storageService from '../services/storage';
 import Global from '../state/global.js';
@@ -66,25 +67,34 @@ class Theme extends React.Component {
       Global.enableNotiication2 = data['enableNotification2'];
       Global.enableNotiication3 = data['enableNotification3'];
       Global.enableNotiication4 = data['enableNotification4'];
-      await storageService.getFridgeData(data['groupFridge']).then(fridge =>(Global.groupFridge = fridge));
+      await storageService
+        .getFridgeData(data['groupFridge'])
+        .then(fridge => (Global.groupFridge = fridge));
       this.updateNotifications();
     }
 
     this.setState({loaded: true});
   }
 
-   async updateNotifications(){
-      const items = await storageService.getAll();
-      const groupItems = await storageService.getAll('',true);
-      this.notif.cancelAll();
-      for (const i in items) {
-        this.notif.scheduleNotif(parseInt(items[i].id),items[i].expDate,items[i].name);
-      }
-      for (const i in groupItems) {
-        this.notif.scheduleGroupNotif(parseInt(groupItems[i].id),groupItems[i].expDate,groupItems[i].name);
-      }
-
-   }
+  async updateNotifications() {
+    const items = await storageService.getAll();
+    const groupItems = await storageService.getAll('', true);
+    this.notif.cancelAll();
+    for (const i in items) {
+      this.notif.scheduleNotif(
+        parseInt(items[i].id),
+        items[i].expDate,
+        items[i].name,
+      );
+    }
+    for (const i in groupItems) {
+      this.notif.scheduleGroupNotif(
+        parseInt(groupItems[i].id),
+        groupItems[i].expDate,
+        groupItems[i].name,
+      );
+    }
+  }
 
   render() {
     if (this.state.loaded)
@@ -195,6 +205,9 @@ const RootStack = createStackNavigator(
     },
     UpdatePasswordModal: {
       screen: UpdatePasswordModal,
+    },
+    Premium: {
+      screen: Premium,
     },
   },
   {

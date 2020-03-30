@@ -48,21 +48,23 @@ const AddItemModal = props => {
   }, []);
 
   const getData = async () => {
-    if (params.barcode!=null) {
-        var item;
-        await Promise.all([
-            storageService.getBarcode(params.barcode)
-        ]).then(function(values) {
-            item=values[0];
-              });
-        if (item) {
-            onChangeText(item.name);
-            onChangeText2(item.quantity);
-            setPicker(item.category);
-            setPicker2(item.unit);
-        } else {
-            Alert.alert("Barcode not found, please introduce the item information.");
-        }
+    if (params.barcode != null) {
+      var item;
+      await Promise.all([storageService.getBarcode(params.barcode)]).then(
+        function(values) {
+          item = values[0];
+        },
+      );
+      if (item) {
+        onChangeText(item.name);
+        onChangeText2(item.quantity);
+        setPicker(item.category);
+        setPicker2(item.unit);
+      } else {
+        Alert.alert(
+          'Barcode not found, please introduce the item information.',
+        );
+      }
     }
     setReady(true);
   };
@@ -71,38 +73,44 @@ const AddItemModal = props => {
 
   const submit = (name, category, expDate, quantity, unit) => {
     const numbers = /^[0-9]+$/;
-    if(!name) {
-        Alert.alert("The item must have a name");
+    if (!name) {
+      Alert.alert('The item must have a name');
     } else if (!quantity) {
-        Alert.alert("Please introduce a quantity for your item");
+      Alert.alert('Please introduce a quantity for your item');
     } else if (!numbers.test(quantity)) {
-        Alert.alert("The quantity must be a number");
+      Alert.alert('The quantity must be a number');
     } else if (params.shopping) {
-        storageService.submit(name, category, expDate, quantity, unit, true);
-        params.refresh();
-        props.navigation.navigate('ShopList');
+      storageService.submit(name, category, expDate, quantity, unit, true);
+      params.refresh();
+      props.navigation.navigate('ShopList');
     } else {
-        storageService.submit(name, category, expDate, quantity, unit);
-        if (params.barcode!=null)
-            storageService.submitBarcode(name, category, params.barcode, quantity, unit);
-        props.navigation.navigate('Fridge');
+      storageService.submit(name, category, expDate, quantity, unit);
+      if (params.barcode != null)
+        storageService.submitBarcode(
+          name,
+          category,
+          params.barcode,
+          quantity,
+          unit,
+        );
+      props.navigation.navigate('Fridge');
     }
   };
   const submitUnreg = (name, category, expDate, quantity, unit) => {
     const numbers = /^[0-9]+$/;
-    if(!name) {
-        Alert.alert("The item must have a name");
+    if (!name) {
+      Alert.alert('The item must have a name');
     } else if (quantity) {
-        Alert.alert("Please introduce a quantity for your item");
+      Alert.alert('Please introduce a quantity for your item');
     } else if (!numbers.test(quantity)) {
-        Alert.alert("The quantity must be a number");
-    } else  if (params.shopping) {
-        storageService.submitUnreg(name, category, expDate, quantity, unit, true);
-        params.refresh();
-        props.navigation.navigate('ShopList');
+      Alert.alert('The quantity must be a number');
+    } else if (params.shopping) {
+      storageService.submitUnreg(name, category, expDate, quantity, unit, true);
+      params.refresh();
+      props.navigation.navigate('ShopList');
     } else {
-        storageService.submitUnreg(name, category, expDate, quantity, unit);
-        props.navigation.navigate('Fridge');
+      storageService.submitUnreg(name, category, expDate, quantity, unit);
+      props.navigation.navigate('Fridge');
     }
   };
 
@@ -134,7 +142,9 @@ const AddItemModal = props => {
     <Container>
       <Header>
         <Left>
-          <Button transparent onPress={() => props.navigation.navigate('Fridge')}>
+          <Button
+            transparent
+            onPress={() => props.navigation.navigate('Fridge')}>
             <Icon name="arrow-back" />
           </Button>
         </Left>
@@ -142,106 +152,112 @@ const AddItemModal = props => {
           <Title>Add an item</Title>
         </Body>
       </Header>
-      {!ready && (<Content/>)}
+      {!ready && <Content />}
       {ready && (
-      <Content padder>
-        <Form>
-          <Item rounded>
-            <Input
-              placeholder={'Item name'}
-              onChangeText={name => onChangeText(name)}
-              value={name}
-            />
-          </Item>
-          <Grid>
-            <Row>
-              <Col>
-                <Item rounded>
-                  <Input
-                    placeholder={'Quantity'}
-                    keyboardType="numeric"
-                    onChangeText={quantity => onChangeText2(quantity)}
-                    value={quantity}
-                  />
-                </Item>
-              </Col>
-              <Col>
-                <Picker
-                  mode="dropdown"
-                  selectedValue={pickerUnits}
-                  onValueChange={itemValue => setPicker2(itemValue)}>
-                  <Picker.Item label="g" value="g" />
-                  <Picker.Item label="ml" value="ml" />
-                  <Picker.Item label="l" value="l" />
-                  <Picker.Item label="pcs" value="pcs" />
-                </Picker>
-              </Col>
-            </Row>
-            <Row>
-              <Col style={{justifyContent: 'center', flex: 1}}>
-                <Text>Category:</Text>
-              </Col>
-              <Col>
-                <Picker
-                  mode="dropdown"
-                  selectedValue={pickerItems}
-                  onValueChange={itemValue => setPicker(itemValue)}>
-                  <Picker.Item label="Dairy" value="Dairy" />
-                  <Picker.Item label="Vegetable" value="Vegetable" />
-                  <Picker.Item label="Fruit" value="Fruit" />
-                  <Picker.Item label="Grain" value="Grain" />
-                  <Picker.Item label="Meat" value="Meat" />
-                </Picker>
-              </Col>
-            </Row>
-            {!params.shopping && ( //translates to if params.shopping is false do the part after &&
-              <>
-                <Row>
-                  <Col style={{justifyContent: 'center'}}>
-                    <Text>Use by/Best by: {formattedDate()}</Text>
-                  </Col>
-                  <Col>
-                    <Button
-                      primary
-                      rounded
-                      style={{justifyContent: 'center'}}
-                      onPress={() => showDatePicker()}>
-                      <Text uppercase={false}>Change</Text>
-                    </Button>
-                  </Col>
-                </Row>
-                {logged && (
-                  <Row style={{justifyContent: 'center'}}>
-                    <Button
-                      rounded
-                      primary
-                      style={{margin: 20, flex: 0.7, justifyContent: 'center'}}
-                      onPress={() => props.navigation.navigate('Barcode',params)}>
-                      <Text uppercase={false}>Scan barcode</Text>
-                    </Button>
+        <Content padder>
+          <Form>
+            <Item rounded>
+              <Input
+                placeholder={'Item name'}
+                onChangeText={name => onChangeText(name)}
+                value={name}
+              />
+            </Item>
+            <Grid>
+              <Row>
+                <Col>
+                  <Item rounded>
+                    <Input
+                      placeholder={'Quantity'}
+                      keyboardType="numeric"
+                      onChangeText={quantity => onChangeText2(quantity)}
+                      value={quantity}
+                    />
+                  </Item>
+                </Col>
+                <Col>
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={pickerUnits}
+                    onValueChange={itemValue => setPicker2(itemValue)}>
+                    <Picker.Item label="g" value="g" />
+                    <Picker.Item label="ml" value="ml" />
+                    <Picker.Item label="l" value="l" />
+                    <Picker.Item label="pcs" value="pcs" />
+                  </Picker>
+                </Col>
+              </Row>
+              <Row>
+                <Col style={{justifyContent: 'center', flex: 1}}>
+                  <Text>Category:</Text>
+                </Col>
+                <Col>
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={pickerItems}
+                    onValueChange={itemValue => setPicker(itemValue)}>
+                    <Picker.Item label="Dairy" value="Dairy" />
+                    <Picker.Item label="Vegetable" value="Vegetable" />
+                    <Picker.Item label="Fruit" value="Fruit" />
+                    <Picker.Item label="Grain" value="Grain" />
+                    <Picker.Item label="Meat" value="Meat" />
+                  </Picker>
+                </Col>
+              </Row>
+              {!params.shopping && ( //translates to if params.shopping is false do the part after &&
+                <>
+                  <Row>
+                    <Col style={{justifyContent: 'center'}}>
+                      <Text>Use by/Best by: {formattedDate()}</Text>
+                    </Col>
+                    <Col>
+                      <Button
+                        primary
+                        rounded
+                        style={{justifyContent: 'center'}}
+                        onPress={() => showDatePicker()}>
+                        <Text uppercase={false}>Change</Text>
+                      </Button>
+                    </Col>
                   </Row>
-                )}
-              </>
-            )}
-          </Grid>
-        </Form>
-        {show && (
-          <DateTimePicker
-            value={dateState}
-            minimumDate={dateState}
-            maximumDate={
-              new Date(
-                dateState.getFullYear() + 1,
-                dateState.getMonth(),
-                dateState.getDate(),
-              )
-            }
-            mode={mode}
-            display="default"
-            onChange={(event, date) => setDate(event, date)}
-          />
-        )}
-      </Content>
+                  {logged && (
+                    <Row style={{justifyContent: 'center'}}>
+                      <Button
+                        rounded
+                        primary
+                        style={{
+                          margin: 20,
+                          flex: 0.7,
+                          justifyContent: 'center',
+                        }}
+                        onPress={() =>
+                          props.navigation.navigate('Barcode', params)
+                        }>
+                        <Text uppercase={false}>Scan barcode</Text>
+                      </Button>
+                    </Row>
+                  )}
+                </>
+              )}
+            </Grid>
+          </Form>
+          {show && (
+            <DateTimePicker
+              value={dateState}
+              minimumDate={dateState}
+              maximumDate={
+                new Date(
+                  dateState.getFullYear() + 1,
+                  dateState.getMonth(),
+                  dateState.getDate(),
+                )
+              }
+              mode={mode}
+              display="default"
+              onChange={(event, date) => setDate(event, date)}
+            />
+          )}
+        </Content>
       )}
       <Footer>
         {logged && (
@@ -250,13 +266,7 @@ const AddItemModal = props => {
             full
             title="Add item"
             onPress={() => {
-              submit(
-                name,
-                pickerItems,
-                formattedDate(),
-                quantity,
-                pickerUnits,
-              );
+              submit(name, pickerItems, formattedDate(), quantity, pickerUnits);
             }}>
             <Title>Add item</Title>
           </Button>
