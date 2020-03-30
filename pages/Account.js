@@ -107,8 +107,8 @@ const Account = props => {
   };
 
   const logOut = async () => {
-    await auth().signOut();
     props.navigation.navigate('Theme');
+    await auth().signOut();
     Alert.alert('Logging out', "You've logged out successfuly");
     notif.cancelAll();
     setState(false);
