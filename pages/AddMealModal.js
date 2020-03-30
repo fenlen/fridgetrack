@@ -37,15 +37,18 @@ const AddMealModal = props => {
   const [dateState, setNewDate] = useState(new Date()); //set date to current date
   const [mode, setMode] = useState('date'); //mode of the date picker
   const [show, setShow] = useState(false);
-  const [items, setItems] = useState([]);
-  const [groupItems, setGroupItems] = useState([]);
-  const [recipes, setRecipes] = useState([]);
   const [list, setList]= useState([]);
   const [wait, setWait]= useState(true);
+  const {params} = props.navigation.state;
 
   useEffect(  () => {
       //executes on initial component render
-      getPickerList();
+      if(!params.recipe)
+        getPickerList();
+      else
+        setWait(false);
+        setList([params.recipe]);
+        setPicker1(params.recipe);
     }, []);
 
   const getPickerList = async () => {
@@ -166,6 +169,17 @@ const AddMealModal = props => {
                         </Picker>
                      </Col>
                  </Row>
+                 {params.recipe &&(
+                 <Row style={{paddingBottom: 10}}>
+                    <Col size={1} style={{justifyContent: 'center', flex:1}}>
+                        <Text>Recipe:</Text>
+                    </Col>
+                    <Col size={2} style={{ paddingLeft:10}}>
+                        <Text>{params.recipe}</Text>
+                    </Col>
+                 </Row>
+                 )}
+                 {!params.recipe &&(
                  <Row>
                     <Col size={1} style={{justifyContent: 'center', flex:1}}>
                         <Text>Recipe:</Text>
@@ -177,8 +191,9 @@ const AddMealModal = props => {
                           onValueChange={itemValue => setPicker1(itemValue)}>
                           {list}
                         </Picker>
-                     </Col>
+                    </Col>
                  </Row>
+                 )}
                  <Row>
                       <Col style={{justifyContent: 'center'}}>
                             <Text>Scheduled date: {formattedDate()}</Text>

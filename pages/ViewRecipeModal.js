@@ -44,6 +44,8 @@ const getThumbnail = (category) =>{
 const ViewRecipeModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
+  console.log(item.favorite);
+  const [fav,setFav] = useState(item.favorite);
 
   const removeRecipe = id => {
     storageService.removeRecipe(id);
@@ -53,6 +55,7 @@ const ViewRecipeModal = props => {
   const toggleFavorite = (item) =>{
     storageService.toggleFavorite(item.id, item.favorite);
     props.navigation.navigate('ViewRecipeModal', {item: item});
+    setFav(!fav);
   };
 
   const formatFav = (value) =>{
@@ -100,7 +103,7 @@ const ViewRecipeModal = props => {
             <Body>
               <H1>{item.name}</H1>
               <Text numberOfLines={1} note>{item.level}</Text>
-              <Text numberOfLines={1} note>{formatFav(item.favorite)}</Text>
+              <Text numberOfLines={1} note>{formatFav(fav)}</Text>
             </Body>
           </Row>
           <Row style={{padding: 10}}>
@@ -125,7 +128,7 @@ const ViewRecipeModal = props => {
           <Row style={{padding: 10}}>
             <Text>{item.method}</Text>
           </Row>
-          {item.favorite &&(
+          {fav &&(
           <Row style={{padding: 10}}>
             <Col>
               <Button
@@ -138,7 +141,7 @@ const ViewRecipeModal = props => {
             </Col>
           </Row>
           )}
-          {!item.favorite &&(
+          {!fav &&(
           <Row style={{padding: 10}}>
             <Col>
               <Button
@@ -159,6 +162,17 @@ const ViewRecipeModal = props => {
                 style={{margin: 20, marginTop:0, justifyContent: 'center'}}
                 onPress={() => removeRecipe(item.id)}>
                 <Text uppercase={false}>Remove</Text>
+              </Button>
+            </Col>
+          </Row>
+          <Row style={{padding: 10}}>
+            <Col>
+              <Button
+                rounded
+                primary
+                style={{margin: 20, marginTop:0, justifyContent: 'center'}}
+                onPress={() => props.navigation.navigate('AddMealModal', {recipe: item.name})}>
+                <Text uppercase={false}>Use for meal</Text>
               </Button>
             </Col>
           </Row>
