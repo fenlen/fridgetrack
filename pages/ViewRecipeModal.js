@@ -44,7 +44,8 @@ const getThumbnail = (category) =>{
 const ViewRecipeModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
-  const [fav,setFav] = useState(item.favourite);
+  console.log(item.favorite);
+  const [fav,setFav] = useState(item.favorite);
 
   const removeRecipe = id => {
     storageService.removeRecipe(id);
