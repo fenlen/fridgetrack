@@ -190,20 +190,16 @@ const Account = props => {
                 <Text>Notification settings</Text>
               </Left>
             </ListItem>
-            {userData.accountType === 'basic' && (
-              <ListItem onPress={() => props.navigation.navigate('Premium')}>
-                <Left>
-                  <Text>Premium</Text>
-                </Left>
-              </ListItem>
-            )}
-            {userData.accountType !== 'basic' && (
-              <ListItem onPress={() => props.navigation.navigate('GroupModal')}>
-                <Left>
-                  <Text>Group settings</Text>
-                </Left>
-              </ListItem>
-            )}
+            <ListItem onPress={() => props.navigation.navigate('Premium')}>
+              <Left>
+                <Text>Premium</Text>
+              </Left>
+            </ListItem>
+            <ListItem onPress={() => props.navigation.navigate('GroupModal')}>
+              <Left>
+                <Text>Group settings</Text>
+              </Left>
+            </ListItem>
             <Button
               primary
               rounded
@@ -214,14 +210,19 @@ const Account = props => {
             <Button
               primary
               rounded
-              style={{margin: 20, marginTop:0, justifyContent: 'center'}}
-              onPress={() => props.navigation.navigate('UpdateDetailsModal',{name: userData.name, email: user.email})}>
+              style={{margin: 20, marginTop: 0, justifyContent: 'center'}}
+              onPress={() =>
+                props.navigation.navigate('UpdateDetailsModal', {
+                  name: userData.name,
+                  email: user.email,
+                })
+              }>
               <Text uppercase={false}>Update Details</Text>
             </Button>
             <Button
               primary
               rounded
-              style={{margin: 20, marginTop:0, justifyContent: 'center'}}
+              style={{margin: 20, marginTop: 0, justifyContent: 'center'}}
               onPress={() => props.navigation.navigate('UpdatePasswordModal')}>
               <Text uppercase={false}>Update Password</Text>
             </Button>
@@ -243,7 +244,7 @@ const Account = props => {
             <Button
               primary
               rounded
-              style={{margin: 20, marginTop:0, justifyContent: 'center'}}
+              style={{margin: 20, marginTop: 0, justifyContent: 'center'}}
               onPress={() => props.navigation.navigate('LoginModal')}>
               <Text uppercase={false}>Log in</Text>
             </Button>

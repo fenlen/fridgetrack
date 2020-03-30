@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore, {firebase} from '@react-native-firebase/firestore';
-import storage from '../services/storage';
+import {CreditCardInput} from 'react-native-credit-card-input';
 
 import {
   Container,
@@ -21,15 +21,7 @@ import {
 } from 'native-base';
 const Premium = props => {
   const user = firebase.auth().currentUser;
-
-  const upgradeAccount = async () => {
-    await firebase
-      .firestore()
-      .collection('users')
-      .doc(user.uid)
-      .update({accountType: 'premium'});
-    props.navigation.goBack();
-  };
+  const creditCardHandler = () => {};
   return (
     <Container>
       <Header>
@@ -44,9 +36,10 @@ const Premium = props => {
         <Right />
       </Header>
       <Content>
-        <Button primary rounded onPress={() => upgradeAccount()}>
-          <Text uppercase={false}>Upgrade your account</Text>
-        </Button>
+        <CreditCardInput
+          requiresName={true}
+          onChange={() => creditCardHandler()}
+        />
       </Content>
     </Container>
   );

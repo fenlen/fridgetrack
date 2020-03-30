@@ -19,13 +19,13 @@ import {
   Input,
 } from 'native-base';
 import Global from '../state/global';
+import {CreditCardInput} from 'react-native-credit-card-input';
 
 const RegisterModal = props => {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
   const [confirmPass, onChangeConfirm] = useState('');
   const [name, onChangeName] = useState('');
-
 
   const register = async (email, password) => {
     try {
@@ -121,6 +121,7 @@ const RegisterModal = props => {
             />
           </Item>
         </Form>
+        <CreditCardInput requiresName={true} onChange={() => {}} />
         <Button
           rounded
           style={{margin: 15, marginTop: 50, justifyContent: 'center'}}
