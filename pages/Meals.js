@@ -51,7 +51,7 @@ const Meals = props => {
     refresh(search);
   };
 
-  const refresh = (search) => {
+  const refresh = search => {
     //force component rerender
     storageService.getAllMeal(search).then(itemList => setItems(itemList));
   };
@@ -65,7 +65,14 @@ const Meals = props => {
           </Button>
         </Left>
         <Item>
-          <Input placeholder="All your meals" value={search} onChangeText={name => {onChangeText(name); refresh(name);}}/>
+          <Input
+            placeholder="All your meals"
+            value={search}
+            onChangeText={name => {
+              onChangeText(name);
+              refresh(name);
+            }}
+          />
           <Icon name="search" />
         </Item>
         <Button transparent onPress={() => refresh()}>
@@ -79,10 +86,7 @@ const Meals = props => {
             onPress={() =>
               props.navigation.navigate('ViewMealModal', {item: item})
             }>
-            <MealItem
-              type={item.type}
-              date={item.date}
-            />
+            <MealItem type={item.type} date={item.date} />
           </TouchableNativeFeedback>
         )}
         keyExtractor={item => item.id}

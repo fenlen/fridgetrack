@@ -167,14 +167,6 @@ const Account = props => {
                 <Text>{formattedDate(user.metadata.creationTime)}</Text>
               </Body>
             </ListItem>
-            <ListItem>
-              <Left>
-                <Text>Account type</Text>
-              </Left>
-              <Body>
-                <Text>{userData.accountType}</Text>
-              </Body>
-            </ListItem>
             <Separator bordered>
               <Text>Preferences</Text>
             </Separator>
@@ -192,7 +184,7 @@ const Account = props => {
             </ListItem>
             <ListItem onPress={() => props.navigation.navigate('Premium')}>
               <Left>
-                <Text>Premium</Text>
+                <Text>Change your card details</Text>
               </Left>
             </ListItem>
             <ListItem onPress={() => props.navigation.navigate('GroupModal')}>

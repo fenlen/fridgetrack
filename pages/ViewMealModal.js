@@ -30,15 +30,15 @@ import Plenty from '../thumbnails/plenty.png';
 import Soon from '../thumbnails/soon.png';
 import Overdue from '../thumbnails/overdue.png';
 
-const getThumbnail = (date) =>{
-    var days = getDaysLeft(date);
-      if (days > 2) {
-        return Plenty;
-      } else if (days >= 0) {
-        return Soon;
-      } else {
-        return Overdue;
-      }
+const getThumbnail = date => {
+  var days = getDaysLeft(date);
+  if (days > 2) {
+    return Plenty;
+  } else if (days >= 0) {
+    return Soon;
+  } else {
+    return Overdue;
+  }
 }
 
 const getDaysLeft = expDateString => {
@@ -54,11 +54,13 @@ const getDaysLeft = expDateString => {
 const ViewMealModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
-  const [dateState, setNewDate] = useState(new Date(
-                                               parseInt(item.date.substring(6, 8)) + 2000,
-                                               parseInt(item.date.substring(3, 5)) - 1,
-                                               parseInt(item.date.substring(0, 2)),
-                                             )); //set date to current item date
+  const [dateState, setNewDate] = useState(
+    new Date(
+      parseInt(item.date.substring(6, 8)) + 2000,
+      parseInt(item.date.substring(3, 5)) - 1,
+      parseInt(item.date.substring(0, 2)),
+    ),
+  ); //set date to current item date
   const [mode, setMode] = useState('date'); //mode of the date picker
   const [show, setShow] = useState(false);
 
@@ -71,7 +73,7 @@ const ViewMealModal = props => {
     setShow(true);
   };
 
-  const formattedDate = (date) => {
+  const formattedDate = date => {
     return (
       ('0' + date.getDate()).slice(-2) +
       '/' +
@@ -81,18 +83,16 @@ const ViewMealModal = props => {
     );
   };
 
-
   const setDate = async (event, date) => {
     date = date || dateState;
     setShow(false);
     setNewDate(date);
     firestore()
-          .collection('meals')
-          .doc(auth().currentUser.uid)
-          .collection('mealList')
-          .doc(item.id)
-          .update({date: formattedDate(date)});
-
+      .collection('meals')
+      .doc(auth().currentUser.uid)
+      .collection('mealList')
+      .doc(item.id)
+      .update({date: formattedDate(date)});
   };
 
   return (
@@ -142,27 +142,27 @@ const ViewMealModal = props => {
             </Col>
           </Row>
           <Row>
-          {getDaysLeft(item.date)<0 ?
-                <Col>
-                  <Button
-                    rounded
-                    primary
-                    style={{margin: 20, justifyContent: 'center'}}
-                    onPress={() => removeMeal(item.id)}>
-                    <Text>Skipped</Text>
-                  </Button>
-                </Col>
-          :
-                <Col>
-                  <Button
-                    rounded
-                    primary
-                    style={{margin: 20, justifyContent: 'center'}}
-                    onPress={() => removeMeal(item.id)}>
-                    <Text>Remove</Text>
-                  </Button>
-                </Col>
-          }
+            {getDaysLeft(item.date) < 0 ? (
+              <Col>
+                <Button
+                  rounded
+                  primary
+                  style={{margin: 20, justifyContent: 'center'}}
+                  onPress={() => removeMeal(item.id)}>
+                  <Text>Skipped</Text>
+                </Button>
+              </Col>
+            ) : (
+              <Col>
+                <Button
+                  rounded
+                  primary
+                  style={{margin: 20, justifyContent: 'center'}}
+                  onPress={() => removeMeal(item.id)}>
+                  <Text>Remove</Text>
+                </Button>
+              </Col>
+            )}
             <Col>
               <Button
                 rounded
@@ -175,22 +175,21 @@ const ViewMealModal = props => {
           </Row>
         </Grid>
         {show && (
-            <DateTimePicker
-              value={dateState}
-              minimumDate={new Date()}
-              maximumDate={
-                new Date(
-                  dateState.getFullYear() + 1,
-                  dateState.getMonth(),
-                  dateState.getDate(),
-                )
-              }
-              mode={mode}
-              display="default"
-              onChange={(event, date) => setDate(event, date)}
-            />
+          <DateTimePicker
+            value={dateState}
+            minimumDate={new Date()}
+            maximumDate={
+              new Date(
+                dateState.getFullYear() + 1,
+                dateState.getMonth(),
+                dateState.getDate(),
+              )
+            }
+            mode={mode}
+            display="default"
+            onChange={(event, date) => setDate(event, date)}
+          />
         )}
-
       </Content>
     </Container>
   );
