@@ -111,7 +111,6 @@ const AddMealModal = props => {
   };
 
   const setDate = (event, date) => {
-    console.log(date);
     date = date || dateState;
     setShow(false);
     setNewDate(date);
