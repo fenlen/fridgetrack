@@ -44,6 +44,19 @@ const getAll = async (search = '', group = false) => {
   return results.filter(item => item.isShop !== true);
 };
 
+const deleteAll = async (search = '', group = false) => {
+  let keys;
+  try {
+    keys = await firestore()
+      .collection('fridges')
+      .doc(await fridge(group))
+      .delete();
+  } catch (e) {
+    console.log('error: deleting all keys failed here');
+    throw e;
+  }
+};
+
 const getAllShop = async (search = '', group = false) => {
   let keys;
   try {
@@ -57,6 +70,19 @@ const getAllShop = async (search = '', group = false) => {
     throw e;
   }
   return keys.docs.map(item => item.data());
+};
+
+const deleteAllShop = async (search = '', group = false) => {
+  let keys;
+  try {
+    keys = await firestore()
+      .collection('fridges')
+      .doc(await fridge(group))
+      .delete();
+  } catch (e) {
+    console.log('error: deleting all keys failed');
+    throw e;
+  }
 };
 
 const get = async (key, targetList, group = false) => {
@@ -197,6 +223,20 @@ const getAllRecipe = async (search = '') => {
   return results;
 };
 
+const deleteAllRecipe = async (search = '') => {
+  const userId = firebase.auth().currentUser.uid;
+  let keys;
+  try {
+    keys = await firestore()
+      .collection('recipes')
+      .doc(userId)
+      .delete();
+  } catch (e) {
+    console.log('error: deleting all keys failed' + e);
+    throw e;
+  }
+};
+
 const toggleFavorite = async (id, favorite) => {
   const userId = firebase.auth().currentUser.uid;
   try {
@@ -271,6 +311,21 @@ const getAllMeal = async (search = '') => {
   }
   const results = keys.docs.map(item => item.data());
   return results;
+};
+
+const deleteAllMeal = async (search = '') => {
+  // let keys = [];
+  const userId = firebase.auth().currentUser.uid;
+  let keys;
+  try {
+    keys = await firestore()
+      .collection('meals')
+      .doc(userId)
+      .delete();
+  } catch (e) {
+    console.log('error: deleting all keys failed' + e);
+    throw e;
+  }
 };
 
 //Discarted/Eaten
@@ -482,17 +537,21 @@ const getFridgeData = async key => {
 export default {
   fridge,
   getAll,
+  deleteAll,
   getAllShop,
+  deleteAllShop,
   get,
   submit,
   remove,
   submitRecipe,
   removeRecipe,
   getAllRecipe,
+  deleteAllRecipe,
   toggleFavorite,
   submitMeal,
   removeMeal,
   getAllMeal,
+  deleteAllMeal,
   submitEaten,
   getAllEaten,
   getUserData,

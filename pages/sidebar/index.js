@@ -15,7 +15,7 @@ import {
 import styles from "./style";
 import Global from '../../state/global.js';
 
-var datas = [
+const datasreg = [
   {
     name: "Personal",
     route: "Fridge",
@@ -48,7 +48,7 @@ var datas = [
   }
 ];
 
-const datasUnreg = [
+const datasunreg = [
   {
     name: "Personal",
     route: "Fridge",
@@ -56,12 +56,14 @@ const datasUnreg = [
     prop: Global.user.fridge,
   },
   {
-    name: "Account",
+    name: "Log in/Register",
     route: "Account",
     icon: "settings",
     prop: null,
   }
 ];
+
+var datas = [];
 
 class SideBar extends Component {
   constructor(props) {
@@ -69,13 +71,15 @@ class SideBar extends Component {
     this.state = {
       shadowOffsetWidth: 1,
       shadowRadius: 4,
-      logged: false
     }
   };
 
   componentDidMount() {
-    if (auth().currentUser == null)
-        datas=datasUnreg;
+    datas=[];
+    if (auth().currentUser != null)
+        datas=datasreg;
+    else
+        datas=datasunreg;
     };
 
   redirect(destination, fridge) {

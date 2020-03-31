@@ -22,6 +22,9 @@ import {
 const Premium = props => {
   const user = firebase.auth().currentUser;
   const creditCardHandler = () => {};
+  const updateCard = () => {
+    props.navigation.goBack();
+  }
   return (
     <Container>
       <Header>
@@ -35,11 +38,17 @@ const Premium = props => {
         </Body>
         <Right />
       </Header>
-      <Content>
+      <Content style={{paddingTop:20}}>
         <CreditCardInput
           requiresName={true}
           onChange={() => creditCardHandler()}
         />
+        <Button
+          rounded
+          style={{margin: 15, marginTop: 50, justifyContent: 'center'}}
+          onPress={() => updateCard()}>
+          <Text uppercase={false}>Update</Text>
+        </Button>
       </Content>
     </Container>
   );

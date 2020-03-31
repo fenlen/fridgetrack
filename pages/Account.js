@@ -31,10 +31,8 @@ const Account = props => {
   const notif = new NotifService();
 
   const wrapper = () => {
-    // console.log(storage.getUserData());
     storage.getUserData().then(result => {
       setUserData(result.data());
-      console.log(result.data());
     });
   };
   useEffect(() => {
@@ -46,7 +44,6 @@ const Account = props => {
   useFocusEffect(
     //executes on component focus
     useCallback(() => {
-      // console.log(userData.accountType);
       wrapper();
       let loggedIn;
       if (auth().currentUser !== null) {
@@ -54,53 +51,17 @@ const Account = props => {
       } else {
         loggedIn = false;
       }
-      // console.log(loggedIn, auth().currentUser);
       return () => setState(loggedIn);
     }, []),
   );
-  const JoinPrompt = () => {
-    prompt(
-      'Join a group',
-      'Please enter the group identification code (you can get this from any member of the group).',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {
-          text: 'Confirm',
-          onPress: password => console.log('Entered ' + password),
-        },
-      ],
-      {
-        type: 'numeric',
-        cancelable: false,
-        defaultValue: null,
-        placeholder: 'XXXXXX',
-      },
-    );
-  };
 
-  const CreateAlert = () => {
+  const DeleteAlert = () => {
     Alert.alert(
-      'Create a group',
-      'Are you sure you want to create a new group? Doing so will automatically remove you from your current group and add you to the newly created one.',
+      'Delete Account',
+      'Are you sure you want to delete your account? All your items and recipes will be lost.',
       [
         {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
-        {text: 'Yes', onPress: () => console.log('Yes Pressed')},
-      ],
-      {cancelable: false},
-    );
-  };
-
-  const LeaveAlert = () => {
-    Alert.alert(
-      'Leave a group',
-      'Are you sure you want to leave the group? Once you leave you can rejoin at any time.',
-      [
-        {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
-        {text: 'Yes', onPress: () => console.log('Yes Pressed')},
+        {text: 'Yes', onPress: () => props.navigation.navigate('DeleteModal')},
       ],
       {cancelable: false},
     );
@@ -182,11 +143,6 @@ const Account = props => {
                 <Text>Notification settings</Text>
               </Left>
             </ListItem>
-            <ListItem onPress={() => props.navigation.navigate('Premium')}>
-              <Left>
-                <Text>Change your card details</Text>
-              </Left>
-            </ListItem>
             <ListItem onPress={() => props.navigation.navigate('GroupModal')}>
               <Left>
                 <Text>Group settings</Text>
@@ -196,8 +152,8 @@ const Account = props => {
               primary
               rounded
               style={{margin: 20, justifyContent: 'center'}}
-              onPress={() => logOut()}>
-              <Text uppercase={false}>Log out</Text>
+              onPress={() => props.navigation.navigate('Premium')}>
+              <Text uppercase={false}>Update Payment Details</Text>
             </Button>
             <Button
               primary
@@ -209,7 +165,7 @@ const Account = props => {
                   email: user.email,
                 })
               }>
-              <Text uppercase={false}>Update Details</Text>
+              <Text uppercase={false}>Update Personal Details</Text>
             </Button>
             <Button
               primary
@@ -217,6 +173,20 @@ const Account = props => {
               style={{margin: 20, marginTop: 0, justifyContent: 'center'}}
               onPress={() => props.navigation.navigate('UpdatePasswordModal')}>
               <Text uppercase={false}>Update Password</Text>
+            </Button>
+            <Button
+              primary
+              rounded
+              style={{margin: 20, marginTop: 0, justifyContent: 'center'}}
+              onPress={() => logOut()}>
+              <Text uppercase={false}>Log out</Text>
+            </Button>
+            <Button
+              primary
+              rounded
+              style={{margin: 20, marginTop: 0, justifyContent: 'center'}}
+              onPress={() => DeleteAlert()}>
+              <Text uppercase={false}>Delete Account</Text>
             </Button>
           </>
         )}
