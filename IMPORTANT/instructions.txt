@@ -1,0 +1,1 @@
+after running npm install or equivalent please copy these files to node_modules\react-native-credit-card-input\src . They contain updated styling for the card input component.
