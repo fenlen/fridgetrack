@@ -44,7 +44,7 @@ const GroupFridge = props => {
   useFocusEffect(
     //executes on component focus
     useCallback(() => {
-      if (!groupFridge === '') {
+      if (!groupFridge == '') {
         const rerender = storageService
           .getAll(search, true)
           .then(itemList => setItems(itemList));
@@ -112,7 +112,7 @@ const GroupFridge = props => {
           </Footer>
         </>
       )}
-      {!groupFridge === '' && (
+      {!groupFridge == '' && (
         <>
           <Header searchBar>
             <Left style={{flex: 0, width: 50}}>

@@ -62,16 +62,17 @@ class Theme extends React.Component {
     if (auth().currentUser !== null) {
       let data = {};
       await storageService.getUserData().then(dataList => (data = dataList));
-      Global.colour = data['colour'];
-      Global.size = data['size'];
-      Global.font = data['font'];
-      Global.enableNotiication1 = data['enableNotification1'];
-      Global.enableNotiication2 = data['enableNotification2'];
-      Global.enableNotiication3 = data['enableNotification3'];
-      Global.enableNotiication4 = data['enableNotification4'];
-      await storageService
-        .getFridgeData(data['groupFridge'])
-        .then(fridge => (Global.groupFridge = fridge));
+      Global.colour = data._data['colour'];
+      Global.size = data._data['size'];
+      Global.font = data._data['font'];
+      Global.enableNotiication1 = data._data['enableNotification1'];
+      Global.enableNotiication2 = data._data['enableNotification2'];
+      Global.enableNotiication3 = data._data['enableNotification3'];
+      Global.enableNotiication4 = data._data['enableNotification4'];
+      if (!data._data['groupFridge']=='')
+          await storageService
+            .getFridgeData(data._data['groupFridge'])
+            .then(fridge => (Global.groupFridge = fridge));
       this.updateNotifications();
     }
 

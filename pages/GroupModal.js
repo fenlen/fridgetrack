@@ -29,7 +29,7 @@ const GroupModal = props => {
   const [ready, serReady] = useState(true);
 
   const createGroup = async () => {
-    if (groupFridge) {
+    if (!groupFridge=='') {
       await leaveGroup();
     }
     let docId;
@@ -54,20 +54,25 @@ const GroupModal = props => {
   };
 
   const joinGroup = async docId => {
-    await firebase
-      .firestore()
-      .collection('users')
-      .doc(user.uid)
-      .update({groupFridge: docId});
+    try{
     await firebase
       .firestore()
       .collection('fridges')
       .doc(docId)
       .update({members: firebase.firestore.FieldValue.arrayUnion(user.email)});
+     } catch (e) {
+       Alert.alert('The fridge was not found');
+         throw e;
+     }
+    await firebase
+      .firestore()
+      .collection('users')
+      .doc(user.uid)
+      .update({groupFridge: docId});
     await storageService
       .getFridgeData(docId)
       .then(fridge => (Global.groupFridge = fridge));
-    setFridge(global.groupFridge);
+    setFridge(Global.groupFridge);
   };
 
   const leaveGroup = async () => {
@@ -91,10 +96,8 @@ const GroupModal = props => {
       .collection('fridges')
       .doc(code)
       .update({members: firebase.firestore.FieldValue.arrayRemove(user.email)});
-    await storageService
-      .getFridgeData(code)
-      .then(fridge => (Global.groupFridge = fridge));
-    setFridge(global.groupFridge);
+    Global.groupFridge='';
+    setFridge(Global.groupFridge);
   };
   const JoinPrompt = () => {
     prompt(
@@ -186,7 +189,7 @@ const GroupModal = props => {
       {!ready && <Content />}
       {ready && (
         <Content>
-          {groupFridge && (
+          {!groupFridge == '' && (
             <>
               <Separator bordered>
                 <Text>Group Details</Text>
@@ -231,7 +234,7 @@ const GroupModal = props => {
             onPress={() => CreateAlert()}>
             <Text uppercase={false}>Create a new group</Text>
           </Button>
-          {groupFridge && (
+          {!groupFridge=='' && (
             <>
               <Button
                 primary
