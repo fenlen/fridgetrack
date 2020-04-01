@@ -27,7 +27,7 @@ import Pie from 'react-native-pie';
 const Statistics = props => {
 
   const [results, setResults] = useState();
-
+// not sure if this is what i am supposed to use
   useEffect(() => {
     if (auth().currentUser != null) {
       storageService.getAllEaten().then(resultList => setResults(resultList));
