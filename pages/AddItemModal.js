@@ -244,7 +244,7 @@ const AddItemModal = props => {
           {show && (
             <DateTimePicker
               value={dateState}
-              minimumDate={dateState}
+              minimumDate={new Date()}
               maximumDate={
                 new Date(
                   dateState.getFullYear() + 1,
