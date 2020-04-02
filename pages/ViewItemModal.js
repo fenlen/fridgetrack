@@ -245,7 +245,7 @@ const ViewItemModal = props => {
                 primary
                 style={{margin: 20, justifyContent: 'center'}}
                 onPress={() => removeItem(item.id, false)}>
-                <Text uppercase={false}>Discarted</Text>
+                <Text uppercase={false}>Discarded</Text>
               </Button>
             </Col>
           </Row>
