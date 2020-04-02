@@ -100,7 +100,7 @@ const AddItemModal = props => {
     const numbers = /^[0-9]+$/;
     if (!name) {
       Alert.alert('The item must have a name');
-    } else if (quantity) {
+    } else if (!quantity) {
       Alert.alert('Please introduce a quantity for your item');
     } else if (!numbers.test(quantity)) {
       Alert.alert('The quantity must be a number');
