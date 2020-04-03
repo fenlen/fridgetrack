@@ -50,7 +50,7 @@ export default class NotifService {
     if (Global.enableNotification2)
         if(days>-1)
         PushNotification.localNotificationSchedule({//expiration notification
-          date: new Date(new Date(date).getTime()+(86400 *1000)), //the day of expiration
+          date: new Date(new Date(date)+(86400 *1000)), //the day of expiration
           id: now.getTime(),
           bigText: name+" has expired, let us know what happened to it.",
           vibration: 300,
@@ -94,7 +94,7 @@ export default class NotifService {
     if (Global.enableNotification4)
         if(days>-1)
         PushNotification.localNotificationSchedule({//expiration notification
-          date: new Date(new Date(date).getTime()+(86400 *1000)), //the day of expiration
+          date: new Date(new Date(date)+(86400 *1000)), //the day of expiration
           id: now.getTime(),
           bigText: name+" has expired, let us know what happened to it.",
           vibration: 300,
