@@ -66,16 +66,16 @@ const AddRecipeModal = props => {
   const submitRecipe = (name, level, duration, inputFields, method) => {
     var ok = true;
     for (const i in inputFields)
-        if(!inputFields[i].ingredient || !inputFields[i].quantity)
+        if(!inputFields[i].ingredient || !inputFields[i].quantity || inputFields[i].quantity=='0' || inputFields[i].quantity.startsWith("0 ") || inputFields[i].quantity.includes(" 0") || inputFields[i].quantity.includes(" 0 "))
             ok=false;
     if(!name) {
         Alert.alert("The recipe must have a name");
     } else if (!duration) {
         Alert.alert("Please enter the recipe duration");
-    } else if (duration=='0') {
+    } else if (duration=='0' || duration.startsWith("0 ") || duration.includes(" 0") || duration.includes(" 0 ")) {
         Alert.alert("Duration can not be 0");
     } else if (!ok) {
-        Alert.alert("Something is missing from your ingredient list please check again");
+        Alert.alert("Something is missing or wrong in your ingredient list please check again");
     } else if (!method) {
         console.log(inputFields)
         Alert.alert("Please enter the steps for this recipe");
