@@ -303,9 +303,13 @@ const ViewItemModal = props => {
               onCancel={() => {setVisible(false); setDisc(false);}
               }
               onSubmit={qty => {
-                if( parseInt(item.quantity)<parseInt(qty))
+                if( parseInt(item.quantity)<parseInt(qty)) {
                     Alert.alert("You can't have more left than you began with.");
-                else {
+                } else if (qty=="0") {
+                    setVisible(false);
+                    removeItem(item.id, !disc);
+                    setDisc(false);
+                } else {
                     setVisible(false);
                     partRemoveItem(item.id, !disc, qty, parseInt(item.quantity)-parseInt(qty));
                     setDisc(false);

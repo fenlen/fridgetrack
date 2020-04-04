@@ -77,6 +77,8 @@ const AddItemModal = props => {
       Alert.alert('The item must have a name');
     } else if (!quantity) {
       Alert.alert('Please introduce a quantity for your item');
+    } else if (quantity=="0") {
+      Alert.alert('Quantity can not be 0');
     } else if (!numbers.test(quantity)) {
       Alert.alert('The quantity must be a number');
     } else if (params.shopping) {
@@ -104,6 +106,8 @@ const AddItemModal = props => {
       Alert.alert('Please introduce a quantity for your item');
     } else if (!numbers.test(quantity)) {
       Alert.alert('The quantity must be a number');
+    } else if (quantity=="0") {
+        Alert.alert('Quantity can not be 0');
     } else if (params.shopping) {
       storageService.submitUnreg(name, category, expDate, quantity, unit, true);
       params.refresh();

@@ -72,8 +72,10 @@ const AddRecipeModal = props => {
         Alert.alert("The recipe must have a name");
     } else if (!duration) {
         Alert.alert("Please enter the recipe duration");
+    } else if (duration=='0') {
+        Alert.alert("Duration can not be 0");
     } else if (!ok) {
-        Alert.alert("Something is missing from your ingredient list please check again.");
+        Alert.alert("Something is missing from your ingredient list please check again");
     } else if (!method) {
         console.log(inputFields)
         Alert.alert("Please enter the steps for this recipe");
@@ -185,6 +187,7 @@ const AddRecipeModal = props => {
                     </Col>
                     <Col/>
                     <Col>
+                        {inputFields.length!=1 && (
                         <Button
                            primary
                            rounded
@@ -193,6 +196,7 @@ const AddRecipeModal = props => {
                         >
                            <Icon name="remove"/>
                         </Button>
+                        )}
                     </Col>
                     <Col/>
                  </Row>

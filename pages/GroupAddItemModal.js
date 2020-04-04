@@ -1,5 +1,6 @@
 // /* eslint-disable no-undef */
 import React, {useState, useEffect} from 'react';
+import {Alert} from 'react-native';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
@@ -72,6 +73,8 @@ const GroupAddItemModal = props => {
         Alert.alert("Please introduce a quantity for your item");
     } else if (!numbers.test(quantity)) {
         Alert.alert("The quantity must be a number");
+    } else if (quantity=="0") {
+        Alert.alert('Quantity can not be 0');
     } else if (params.shopping) {
       storageService.submit(
         name,
