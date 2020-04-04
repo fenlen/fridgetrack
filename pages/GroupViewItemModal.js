@@ -285,7 +285,10 @@ const GroupViewItemModal = props => {
               onCancel={() => {setVisible(false); setDisc(false);}
               }
               onSubmit={qty => {
-                if( parseInt(item.quantity)<parseInt(qty)) {
+                const numbers = /^[0-9]+$/;
+                if (!numbers.test(qty)) {
+                  Alert.alert('The quantity must be a positive number');
+                } else if( parseInt(item.quantity)<parseInt(qty)) {
                     Alert.alert("You can't have more left than you began with.");
                 } else if (qty=="0") {
                     setVisible(false);

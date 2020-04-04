@@ -72,7 +72,7 @@ const GroupAddItemModal = props => {
     } else if (!quantity) {
         Alert.alert("Please introduce a quantity for your item");
     } else if (!numbers.test(quantity)) {
-        Alert.alert("The quantity must be a number");
+        Alert.alert("The quantity must be a positive number");
     } else if (quantity=="0") {
         Alert.alert('Quantity can not be 0');
     } else if (params.shopping) {
