@@ -189,6 +189,11 @@ const GroupAddItemModal = props => {
                   <Picker.Item label="Fruit" value="Fruit" />
                   <Picker.Item label="Grain" value="Grain" />
                   <Picker.Item label="Meat" value="Meat" />
+                  <Picker.Item label="Drink" value="Drink" />
+                  <Picker.Item label="Sauce" value="Sauce" />
+                  <Picker.Item label="Ready Meal" value="Ready Meal" />
+                  <Picker.Item label="Cooked Meal" value="Cooked Meal" />
+                  <Picker.Item label="Other" value="Other" />
                 </Picker>
               </Col>
             </Row>

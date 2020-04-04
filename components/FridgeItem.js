@@ -5,6 +5,11 @@ import Vegetable from '../thumbnails/Vegetable.png';
 import Fruit from '../thumbnails/Fruit.png';
 import Grain from '../thumbnails/Grain.png';
 import Meat from '../thumbnails/Meat.png';
+import Drink from '../thumbnails/Drink.png';
+import Sauce from '../thumbnails/Sauce.png';
+import ReadyMeal from '../thumbnails/ReadyMeal.png';
+import CookedMeal from '../thumbnails/CookedMeal.png';
+import Other from '../thumbnails/Other.png';
 
 const getThumbnail = (category) =>{
     switch (category) {
@@ -18,6 +23,16 @@ const getThumbnail = (category) =>{
         return Grain;
       case "Meat":
         return Meat;
+    case 'Drink':
+      return Drink;
+    case 'Sauce':
+      return Sauce;
+    case 'Ready Meal':
+      return ReadyMeal;
+    case 'Cooked Meal':
+      return CookedMeal;
+    case 'Other':
+      return Other;
     }
 }
 
