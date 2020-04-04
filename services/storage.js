@@ -156,6 +156,20 @@ const remove = async (id, targetList, group = false) => {
   }
 };
 
+const update = async (id, quantity, targetList, group = false) => {
+  try {
+    await firestore()
+      .collection('fridges')
+      .doc(await fridge(group))
+      .collection(targetList)
+      .doc(id)
+      .update({"quantity": quantity});
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+};
+
 //Recipes
 
 const submitRecipe = async (name, level, duration, ingredients, method) => {
@@ -344,7 +358,7 @@ const submitEaten = async (name, quantity, eaten = true, group = false) => {
   try {
     await firestore()
       .collection('disc')
-      .doc(userId)
+      .doc(await fridge(group))
       .collection(targetList)
       .doc(newId.toString())
       .set(newItem);
@@ -354,13 +368,13 @@ const submitEaten = async (name, quantity, eaten = true, group = false) => {
   }
 };
 
-const getAllEaten = async () => {
+const getAllEaten = async (group=false) => {
   let keys;
   const userId = firebase.auth().currentUser.uid;
   try {
     keys = await firestore()
       .collection('disc')
-      .doc(userId)
+      .doc(await fridge(group))
       .collection('discList')
       .get();
   } catch (e) {
@@ -543,6 +557,7 @@ export default {
   get,
   submit,
   remove,
+  update,
   submitRecipe,
   removeRecipe,
   getAllRecipe,

@@ -28,9 +28,11 @@ export default class NotifService {
           );
     const days = this.getDaysLeft(date);
     if(Global.enableNotification1) {
+        console.log(new Date(new Date(date).getTime()-(86400 * 1000)));
+        console.log(new Date(date));
         if (days>1)
             PushNotification.localNotificationSchedule({//soon notification
-              date: new Date(new Date(date)-(86400 * 1000)), // 2 days before the expiration date
+              date: new Date(new Date(date).getTime()-(86400 * 1000)), // 1 day before the expiration date
               id: now.getTime()-2,
               bigText: name+" is expiring tomorrow, better use it up or it will go bad.",
               vibration: 300,
@@ -39,7 +41,7 @@ export default class NotifService {
             });
         if (days>0)
         PushNotification.localNotificationSchedule({//soon notification
-          date: new Date(date), // 1 day before the expiration date
+          date: new Date(date), // the day of expiration
           id: now.getTime()-1,
           bigText: name+" is expiring today, better use it up or it will go bad.",
           vibration: 300,
@@ -48,9 +50,10 @@ export default class NotifService {
         });
     }
     if (Global.enableNotification2)
+        console.log(new Date(new Date(date).getTime()+(86400 * 1000)));
         if(days>-1)
         PushNotification.localNotificationSchedule({//expiration notification
-          date: new Date(new Date(date)+(86400 *1000)), //the day of expiration
+          date: new Date(new Date(date).getTime()+(86400 * 1000)), //the day after expiration
           id: now.getTime(),
           bigText: name+" has expired, let us know what happened to it.",
           vibration: 300,
@@ -74,7 +77,7 @@ export default class NotifService {
     if(Global.enableNotification3) {
         if (days>1)
             PushNotification.localNotificationSchedule({//soon notification
-              date: new Date(new Date(date)-(86400 * 1000)), // 2 days before the expiration date
+              date: new Date(new Date(date).getTime()-(86400 * 1000)), // 1 day before the expiration date
               id: now.getTime()-2,
               bigText: name+" is expiring tomorrow, better use it up or it will go bad.",
               vibration: 300,
@@ -83,7 +86,7 @@ export default class NotifService {
             });
         if (days>0)
         PushNotification.localNotificationSchedule({//soon notification
-          date: new Date(date), // 1 day before the expiration date
+          date: new Date(date), // the day of expiration
           id: now.getTime()-1,
           bigText: name+" is expiring today, better use it up or it will go bad.",
           vibration: 300,
@@ -94,7 +97,7 @@ export default class NotifService {
     if (Global.enableNotification4)
         if(days>-1)
         PushNotification.localNotificationSchedule({//expiration notification
-          date: new Date(new Date(date)+(86400 *1000)), //the day of expiration
+          date: new Date(new Date(date).getTime()+(86400 * 1000)), //the day after expiration
           id: now.getTime(),
           bigText: name+" has expired, let us know what happened to it.",
           vibration: 300,

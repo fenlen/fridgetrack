@@ -1,10 +1,12 @@
 // /* eslint-disable no-undef */
 import React, {useState} from 'react';
+import {Alert} from 'react-native';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
 import {createStackNavigator} from 'react-navigation-stack';
 import NotifService from '../services/NotifService';
+import Prompt from 'react-native-input-prompt';
 import {
   Container,
   Header,
@@ -109,12 +111,23 @@ const getDaysMessage = expDate => {
 const GroupViewItemModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
+  const [visible, setVisible] = useState(false);
+  const [disc, setDisc] = useState(false);
+  const [left, setLeft] = useState(item.quantity);
+
   const removeItem = (id, eaten) => {
     storageService.remove(id, 'itemList', true);
-    storageService.submitEaten(item.name, item.quantity, eaten, true);
+    storageService.submitEaten(item.name, item.quantity, eaten);
     notif.cancelNotif(id);
     props.navigation.goBack();
   };
+
+  const partRemoveItem = (id, eaten, leftQuantity, usedQuantity) => {
+    storageService.update(id, leftQuantity, 'itemList', true);
+    storageService.submitEaten(item.name, usedQuantity, eaten);
+    setLeft(leftQuantity);
+  };
+
   return (
     <Container>
       <Header>
@@ -170,7 +183,7 @@ const GroupViewItemModal = props => {
             <Col>
               <Body>
                 <Text>
-                  {item.quantity} {item.unit}
+                  {left} {item.unit}
                 </Text>
               </Body>
             </Col>
@@ -228,6 +241,42 @@ const GroupViewItemModal = props => {
               </Button>
             </Col>
           </Row>
+          <Row>
+            <Col>
+              <Button
+                rounded
+                primary
+                style={{margin: 20, justifyContent: 'center'}}
+                onPress={() => setVisible(true)}>
+                <Text uppercase={false}>Eaten some</Text>
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                rounded
+                primary
+                style={{margin: 20, justifyContent: 'center'}}
+                onPress={() => {setVisible(true); setDisc(true);}}>
+                <Text uppercase={false}>Discarded some</Text>
+              </Button>
+            </Col>
+          </Row>
+          <Prompt
+              visible={visible}
+              title="Item quantity update"
+              placeholder={"How many "+item.unit+" are left?"}
+              onCancel={() => {setVisible(false); setDisc(false);}
+              }
+              onSubmit={qty => {
+                if( parseInt(item.quantity)<parseInt(qty))
+                    Alert.alert("You can't have more left than you began with.");
+                else {
+                    setVisible(false);
+                    partRemoveItem(item.id, !disc, qty, parseInt(item.quantity)-parseInt(qty));
+                    setDisc(false);
+                }
+              }}
+          />
         </Grid>
       </Content>
     </Container>

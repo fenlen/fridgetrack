@@ -1,12 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable radix */
 import React, {useState, useEffect} from 'react';
+import {Alert} from 'react-native';
 import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
 import {createStackNavigator} from 'react-navigation-stack';
 import auth from '@react-native-firebase/auth';
 import NotifService from '../services/NotifService';
+import Prompt from 'react-native-input-prompt';
 import {
   Container,
   Header,
@@ -116,6 +118,9 @@ const ViewItemModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
   const [logged, setLogged] = useState();
+  const [visible, setVisible] = useState(false);
+  const [disc, setDisc] = useState(false);
+  const [left, setLeft] = useState(item.quantity);
 
   const notif = new NotifService();
 
@@ -134,6 +139,12 @@ const ViewItemModal = props => {
   const removeItemUnreg = (id, eaten) => {
     storageService.removeUnreg(id, 'itemList');
     props.navigation.goBack();
+  };
+
+  const partRemoveItem = (id, eaten, leftQuantity, usedQuantity) => {
+    storageService.update(id, leftQuantity, 'itemList');
+    storageService.submitEaten(item.name, usedQuantity, eaten, true);
+    setLeft(leftQuantity);
   };
   return (
     <Container>
@@ -190,7 +201,7 @@ const ViewItemModal = props => {
             <Col>
               <Body>
                 <Text>
-                  {item.quantity} {item.unit}
+                  {left} {item.unit}
                 </Text>
               </Body>
             </Col>
@@ -229,6 +240,7 @@ const ViewItemModal = props => {
             </View>
           </Row>
           {logged &&(
+          <>
           <Row>
             <Col>
               <Button
@@ -249,6 +261,43 @@ const ViewItemModal = props => {
               </Button>
             </Col>
           </Row>
+          <Row>
+            <Col>
+              <Button
+                rounded
+                primary
+                style={{margin: 20, justifyContent: 'center'}}
+                onPress={() => setVisible(true)}>
+                <Text uppercase={false}>Eaten some</Text>
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                rounded
+                primary
+                style={{margin: 20, justifyContent: 'center'}}
+                onPress={() => {setVisible(true); setDisc(true);}}>
+                <Text uppercase={false}>Discarded some</Text>
+              </Button>
+            </Col>
+          </Row>
+          <Prompt
+              visible={visible}
+              title="Item quantity update"
+              placeholder={"How many "+item.unit+" are left?"}
+              onCancel={() => {setVisible(false); setDisc(false);}
+              }
+              onSubmit={qty => {
+                if( parseInt(item.quantity)<parseInt(qty))
+                    Alert.alert("You can't have more left than you began with.");
+                else {
+                    setVisible(false);
+                    partRemoveItem(item.id, !disc, qty, parseInt(item.quantity)-parseInt(qty));
+                    setDisc(false);
+                }
+              }}
+          />
+          </>
         )}
         {!logged &&(
           <Row>
