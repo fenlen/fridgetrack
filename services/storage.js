@@ -115,7 +115,7 @@ const submit = async (
     name: name,
     category: category,
     expDate: expDate,
-    quantity: quantity,
+    quantity: parseInt(quantity).toString(),
     unit: unit,
   };
   let targetList;
@@ -307,7 +307,6 @@ const removeMeal = async id => {
 };
 
 const getAllMeal = async (search = '') => {
-  // let keys = [];
   const userId = firebase.auth().currentUser.uid;
   let keys;
   try {
@@ -328,7 +327,6 @@ const getAllMeal = async (search = '') => {
 };
 
 const deleteAllMeal = async (search = '') => {
-  // let keys = [];
   const userId = firebase.auth().currentUser.uid;
   let keys;
   try {
@@ -344,7 +342,7 @@ const deleteAllMeal = async (search = '') => {
 
 //Discarted/Eaten
 
-const submitEaten = async (name, quantity, eaten = true, group = false) => {
+const submitEaten = async (name, quantity, eaten, group) => {
   const newId = Date.now();
   const userId = firebase.auth().currentUser.uid;
   const newItem = {
@@ -370,12 +368,16 @@ const submitEaten = async (name, quantity, eaten = true, group = false) => {
 
 const getAllEaten = async (group=false) => {
   let keys;
+  let idCheck = new Date();
+  idCheck.setMonth(idCheck.getMonth()-1);
+  console.log(idCheck.getTime());
   const userId = firebase.auth().currentUser.uid;
   try {
     keys = await firestore()
       .collection('disc')
       .doc(await fridge(group))
       .collection('discList')
+      .where('id', '>', idCheck.getTime().toString())
       .get();
   } catch (e) {
     console.log('error: retrieving all keys failed' + e);

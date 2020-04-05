@@ -17,13 +17,13 @@ import Global from '../../state/global.js';
 
 const datasreg = [
   {
-    name: "Personal",
+    name: "Personal organizer",
     route: "Fridge",
     icon: "person",
     prop: Global.user.fridge,
   },
   {
-    name: "Group",
+    name: "Group organizer",
     route: "GroupFridge",
     icon: "people",
     prop: Global.user.groupFridge,

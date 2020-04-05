@@ -147,7 +147,7 @@ const ViewItemModal = props => {
 
   const removeItem = (id, eaten) => {
     storageService.remove(id, 'itemList');
-    storageService.submitEaten(item.name, item.quantity, eaten, true);
+    storageService.submitEaten(item.name, left, eaten, false);
     notif.cancelNotif(id);
     props.navigation.goBack();
   };
@@ -157,8 +157,8 @@ const ViewItemModal = props => {
   };
 
   const partRemoveItem = (id, eaten, leftQuantity, usedQuantity) => {
-    storageService.update(id, leftQuantity, 'itemList');
-    storageService.submitEaten(item.name, usedQuantity, eaten, true);
+    storageService.update(id, leftQuantity.toString(), 'itemList');
+    storageService.submitEaten(item.name, usedQuantity, eaten, false);
     setLeft(leftQuantity);
   };
   return (
@@ -306,7 +306,7 @@ const ViewItemModal = props => {
                 const numbers = /^[0-9]+$/;
                 if (!numbers.test(qty)) {
                   Alert.alert('The quantity must be a positive number');
-                } else if( parseInt(item.quantity)<parseInt(qty)) {
+                } else if( parseInt(left)<parseInt(qty)) {
                     Alert.alert("You can't have more left than you began with.");
                 } else if (qty=="0") {
                     setVisible(false);
@@ -314,7 +314,7 @@ const ViewItemModal = props => {
                     setDisc(false);
                 } else {
                     setVisible(false);
-                    partRemoveItem(item.id, !disc, qty, parseInt(item.quantity)-parseInt(qty));
+                    partRemoveItem(item.id, !disc,  parseInt(qty).toString(), parseInt(left)-parseInt(qty));
                     setDisc(false);
                 }
               }}

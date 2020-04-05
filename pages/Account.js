@@ -5,6 +5,7 @@ import Style from '../components/Style';
 import prompt from 'react-native-prompt-android';
 import auth from '@react-native-firebase/auth';
 import firestore, {firebase} from '@react-native-firebase/firestore';
+import Global from '../state/global';
 import NotifService from '../services/NotifService';
 import {
   Container,
@@ -68,8 +69,11 @@ const Account = props => {
   };
 
   const logOut = async () => {
-    props.navigation.navigate('Theme');
+    Global.colour= 'Blue';
+    Global.font= 'Roboto';
+    Global.size= 'Medium';
     await auth().signOut();
+    props.navigation.navigate('Theme');
     Alert.alert('Logging out', "You've logged out successfuly");
     notif.cancelAll();
     setState(false);
