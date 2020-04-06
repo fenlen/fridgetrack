@@ -1,3 +1,4 @@
+/** Apperance settings modal. */
 import React, {Component} from 'react';
 import {
   Container,
@@ -21,7 +22,8 @@ import auth from '@react-native-firebase/auth';
 const Item = Picker.Item;
 
 class AppearanceModal extends Component {
-  onValueChange1(value: string) {
+  onValueChange1(value) {
+    //These 3 functions ensure immediate effect when selecting different options for appearance
     Global.colour = value;
     firestore()
       .collection('users')
@@ -29,7 +31,7 @@ class AppearanceModal extends Component {
       .update({colour: value});
     this.forceUpdate();
   }
-  onValueChange2(value: string) {
+  onValueChange2(value) {
     Global.font = value;
     firestore()
       .collection('users')
@@ -37,7 +39,7 @@ class AppearanceModal extends Component {
       .update({font: value});
     this.forceUpdate();
   }
-  onValueChange3(value: string) {
+  onValueChange3(value) {
     Global.size = value;
     firestore()
       .collection('users')

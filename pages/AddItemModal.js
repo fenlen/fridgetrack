@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // /* eslint-disable no-undef */
+/** The modal that shows up when the + buton on the personal Fridge page is pressed */
 import React, {useState, useEffect} from 'react';
-import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
 import {Alert} from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
 import auth from '@react-native-firebase/auth';
 import {
   Form,
@@ -12,7 +12,6 @@ import {
   Picker,
   Button,
   Item,
-  Label,
   Input,
   Content,
   Container,
@@ -20,7 +19,6 @@ import {
   Header,
   Left,
   Body,
-  Right,
   Icon,
   Row,
   Col,
@@ -48,10 +46,11 @@ const AddItemModal = props => {
   }, []);
 
   const getData = async () => {
-    if (params.barcode != null) {
-      var item;
+    //If there has been a barcode scan, check the database if the item has an entry in there and fills out the fields with that data
+    if (params.barcode !== null) {
+      let item;
       await Promise.all([storageService.getBarcode(params.barcode)]).then(
-        function(values) {
+        values => {
           item = values[0];
         },
       );
@@ -72,12 +71,13 @@ const AddItemModal = props => {
   const params = props.navigation.state.params;
 
   const submit = (name, category, expDate, quantity, unit) => {
+    //Submits the item to the user's fridge and if it had a barcode scan but no entry add it to the barcode db
     const numbers = /^[0-9]+$/;
     if (!name) {
       Alert.alert('The item must have a name');
     } else if (!quantity) {
       Alert.alert('Please introduce a quantity for your item');
-    } else if (quantity=="0") {
+    } else if (quantity === '0') {
       Alert.alert('Quantity can not be 0');
     } else if (!numbers.test(quantity)) {
       Alert.alert('The quantity must be a number');
@@ -87,7 +87,7 @@ const AddItemModal = props => {
       props.navigation.navigate('ShopList');
     } else {
       storageService.submit(name, category, expDate, quantity, unit);
-      if (params.barcode != null)
+      if (params.barcode !== null) {
         storageService.submitBarcode(
           name,
           category,
@@ -95,10 +95,12 @@ const AddItemModal = props => {
           quantity,
           unit,
         );
+      }
       props.navigation.navigate('Fridge');
     }
   };
   const submitUnreg = (name, category, expDate, quantity, unit) => {
+    //In case the user is not logged in submits the item only to local storage
     const numbers = /^[0-9]+$/;
     if (!name) {
       Alert.alert('The item must have a name');
@@ -106,8 +108,8 @@ const AddItemModal = props => {
       Alert.alert('Please introduce a quantity for your item');
     } else if (!numbers.test(quantity)) {
       Alert.alert('The quantity must be a positive number');
-    } else if (quantity=="0") {
-        Alert.alert('Quantity can not be 0');
+    } else if (quantity === '0') {
+      Alert.alert('Quantity can not be 0');
     } else if (params.shopping) {
       storageService.submitUnreg(name, category, expDate, quantity, unit, true);
       params.refresh();
@@ -116,10 +118,6 @@ const AddItemModal = props => {
       storageService.submitUnreg(name, category, expDate, quantity, unit);
       props.navigation.navigate('Fridge');
     }
-  };
-
-  const goBack = () => {
-    props.navigation.goBack();
   };
 
   const showDatePicker = () => {
@@ -163,7 +161,7 @@ const AddItemModal = props => {
             <Item rounded>
               <Input
                 placeholder={'Item name'}
-                onChangeText={name => onChangeText(name)}
+                onChangeText={iname => onChangeText(iname)}
                 value={name}
               />
             </Item>

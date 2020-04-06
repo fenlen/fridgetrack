@@ -25,64 +25,63 @@ import materialLargeGeorgiaBlack from '../native-base-theme/variables/materialLa
 import materialLargeCourierBlue from '../native-base-theme/variables/materialLargeCourierBlue';
 import materialLargeCourierRed from '../native-base-theme/variables/materialLargeCourierRed';
 import materialLargeCourierBlack from '../native-base-theme/variables/materialLargeCourierBlack';
-import Global from "../state/global.js";
+import Global from '../state/global.js';
 
 export const material = () => {
-
-      switch (Global.size+Global.font+Global.colour) {
-      case 'SmallRobotoBlue':
-        return(materialSmallRobotoBlue);
-      case 'SmallRobotoRed':
-        return(materialSmallRobotoRed);
-      case 'SmallRobotoBlack':
-        return(materialSmallRobotoBlack);
-      case 'SmallGeorgiaBlue':
-        return(materialSmallGeorgiaBlue);
-      case 'SmallGeorgiaRed':
-        return(materialSmallGeorgiaRed);
-      case 'SmallGeorgiaBlack':
-        return(materialSmallGeorgiaBlack);
-      case 'SmallCourierBlue':
-        return(materialSmallCourierBlue);
-      case 'SmallCourierRed':
-        return(materialSmallCourierRed);
-      case 'SmallCourierBlack':
-        return(materialSmallCourierBlack);
-      case 'MediumRobotoBlue':
-        return(materialMediumRobotoBlue);
-      case 'MediumRobotoRed':
-        return(materialMediumRobotoRed);
-      case 'MediumRobotoBlack':
-        return(materialMediumRobotoBlack);
-      case 'MediumGeorgiaBlue':
-        return(materialMediumGeorgiaBlue);
-      case 'MediumGeorgiaRed':
-        return(materialMediumGeorgiaRed);
-      case 'MediumGeorgiaBlack':
-        return(materialMediumGeorgiaBlack);
-      case 'MediumCourierBlue':
-        return(materialMediumCourierBlue);
-      case 'MediumCourierRed':
-        return(materialMediumCourierRed);
-      case 'MediumCourierBlack':
-        return(materialMediumCourierBlack);
-      case 'LargeRobotoBlue':
-        return(materialLargeRobotoBlue);
-      case 'LargeRobotoRed':
-        return(materialLargeRobotoRed);
-      case 'LargeRobotoBlack':
-        return(materialLargeRobotoBlack);
-      case 'LargeGeorgiaBlue':
-        return(materialLargeGeorgiaBlue);
-      case 'LargeGeorgiaRed':
-        return(materialLargeGeorgiaRed);
-      case 'LargeGeorgiaBlack':
-        return(materialLargeGeorgiaBlack);
-      case 'LargeCourierRed':
-        return(materialLargeCourierBlue);
-      case 'LargeCourierBlue':
-        return(materialLargeCourierRed);
-      case 'LargeCourierBlack':
-        return(materialLargeCourierBlack);
-      }
-}
+  switch (Global.size + Global.font + Global.colour) {
+    case 'SmallRobotoBlue':
+      return materialSmallRobotoBlue;
+    case 'SmallRobotoRed':
+      return materialSmallRobotoRed;
+    case 'SmallRobotoBlack':
+      return materialSmallRobotoBlack;
+    case 'SmallGeorgiaBlue':
+      return materialSmallGeorgiaBlue;
+    case 'SmallGeorgiaRed':
+      return materialSmallGeorgiaRed;
+    case 'SmallGeorgiaBlack':
+      return materialSmallGeorgiaBlack;
+    case 'SmallCourierBlue':
+      return materialSmallCourierBlue;
+    case 'SmallCourierRed':
+      return materialSmallCourierRed;
+    case 'SmallCourierBlack':
+      return materialSmallCourierBlack;
+    case 'MediumRobotoBlue':
+      return materialMediumRobotoBlue;
+    case 'MediumRobotoRed':
+      return materialMediumRobotoRed;
+    case 'MediumRobotoBlack':
+      return materialMediumRobotoBlack;
+    case 'MediumGeorgiaBlue':
+      return materialMediumGeorgiaBlue;
+    case 'MediumGeorgiaRed':
+      return materialMediumGeorgiaRed;
+    case 'MediumGeorgiaBlack':
+      return materialMediumGeorgiaBlack;
+    case 'MediumCourierBlue':
+      return materialMediumCourierBlue;
+    case 'MediumCourierRed':
+      return materialMediumCourierRed;
+    case 'MediumCourierBlack':
+      return materialMediumCourierBlack;
+    case 'LargeRobotoBlue':
+      return materialLargeRobotoBlue;
+    case 'LargeRobotoRed':
+      return materialLargeRobotoRed;
+    case 'LargeRobotoBlack':
+      return materialLargeRobotoBlack;
+    case 'LargeGeorgiaBlue':
+      return materialLargeGeorgiaBlue;
+    case 'LargeGeorgiaRed':
+      return materialLargeGeorgiaRed;
+    case 'LargeGeorgiaBlack':
+      return materialLargeGeorgiaBlack;
+    case 'LargeCourierRed':
+      return materialLargeCourierBlue;
+    case 'LargeCourierBlue':
+      return materialLargeCourierRed;
+    case 'LargeCourierBlack':
+      return materialLargeCourierBlack;
+  }
+};

@@ -1,5 +1,6 @@
+/**Group version of ShopList */
 import React, {useState, useEffect, useRef} from 'react';
-import {Alert, SafeAreaView, FlatList} from 'react-native';
+import {Alert, FlatList} from 'react-native';
 import SubmitButton from '../components/SubmitButton';
 import FridgeItem from '../components/FridgeItem';
 import Style from '../components/Style';
@@ -9,25 +10,19 @@ import storageService from '../services/storage';
 import {
   Container,
   Header,
-  Title,
-  Content,
   Text,
   Button,
   Icon,
   Footer,
   FooterTab,
   Left,
-  Right,
-  Body,
   Item,
-  View,
   Input,
 } from 'native-base';
 
 const GroupShopList = props => {
   const [groupItems, setItems] = useState();
   const [dateState, setNewDate] = useState(new Date());
-  // eslint-disable-next-line no-unused-vars
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [markedItem, setMark] = useState();
@@ -35,7 +30,9 @@ const GroupShopList = props => {
   const [search, onChangeText] = useState('');
 
   useEffect(() => {
-    storageService.getAllShop(search,true).then(itemList => setItems(itemList));
+    storageService
+      .getAllShop(search, true)
+      .then(itemList => setItems(itemList));
   }, []);
 
   useEffect(() => {
@@ -78,9 +75,11 @@ const GroupShopList = props => {
     console.log('remove');
     refresh();
   };
-  const refresh = (search) => {
+  const refresh = search => {
     //force component rerender
-    storageService.getAllShop(search,true).then(itemList => setItems(itemList));
+    storageService
+      .getAllShop(search, true)
+      .then(itemList => setItems(itemList));
   };
   const setDate = (event, date) => {
     //handler for the onChange function of DateTimePicker
@@ -95,9 +94,18 @@ const GroupShopList = props => {
       'Remove item from shopping list',
       'What happened to this item?',
       [
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
         {text: 'Bought', onPress: () => initRemove(removedItem)},
-        {text: "Don't want", onPress: () => {storageService.remove(removedItem.id, 'shopList',true), refresh();}},
+        {
+          text: "Don't want",
+          onPress: () => {
+            storageService.remove(removedItem.id, 'shopList', true), refresh();
+          },
+        },
       ],
       {cancelable: false},
     );
@@ -112,7 +120,14 @@ const GroupShopList = props => {
           </Button>
         </Left>
         <Item>
-          <Input placeholder="All items in group shopping list" value={search} onChangeText={name => {onChangeText(name); refresh(name);}}/>
+          <Input
+            placeholder="All items in group shopping list"
+            value={search}
+            onChangeText={name => {
+              onChangeText(name);
+              refresh(name);
+            }}
+          />
           <Icon name="search" />
         </Item>
         <Button transparent onPress={() => refresh(search)}>

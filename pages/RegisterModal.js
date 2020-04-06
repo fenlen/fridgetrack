@@ -100,7 +100,7 @@ const RegisterModal = props => {
       </Header>
       <Content>
         <Separator bordered>
-           <Text>User Details</Text>
+          <Text>User Details</Text>
         </Separator>
         <Form>
           <Item floatingLabel>
@@ -126,16 +126,23 @@ const RegisterModal = props => {
             />
           </Item>
         </Form>
-        <Separator bordered style={{marginTop:10, marginBottom:10}}>
-           <Text>Payment Details</Text>
+        <Separator bordered style={{marginTop: 10, marginBottom: 10}}>
+          <Text>Payment Details</Text>
         </Separator>
-        <CreditCardInput requiresName={true} verticalInput={true} onChange={() => {}}/>
-        <Separator bordered style={{marginTop:20}}>
-           <Text>Disclaimer</Text>
+        <CreditCardInput
+          requiresName={true}
+          verticalInput={true}
+          onChange={() => {}}
+        />
+        <Separator bordered style={{marginTop: 20}}>
+          <Text>Disclaimer</Text>
         </Separator>
-        <Text style={{padding: 10}}>Our application is based on a subscription system.
-            By registering and providing the information above you agree to set up an automated
-            monthly payment. This can be canceled at any time by deleting your account.</Text>
+        <Text style={{padding: 10}}>
+          Our application is based on a subscription system. By registering and
+          providing the information above you agree to set up an automated
+          monthly payment. This can be canceled at any time by deleting your
+          account.
+        </Text>
         <Button
           rounded
           style={{margin: 15, marginTop: 30, justifyContent: 'center'}}

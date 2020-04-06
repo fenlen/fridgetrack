@@ -1,3 +1,4 @@
+/** Modal for creating/joining a group. */
 import React, {useState} from 'react';
 import {Alert, Clipboard} from 'react-native';
 import Style from '../components/Style';
@@ -14,8 +15,6 @@ import {
   Text,
   Button,
   Icon,
-  Footer,
-  FooterTab,
   Left,
   Right,
   Body,
@@ -26,10 +25,10 @@ import {
 const GroupModal = props => {
   const user = firebase.auth().currentUser;
   const [groupFridge, setFridge] = useState(Global.groupFridge);
-  const [ready, serReady] = useState(true);
+  const [ready, setReady] = useState(true);
 
   const createGroup = async () => {
-    if (!groupFridge=='') {
+    if (!groupFridge === '') {
       await leaveGroup();
     }
     let docId;
@@ -54,16 +53,18 @@ const GroupModal = props => {
   };
 
   const joinGroup = async docId => {
-    try{
-    await firebase
-      .firestore()
-      .collection('fridges')
-      .doc(docId)
-      .update({members: firebase.firestore.FieldValue.arrayUnion(user.email)});
-     } catch (e) {
-       Alert.alert('The fridge was not found');
-         throw e;
-     }
+    try {
+      await firebase
+        .firestore()
+        .collection('fridges')
+        .doc(docId)
+        .update({
+          members: firebase.firestore.FieldValue.arrayUnion(user.email),
+        });
+    } catch (e) {
+      Alert.alert('The fridge was not found');
+      throw e;
+    }
     await firebase
       .firestore()
       .collection('users')
@@ -96,7 +97,7 @@ const GroupModal = props => {
       .collection('fridges')
       .doc(code)
       .update({members: firebase.firestore.FieldValue.arrayRemove(user.email)});
-    Global.groupFridge='';
+    Global.groupFridge = '';
     setFridge(Global.groupFridge);
   };
   const JoinPrompt = () => {
@@ -189,7 +190,7 @@ const GroupModal = props => {
       {!ready && <Content />}
       {ready && (
         <Content>
-          {!groupFridge == '' && (
+          {!groupFridge === '' && (
             <>
               <Separator bordered>
                 <Text>Group Details</Text>
@@ -234,7 +235,7 @@ const GroupModal = props => {
             onPress={() => CreateAlert()}>
             <Text uppercase={false}>Create a new group</Text>
           </Button>
-          {!groupFridge=='' && (
+          {!groupFridge === '' && (
             <>
               <Button
                 primary

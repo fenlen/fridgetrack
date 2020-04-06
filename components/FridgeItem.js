@@ -11,18 +11,18 @@ import ReadyMeal from '../thumbnails/ReadyMeal.png';
 import CookedMeal from '../thumbnails/CookedMeal.png';
 import Other from '../thumbnails/Other.png';
 
-const getThumbnail = (category) =>{
-    switch (category) {
-      case "Dairy":
-        return Dairy;
-      case "Vegetable":
-        return Vegetable;
-      case "Fruit":
-        return Fruit;
-      case "Grain":
-        return Grain;
-      case "Meat":
-        return Meat;
+const getThumbnail = category => {
+  switch (category) {
+    case 'Dairy':
+      return Dairy;
+    case 'Vegetable':
+      return Vegetable;
+    case 'Fruit':
+      return Fruit;
+    case 'Grain':
+      return Grain;
+    case 'Meat':
+      return Meat;
     case 'Drink':
       return Drink;
     case 'Sauce':
@@ -33,22 +33,24 @@ const getThumbnail = (category) =>{
       return CookedMeal;
     case 'Other':
       return Other;
-    }
-}
+  }
+};
 
 const FridgeItem = ({name, expDate, category}) => {
   return (
     <ListItem avatar>
-       <Left>
-          <Thumbnail source={getThumbnail(category)}/>
-       </Left>
-       <Body>
-          <Text>{name}</Text>
-          <Text numberOfLines={1} note>{category}</Text>
-       </Body>
-       <Right>
-         <Text note>{expDate}</Text>
-       </Right>
+      <Left>
+        <Thumbnail source={getThumbnail(category)} />
+      </Left>
+      <Body>
+        <Text>{name}</Text>
+        <Text numberOfLines={1} note>
+          {category}
+        </Text>
+      </Body>
+      <Right>
+        <Text note>{expDate}</Text>
+      </Right>
     </ListItem>
   );
 };

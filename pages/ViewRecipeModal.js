@@ -24,63 +24,64 @@ import {
   H1,
   H3,
   Separator,
-  FlatList
+  FlatList,
 } from 'native-base';
 import Easy from '../thumbnails/easy.png';
 import Medium from '../thumbnails/medium.png';
 import Hard from '../thumbnails/hard.png';
 
-const getThumbnail = (category) =>{
-    switch (category) {
-      case "Easy":
-        return Easy;
-      case "Medium":
-        return Medium;
-      case "Hard":
-        return Hard;
-    }
-}
+const getThumbnail = category => {
+  switch (category) {
+    case 'Easy':
+      return Easy;
+    case 'Medium':
+      return Medium;
+    case 'Hard':
+      return Hard;
+  }
+};
 
 const ViewRecipeModal = props => {
   const {params} = props.navigation.state;
   const item = params ? params.item : null;
   console.log(item.favorite);
-  const [fav,setFav] = useState(item.favorite);
+  const [fav, setFav] = useState(item.favorite);
 
   const removeRecipe = id => {
     storageService.removeRecipe(id);
     props.navigation.goBack();
   };
 
-  const toggleFavorite = (item) =>{
+  const toggleFavorite = item => {
     storageService.toggleFavorite(item.id, item.favorite);
     props.navigation.navigate('ViewRecipeModal', {item: item});
     setFav(!fav);
   };
 
-  const formatFav = (value) =>{
-    if (value)
-        return 'Favorite recipe';
-    else
-        return '';
+  const formatFav = value => {
+    if (value) {
+      return 'Favorite recipe';
+    } else {
+      return '';
+    }
   };
 
-  var list=[];
-  for (const i in item.ingredients){
-           list[i]=(
-            <Row style={{padding: 10}}>
-                <Col size={1} style={{justifyContent: 'center'}}>
-                     <Icon name="square" list/>
-                </Col>
-                <Col size={12}>
-                     <Text>{item.ingredients[i].ingredient}</Text>
-                </Col>
-                <Col size={7}>
-                     <Text>{item.ingredients[i].quantity}</Text>
-                </Col>
-            </Row>);
+  var list = [];
+  for (const i in item.ingredients) {
+    list[i] = (
+      <Row style={{padding: 10}}>
+        <Col size={1} style={{justifyContent: 'center'}}>
+          <Icon name="square" list />
+        </Col>
+        <Col size={12}>
+          <Text>{item.ingredients[i].ingredient}</Text>
+        </Col>
+        <Col size={7}>
+          <Text>{item.ingredients[i].quantity}</Text>
+        </Col>
+      </Row>
+    );
   }
-
 
   return (
     <Container>
@@ -102,8 +103,12 @@ const ViewRecipeModal = props => {
             </Left>
             <Body>
               <H1>{item.name}</H1>
-              <Text numberOfLines={1} note>{item.level}</Text>
-              <Text numberOfLines={1} note>{formatFav(fav)}</Text>
+              <Text numberOfLines={1} note>
+                {item.level}
+              </Text>
+              <Text numberOfLines={1} note>
+                {formatFav(fav)}
+              </Text>
             </Body>
           </Row>
           <Row style={{padding: 10}}>
@@ -118,48 +123,48 @@ const ViewRecipeModal = props => {
               </Body>
             </Col>
           </Row>
-          <Separator bordered >
+          <Separator bordered>
             <Text>Ingredients</Text>
           </Separator>
-            {list}
-          <Separator bordered >
+          {list}
+          <Separator bordered>
             <Text>Method</Text>
           </Separator>
           <Row style={{padding: 10}}>
             <Text>{item.method}</Text>
           </Row>
-          {fav &&(
-          <Row style={{padding: 10}}>
-            <Col>
-              <Button
-                rounded
-                primary
-                style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => toggleFavorite(item)}>
-                <Text uppercase={false}>Remove favorite</Text>
-              </Button>
-            </Col>
-          </Row>
+          {fav && (
+            <Row style={{padding: 10}}>
+              <Col>
+                <Button
+                  rounded
+                  primary
+                  style={{margin: 20, justifyContent: 'center'}}
+                  onPress={() => toggleFavorite(item)}>
+                  <Text uppercase={false}>Remove favorite</Text>
+                </Button>
+              </Col>
+            </Row>
           )}
-          {!fav &&(
-          <Row style={{padding: 10}}>
-            <Col>
-              <Button
-                rounded
-                primary
-                style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => toggleFavorite(item)}>
-                <Text uppercase={false}>Make favorite</Text>
-              </Button>
-            </Col>
-          </Row>
+          {!fav && (
+            <Row style={{padding: 10}}>
+              <Col>
+                <Button
+                  rounded
+                  primary
+                  style={{margin: 20, justifyContent: 'center'}}
+                  onPress={() => toggleFavorite(item)}>
+                  <Text uppercase={false}>Make favorite</Text>
+                </Button>
+              </Col>
+            </Row>
           )}
           <Row style={{padding: 10}}>
             <Col>
               <Button
                 rounded
                 primary
-                style={{margin: 20, marginTop:0, justifyContent: 'center'}}
+                style={{margin: 20, marginTop: 0, justifyContent: 'center'}}
                 onPress={() => removeRecipe(item.id)}>
                 <Text uppercase={false}>Remove</Text>
               </Button>
@@ -170,8 +175,10 @@ const ViewRecipeModal = props => {
               <Button
                 rounded
                 primary
-                style={{margin: 20, marginTop:0, justifyContent: 'center'}}
-                onPress={() => props.navigation.navigate('AddMealModal', {recipe: item.name})}>
+                style={{margin: 20, marginTop: 0, justifyContent: 'center'}}
+                onPress={() =>
+                  props.navigation.navigate('AddMealModal', {recipe: item.name})
+                }>
                 <Text uppercase={false}>Use for meal</Text>
               </Button>
             </Col>

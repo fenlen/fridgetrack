@@ -163,7 +163,7 @@ const update = async (id, quantity, targetList, group = false) => {
       .doc(await fridge(group))
       .collection(targetList)
       .doc(id)
-      .update({"quantity": quantity});
+      .update({quantity: quantity});
   } catch (e) {
     console.log(e);
     throw e;
@@ -366,10 +366,10 @@ const submitEaten = async (name, quantity, eaten, group) => {
   }
 };
 
-const getAllEaten = async (group=false) => {
+const getAllEaten = async (group = false) => {
   let keys;
   let idCheck = new Date();
-  idCheck.setMonth(idCheck.getMonth()-1);
+  idCheck.setMonth(idCheck.getMonth() - 1);
   console.log(idCheck.getTime());
   const userId = firebase.auth().currentUser.uid;
   try {

@@ -4,16 +4,16 @@ import Plenty from '../thumbnails/plenty.png';
 import Soon from '../thumbnails/soon.png';
 import Overdue from '../thumbnails/overdue.png';
 
-const getThumbnail = (date) =>{
-    var days = getDaysLeft(date);
-      if (days > 2) {
-        return Plenty;
-      } else if (days >= 0) {
-        return Soon;
-      } else {
-        return Overdue;
-      }
-}
+const getThumbnail = date => {
+  var days = getDaysLeft(date);
+  if (days > 2) {
+    return Plenty;
+  } else if (days >= 0) {
+    return Soon;
+  } else {
+    return Overdue;
+  }
+};
 
 const getDaysLeft = expDateString => {
   var expDate = new Date(
@@ -25,20 +25,18 @@ const getDaysLeft = expDateString => {
   return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
 };
 
-
-
 const MealItem = ({type, date}) => {
   return (
     <ListItem avatar>
-       <Left>
-          <Thumbnail source={getThumbnail(date)}/>
-       </Left>
-       <Body>
-          <Text>{type}</Text>
-       </Body>
-       <Right>
-         <Text note>{date}</Text>
-       </Right>
+      <Left>
+        <Thumbnail source={getThumbnail(date)} />
+      </Left>
+      <Body>
+        <Text>{type}</Text>
+      </Body>
+      <Right>
+        <Text note>{date}</Text>
+      </Right>
     </ListItem>
   );
 };

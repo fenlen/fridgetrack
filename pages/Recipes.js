@@ -32,12 +32,14 @@ const Recipes = props => {
   useEffect(() => {
     //executes on initial component render
     storageService.getAllRecipe(search).then(itemList => setItems(itemList));
-  }, []);
+  }, [search]);
 
   useFocusEffect(
     //executes on component focus
     useCallback(() => {
-      const rerender = storageService.getAllRecipe().then(itemList => setItems(itemList));
+      const rerender = storageService
+        .getAllRecipe()
+        .then(itemList => setItems(itemList));
 
       return () => rerender;
     }, []),
@@ -49,7 +51,7 @@ const Recipes = props => {
     refresh(search);
   };
 
-  const refresh = (search) => {
+  const refresh = search => {
     //force component rerender
     storageService.getAllRecipe(search).then(itemList => setItems(itemList));
   };
@@ -63,7 +65,14 @@ const Recipes = props => {
           </Button>
         </Left>
         <Item>
-          <Input placeholder="All your recipes" value={search} onChangeText={name => {onChangeText(name); refresh(name);}}/>
+          <Input
+            placeholder="All your recipes"
+            value={search}
+            onChangeText={name => {
+              onChangeText(name);
+              refresh(name);
+            }}
+          />
           <Icon name="search" />
         </Item>
         <Button transparent onPress={() => refresh()}>
@@ -79,9 +88,9 @@ const Recipes = props => {
             }>
             <RecipeItem
               name={item.name}
-              duration= {item.duration}
-              level= {item.level}
-              favorite= {item.favorite}
+              duration={item.duration}
+              level={item.level}
+              favorite={item.favorite}
             />
           </TouchableNativeFeedback>
         )}

@@ -10,9 +10,8 @@ const Style = StyleSheet.create({
     borderWidth: 2,
     margin: 10,
     flex: 1,
-    height: 20
+    height: 20,
   },
-
 });
 
 export default Style;

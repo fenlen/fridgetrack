@@ -1,3 +1,4 @@
+/** The modal to let a user delete their account. Cleans the database of all entries related to the user */
 import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {Alert} from 'react-native';
@@ -9,7 +10,6 @@ import {
   Container,
   Header,
   Left,
-  Right,
   Button,
   Body,
   Content,
@@ -39,32 +39,33 @@ const DeleteAccountModal = props => {
     };
     await getCode();
     if (code) {
-        await firebase
-          .firestore()
-          .collection('fridges')
-          .doc(code)
-          .update({members: firebase.firestore.FieldValue.arrayRemove(user.email)});
+      await firebase
+        .firestore()
+        .collection('fridges')
+        .doc(code)
+        .update({
+          members: firebase.firestore.FieldValue.arrayRemove(user.email),
+        });
     }
   };
 
   const deleteAccount = async () => {
     await Promise.all([
-        leaveGroup(),
-        firestore()
-            .collection('users')
-            .doc(auth().currentUser.uid)
-            .delete(),
-        storage.deleteAll(),
-        storage.deleteAllShop(),
-        storage.deleteAllMeal(),
-        storage.deleteAllRecipe(),
+      leaveGroup(),
+      firestore()
+        .collection('users')
+        .doc(auth().currentUser.uid)
+        .delete(),
+      storage.deleteAll(),
+      storage.deleteAllShop(),
+      storage.deleteAllMeal(),
+      storage.deleteAllRecipe(),
     ]);
     notif.cancelAll();
   };
 
   const initDelete = async () => {
     try {
-      let p = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g;
       let user = auth().currentUser;
       if (!password) {
         Alert.alert('Error', 'New Password cannot be empty');

@@ -32,7 +32,7 @@ const Meals = props => {
   useEffect(() => {
     //executes on initial component render
     storageService.getAllMeal(search).then(itemList => setItems(itemList));
-  }, []);
+  }, [search]);
 
   useFocusEffect(
     //executes on component focus

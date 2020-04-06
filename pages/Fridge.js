@@ -1,5 +1,8 @@
+/** A user's personal fridge. If user is logged in will pull from the online database, or it's cached version if
+ * there's no internet connection. If user isn't logged in uses a different, offline-only database (usually sqlite).
+ */
 import React, {useState, useEffect, useCallback} from 'react';
-import {SafeAreaView, FlatList} from 'react-native';
+import {FlatList} from 'react-native';
 import {useFocusEffect} from 'react-navigation-hooks';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import FridgeItem from '../components/FridgeItem';
@@ -11,29 +14,24 @@ import {
   Container,
   Header,
   Title,
-  Content,
   Text,
   Button,
   Icon,
   Footer,
   FooterTab,
   Left,
-  Right,
   Body,
   Input,
   Item,
-  View,
-  List,
 } from 'native-base';
 
 const Fridge = props => {
   const [items, setItems] = useState([]);
-  // const [fridgeRef, setFridgeRef] = useState('test');
   const [search, onChangeText] = useState('');
   const [logged, setLogged] = useState();
 
   useEffect(() => {
-    //executes on initial component render
+    //executes on initial component render and every time the user types in the search bar
     if (auth().currentUser != null) {
       setLogged(true);
       storageService.getAll(search).then(itemList => setItems(itemList));
@@ -41,13 +39,13 @@ const Fridge = props => {
       setLogged(false);
       storageService.getAllUnreg().then(itemList => setItems(itemList));
     }
-  }, []);
+  }, [search]);
 
   useFocusEffect(
     //executes on component focus
     useCallback(() => {
-      var rerender;
-      if (auth().currentUser != null) {
+      let rerender;
+      if (auth().currentUser !== null) {
         rerender = storageService.getAll().then(itemList => setItems(itemList));
       } else {
         rerender = storageService

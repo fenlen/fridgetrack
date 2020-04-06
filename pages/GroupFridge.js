@@ -1,18 +1,17 @@
+/** Group version of Fridge */
 import React, {useState, useEffect, useCallback} from 'react';
-import {SafeAreaView, FlatList} from 'react-native';
+import {FlatList} from 'react-native';
 import {useFocusEffect} from 'react-navigation-hooks';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import FridgeItem from '../components/FridgeItem';
 import SubmitButton from '../components/SubmitButton';
 import Style from '../components/Style';
 import storageService from '../services/storage';
-import auth from '@react-native-firebase/auth';
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import Global from '../state/global.js';
 import {
   Container,
   Header,
-  Title,
   Content,
   Text,
   Button,
@@ -20,12 +19,9 @@ import {
   Footer,
   FooterTab,
   Left,
-  Right,
-  Body,
   Input,
   Item,
   View,
-  List,
   Fab,
 } from 'native-base';
 
@@ -37,14 +33,17 @@ const GroupFridge = props => {
 
   useEffect(() => {
     //executes on initial component render
-    if (!groupFridge === '')
+    if (groupFridge !== '') {
       storageService.getAll(search, true).then(itemList => setItems(itemList));
+    }
   }, []);
 
   useFocusEffect(
-    //executes on component focus
+    //executes on component focus and every time the user types something in the search bar
     useCallback(() => {
-      if (!groupFridge == '') {
+      if (groupFridge !== '') {
+        console.log(groupFridge);
+
         const rerender = storageService
           .getAll(search, true)
           .then(itemList => setItems(itemList));
@@ -54,12 +53,6 @@ const GroupFridge = props => {
     }, []),
   );
 
-  const removeItem = id => {
-    //remove the item with the given id from the database
-    storageService.remove(id);
-    refresh();
-  };
-
   const refresh = search => {
     //force component rerender
     storageService.getAll(search, true).then(itemList => setItems(itemList));
@@ -67,7 +60,7 @@ const GroupFridge = props => {
 
   return (
     <Container style={Style.container}>
-      {groupFridge == '' && (
+      {groupFridge === '' && (
         <>
           <Header searchBar>
             <Left style={{flex: 0, width: 50}}>
@@ -112,7 +105,7 @@ const GroupFridge = props => {
           </Footer>
         </>
       )}
-      {!groupFridge == '' && (
+      {groupFridge !== '' && (
         <>
           <Header searchBar>
             <Left style={{flex: 0, width: 50}}>

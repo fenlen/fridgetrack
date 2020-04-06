@@ -1,18 +1,14 @@
-// /* eslint-disable no-undef */
+/** Same as AddItemModal but for group fridges */
 import React, {useState, useEffect} from 'react';
 import {Alert} from 'react-native';
-import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
-import {TextInput} from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
 import {
   Form,
   Text,
   Picker,
   Button,
   Item,
-  Label,
   Input,
   Content,
   Container,
@@ -20,7 +16,6 @@ import {
   Header,
   Left,
   Body,
-  Right,
   Icon,
   Row,
   Col,
@@ -32,7 +27,6 @@ const GroupAddItemModal = props => {
   const [pickerItems, setPicker] = useState('Dairy'); //initial state for the category Picker
   const [pickerUnits, setPicker2] = useState('g'); //initial state for the unit Picker
   const [dateState, setNewDate] = useState(new Date()); //set date to current date
-  // eslint-disable-next-line no-unused-vars
   const [mode, setMode] = useState('date'); //mode of the date picker
   const [show, setShow] = useState(false); //determines whether to show the date picker
   const [name, onChangeText] = useState('');
@@ -46,35 +40,37 @@ const GroupAddItemModal = props => {
   }, []);
 
   const getData = async () => {
-    if (params.barcode!=null) {
-        var item;
-        await Promise.all([
-            storageService.getBarcode(params.barcode)
-        ]).then(function(values) {
-            item=values[0];
-              });
-        if (item) {
-            onChangeText(item.name);
-            onChangeText2(item.quantity);
-            setPicker(item.category);
-            setPicker2(item.unit);
-        } else {
-            Alert.alert("Barcode not found, please introduce the item information.");
-        }
+    if (params.barcode != null) {
+      let item;
+      await Promise.all([storageService.getBarcode(params.barcode)]).then(
+        values => {
+          item = values[0];
+        },
+      );
+      if (item) {
+        onChangeText(item.name);
+        onChangeText2(item.quantity);
+        setPicker(item.category);
+        setPicker2(item.unit);
+      } else {
+        Alert.alert(
+          'Barcode not found, please introduce the item information.',
+        );
+      }
     }
     setReady(true);
   };
 
   const submit = (name, category, expDate, quantity, unit) => {
     const numbers = /^[0-9]+$/;
-    if(!name) {
-        Alert.alert("The item must have a name");
+    if (!name) {
+      Alert.alert('The item must have a name');
     } else if (!quantity) {
-        Alert.alert("Please introduce a quantity for your item");
+      Alert.alert('Please introduce a quantity for your item');
     } else if (!numbers.test(quantity)) {
-        Alert.alert("The quantity must be a positive number");
-    } else if (quantity=="0") {
-        Alert.alert('Quantity can not be 0');
+      Alert.alert('The quantity must be a positive number');
+    } else if (quantity === '0') {
+      Alert.alert('Quantity can not be 0');
     } else if (params.shopping) {
       storageService.submit(
         name,
@@ -97,14 +93,17 @@ const GroupAddItemModal = props => {
         false,
         true,
       );
-        if (params.barcode!=null)
-            storageService.submitBarcode(name, category, params.barcode, quantity, unit);
+      if (params.barcode !== null) {
+        storageService.submitBarcode(
+          name,
+          category,
+          params.barcode,
+          quantity,
+          unit,
+        );
+      }
       props.navigation.navigate('GroupFridge');
     }
-  };
-
-  const goBack = () => {
-    props.navigation.goBack();
   };
 
   const showDatePicker = () => {
@@ -132,7 +131,9 @@ const GroupAddItemModal = props => {
     <Container>
       <Header>
         <Left>
-          <Button transparent onPress={() => props.navigation.navigate('GroupFridge')}>
+          <Button
+            transparent
+            onPress={() => props.navigation.navigate('GroupFridge')}>
             <Icon name="arrow-back" />
           </Button>
         </Left>
@@ -221,7 +222,9 @@ const GroupAddItemModal = props => {
                     rounded
                     primary
                     style={{margin: 20, flex: 0.7, justifyContent: 'center'}}
-                    onPress={() => props.navigation.navigate('Barcode',params)}>
+                    onPress={() =>
+                      props.navigation.navigate('Barcode', params)
+                    }>
                     <Text uppercase={false}>Scan barcode</Text>
                   </Button>
                 </Row>
@@ -252,13 +255,7 @@ const GroupAddItemModal = props => {
           full
           title="Add item"
           onPress={() => {
-            submit(
-              name,
-              pickerItems,
-              formattedDate(),
-              quantity,
-              pickerUnits,
-            );
+            submit(name, pickerItems, formattedDate(), quantity, pickerUnits);
           }}>
           <Title>Add item</Title>
         </Button>

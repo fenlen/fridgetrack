@@ -29,39 +29,45 @@ const LoginModal = props => {
 
   const login = async () => {
     try {
-    await auth().signInWithEmailAndPassword(email, password);
-    let user = auth().currentUser;
-    let data = {};
-    if (user) {
-      await storageService.getUserData().then(dataList => (data = dataList));
-      Global.user = user.uid;
-      Global.enableNotiication1 = data['enableNotification1'];
-      Global.enableNotiication2 = data['enableNotification2'];
-      Global.enableNotiication3 = data['enableNotification3'];
-      Global.enableNotiication4 = data['enableNotification4'];
-      const items = await storageService.getAll();
-            for (const i in items) {
-              notif.scheduleNotif(parseInt(items[i].id),items[i].expDate,items[i].name);
-            }
-    }
-
-    props.navigation.navigate("Theme");
-    Alert.alert('You have logged in successfully');
-    }
-    catch(e) {
-        let errorCode = e.code;
-        let errorMessage = e.message;
-        if (errorCode === 'auth/invalid-email') {
-          Alert.alert('Error', 'Invalid Email');
-        } else if (errorCode === 'auth/user-not-found') {
-          Alert.alert('Error', 'User not found');
-        } else if (errorCode === 'auth/wrong-password') {
-          Alert.alert('Error', 'Wrong password');
-        } else if (errorCode === 'auth/unknown') {
-          Alert.alert('Error', 'Too many unsuccessful log in attempts, please try again later');
-        } else {
-          Alert.alert('Error', errorMessage);
+      await auth().signInWithEmailAndPassword(email, password);
+      let user = auth().currentUser;
+      let data = {};
+      if (user) {
+        await storageService.getUserData().then(dataList => (data = dataList));
+        Global.user = user.uid;
+        Global.enableNotiication1 = data.enableNotification1;
+        Global.enableNotiication2 = data.enableNotification2;
+        Global.enableNotiication3 = data.enableNotification3;
+        Global.enableNotiication4 = data.enableNotification4;
+        const items = await storageService.getAll();
+        for (const i in items) {
+          notif.scheduleNotif(
+            parseInt(items[i].id),
+            items[i].expDate,
+            items[i].name,
+          );
         }
+      }
+
+      props.navigation.navigate('Theme');
+      Alert.alert('You have logged in successfully');
+    } catch (e) {
+      let errorCode = e.code;
+      let errorMessage = e.message;
+      if (errorCode === 'auth/invalid-email') {
+        Alert.alert('Error', 'Invalid Email');
+      } else if (errorCode === 'auth/user-not-found') {
+        Alert.alert('Error', 'User not found');
+      } else if (errorCode === 'auth/wrong-password') {
+        Alert.alert('Error', 'Wrong password');
+      } else if (errorCode === 'auth/unknown') {
+        Alert.alert(
+          'Error',
+          'Too many unsuccessful log in attempts, please try again later',
+        );
+      } else {
+        Alert.alert('Error', errorMessage);
+      }
     }
   };
   return (

@@ -1,8 +1,8 @@
+/**Account page. Contains some info about the user's account and links to the various Settings pages and also the Login/logout/register pages. */
 import React, {useState, useCallback, useEffect} from 'react';
 import {useFocusEffect} from 'react-navigation-hooks';
 import {Alert} from 'react-native';
 import Style from '../components/Style';
-import prompt from 'react-native-prompt-android';
 import auth from '@react-native-firebase/auth';
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import Global from '../state/global';
@@ -15,10 +15,7 @@ import {
   Text,
   Button,
   Icon,
-  Footer,
-  FooterTab,
   Left,
-  Right,
   Body,
   ListItem,
   Separator,
@@ -26,12 +23,13 @@ import {
 import storage from '../services/storage';
 
 const Account = props => {
-  const [state, setState] = useState();
+  const [state, setState] = useState(); //Tracks if user is logged in with an account
   const [userData, setUserData] = useState({accountType: 'basic'});
   const user = firebase.auth().currentUser;
   const notif = new NotifService();
 
   const wrapper = () => {
+    // wrapper needed to ensure retrieval from the database has been resolved before moving on
     storage.getUserData().then(result => {
       setUserData(result.data());
     });
@@ -69,18 +67,20 @@ const Account = props => {
   };
 
   const logOut = async () => {
-    Global.colour= 'Blue';
-    Global.font= 'Roboto';
-    Global.size= 'Medium';
+    //Log out the user and reset all appearance preferences
+    Global.colour = 'Blue';
+    Global.font = 'Roboto';
+    Global.size = 'Medium';
     await auth().signOut();
-    props.navigation.navigate('Theme');
+    props.navigation.navigate('App');
     Alert.alert('Logging out', "You've logged out successfuly");
     notif.cancelAll();
     setState(false);
   };
 
   const formattedDate = dateString => {
-    var date = new Date(parseInt(dateString));
+    //Helper to format the date
+    let date = new Date(parseInt(dateString));
     return (
       ('0' + date.getDate()).slice(-2) +
       '/' +

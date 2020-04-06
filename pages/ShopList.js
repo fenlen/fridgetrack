@@ -43,9 +43,10 @@ const ShopList = props => {
     if (auth().currentUser != null) {
       setLogged(true);
       storageService.getAllShop(search).then(itemList => setItems(itemList));
-    } else
+    } else {
       storageService.getAllShopUnreg().then(itemList => setItems(itemList));
-  }, []);
+    }
+  }, [search]);
 
   useEffect(() => {
     //watches for a change in dateState and then removes the selected item, except during the initial render of the component
@@ -97,9 +98,11 @@ const ShopList = props => {
   };
   const refresh = search => {
     //force component rerender
-    if (logged)
+    if (logged) {
       storageService.getAllShop(search).then(itemList => setItems(itemList));
-    else storageService.getAllShopUnreg().then(itemList => setItems(itemList));
+    } else {
+      storageService.getAllShopUnreg().then(itemList => setItems(itemList));
+    }
   };
   const setDate = (event, date = dateState) => {
     //handler for the onChange function of DateTimePicker
@@ -123,8 +126,11 @@ const ShopList = props => {
         {
           text: "Don't want",
           onPress: () => {
-            if (logged) storageService.remove(removedItem.id, 'shopList');
-            else storageService.removeUnreg(removedItem.id);
+            if (logged) {
+              storageService.remove(removedItem.id, 'shopList');
+            } else {
+              storageService.removeUnreg(removedItem.id);
+            }
             refresh();
           },
         },

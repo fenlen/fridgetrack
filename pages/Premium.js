@@ -24,7 +24,7 @@ const Premium = props => {
   const creditCardHandler = () => {};
   const updateCard = () => {
     props.navigation.goBack();
-  }
+  };
   return (
     <Container>
       <Header>
@@ -38,7 +38,7 @@ const Premium = props => {
         </Body>
         <Right />
       </Header>
-      <Content style={{paddingTop:20}}>
+      <Content style={{paddingTop: 20}}>
         <CreditCardInput
           requiresName={true}
           onChange={() => creditCardHandler()}

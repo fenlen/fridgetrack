@@ -7,8 +7,8 @@ export default (variables /* : * */ = variable) => {
     fontSize: variables.iconFontSize,
     color: variable.textColor,
     '.list': {
-        fontSize:variables.inputFontSize-8
-        }
+      fontSize: variables.inputFontSize - 8,
+    },
   };
 
   return iconTheme;

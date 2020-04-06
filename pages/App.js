@@ -2,8 +2,9 @@
  * @format
  * @flow
  */
+/** Initializes some global values and loads the home page, also loads the Navigation stack and the Navigation Menu. */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Image, Dimensions} from 'react-native';
 import {Root, StyleProvider, View} from 'native-base';
 import {createDrawerNavigator} from 'react-navigation-drawer';
@@ -46,89 +47,81 @@ import Global from '../state/global.js';
 import Logo from '../logo/logo.png';
 import NotifService from '../services/NotifService';
 
-class Theme extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      loaded: false,
-    };
-    this.notif = new NotifService();
-  }
+const App = props => {
+  /**
+   * Initial component of the App. Shows the loading screen while the initial retrieval from the database finishes.
+   */
+  const [loaded, setLoaded] = useState(false);
+  const notif = new NotifService();
 
-  componentDidMount() {
-    this.loadData();
-  }
-  async loadData() {
+  useEffect(() => {
+    loadData();
+  });
+
+  const loadData = async () => {
     if (auth().currentUser !== null) {
       let data = {};
-      await storageService.getUserData().then(dataList => (data = dataList));
-      Global.colour = data._data['colour'];
-      Global.size = data._data['size'];
-      Global.font = data._data['font'];
-      Global.enableNotiication1 = data._data['enableNotification1'];
-      Global.enableNotiication2 = data._data['enableNotification2'];
-      Global.enableNotiication3 = data._data['enableNotification3'];
-      Global.enableNotiication4 = data._data['enableNotification4'];
-      if (!data._data['groupFridge']=='')
-          await storageService
-            .getFridgeData(data._data['groupFridge'])
-            .then(fridge => (Global.groupFridge = fridge));
-      this.updateNotifications();
+      data = await storageService.getUserData().then(dataList => dataList);
+      Global.colour = data._data.colour;
+      Global.size = data._data.size;
+      Global.font = data._data.font;
+      Global.enableNotiication1 = data._data.enableNotification1;
+      Global.enableNotiication2 = data._data.enableNotification2;
+      Global.enableNotiication3 = data._data.enableNotification3;
+      Global.enableNotiication4 = data._data.enableNotification4;
+      if (data._data.groupFridge !== '') {
+        Global.groupFridge = await storageService
+          .getFridgeData(data._data.groupFridge)
+          .then(fridge => fridge);
+      }
+      updateNotifications();
     }
+    setLoaded(true);
+  };
 
-    this.setState({loaded: true});
-  }
-
-  async updateNotifications() {
+  const updateNotifications = async () => {
+    /** Go trhough all the items in the personal and group fridges and schedule notifications for them */
     const items = await storageService.getAll();
     const groupItems = await storageService.getAll('', true);
-    this.notif.cancelAll();
-    for (const i in items) {
-      this.notif.scheduleNotif(
-        parseInt(items[i].id),
-        items[i].expDate,
-        items[i].name,
-      );
-    }
-    for (const i in groupItems) {
-      this.notif.scheduleGroupNotif(
-        parseInt(groupItems[i].id),
-        groupItems[i].expDate,
-        groupItems[i].name,
-      );
-    }
-  }
+    notif.cancelAll();
+    items.map(item =>
+      notif.scheduleNotif(parseInt(item.id), item.expDate, item.name),
+    );
+    groupItems.map(item =>
+      notif.scheduleGroupNotif(parseInt(item.id), item.expDate, item.name),
+    );
+  };
 
-  render() {
-    if (this.state.loaded)
-      return (
+  return (
+    <>
+      {loaded && ( //If retrieval has finished load the Home page
         <StyleProvider style={getTheme(material())}>
           <Root>
             <AppContainer />
           </Root>
         </StyleProvider>
-      );
-
-    return (
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100%',
-        }}>
-        <Image
-          style={{width: '70%', height: Dimensions.get('window').width * 0.7}}
-          source={Logo}
-        />
-      </View>
-    );
-  }
-}
+      )}
+      {!loaded && ( //If retrieval isn't finished show the loading image
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+          }}>
+          <Image
+            style={{width: '70%', height: Dimensions.get('window').width * 0.7}}
+            source={Logo}
+          />
+        </View>
+      )}
+    </>
+  );
+};
 
 const Drawer = createDrawerNavigator(
   //Drawer navigation menu
   {
-    Theme,
+    App,
     Home,
     Fridge,
     ShopList,
@@ -162,7 +155,7 @@ const AppNavigator = createStackNavigator(
 );
 
 const RootStack = createStackNavigator(
-  //the root 'stack' of react-navigation, handles transition between modal and the main screens
+  //the root 'stack' of react-navigation, handles transition between modals and the main screens
   {
     Main: {
       screen: AppNavigator,
@@ -227,4 +220,4 @@ const RootStack = createStackNavigator(
 
 const AppContainer = createAppContainer(RootStack);
 
-export default Theme;
+export default App;

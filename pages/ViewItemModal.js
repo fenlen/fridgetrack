@@ -102,7 +102,7 @@ const getProgress = (initDateString, expDateString) => {
   var period = getPeriod(initDateString, expDateString);
   var left = getDaysLeft(expDateString);
   var percentage = ((period - left) * 80) / period + 10;
-  if (percentage > 90 || left < 0 ) {
+  if (percentage > 90 || left < 0) {
     return '100%';
   } else {
     return percentage.toString() + '%';
@@ -112,7 +112,7 @@ const getProgress = (initDateString, expDateString) => {
 const getDaysMessage = expDate => {
   var days = getDaysLeft(expDate);
   if (days < 0) {
-    return 'the item expired '+ (0-days) +' days ago';
+    return 'the item expired ' + (0 - days) + ' days ago';
   } else {
     return 'The item has ' + days + ' days left.';
   }
@@ -254,76 +254,88 @@ const ViewItemModal = props => {
               />
             </View>
           </Row>
-          {logged &&(
-          <>
-          <Row>
-            <Col>
-              <Button
-                rounded
-                primary
-                style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => removeItem(item.id, true)}>
-                <Text uppercase={false}>Eaten</Text>
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                rounded
-                primary
-                style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => removeItem(item.id, false)}>
-                <Text uppercase={false}>Discarded</Text>
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Button
-                rounded
-                primary
-                style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => setVisible(true)}>
-                <Text uppercase={false}>Eaten some</Text>
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                rounded
-                primary
-                style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => {setVisible(true); setDisc(true);}}>
-                <Text uppercase={false}>Discarded some</Text>
-              </Button>
-            </Col>
-          </Row>
-          <Prompt
-              visible={visible}
-              title="Item quantity update"
-              placeholder={"How many "+item.unit+" are left?"}
-              onCancel={() => {setVisible(false); setDisc(false);}
-              }
-              onSubmit={qty => {
-                const numbers = /^[0-9]+$/;
-                if (!numbers.test(qty)) {
-                  Alert.alert('The quantity must be a positive number');
-                } else if( parseInt(left)<parseInt(qty)) {
-                    Alert.alert("You can't have more left than you began with.");
-                } else if (qty=="0") {
+          {logged && (
+            <>
+              <Row>
+                <Col>
+                  <Button
+                    rounded
+                    primary
+                    style={{margin: 20, justifyContent: 'center'}}
+                    onPress={() => removeItem(item.id, true)}>
+                    <Text uppercase={false}>Eaten</Text>
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    rounded
+                    primary
+                    style={{margin: 20, justifyContent: 'center'}}
+                    onPress={() => removeItem(item.id, false)}>
+                    <Text uppercase={false}>Discarded</Text>
+                  </Button>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Button
+                    rounded
+                    primary
+                    style={{margin: 20, justifyContent: 'center'}}
+                    onPress={() => setVisible(true)}>
+                    <Text uppercase={false}>Eaten some</Text>
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    rounded
+                    primary
+                    style={{margin: 20, justifyContent: 'center'}}
+                    onPress={() => {
+                      setVisible(true);
+                      setDisc(true);
+                    }}>
+                    <Text uppercase={false}>Discarded some</Text>
+                  </Button>
+                </Col>
+              </Row>
+              <Prompt
+                visible={visible}
+                title="Item quantity update"
+                placeholder={'How many ' + item.unit + ' are left?'}
+                onCancel={() => {
+                  setVisible(false);
+                  setDisc(false);
+                }}
+                onSubmit={qty => {
+                  const numbers = /^[0-9]+$/;
+                  if (!numbers.test(qty)) {
+                    Alert.alert('The quantity must be a positive number');
+                  } else if (parseInt(left) < parseInt(qty)) {
+                    Alert.alert(
+                      "You can't have more left than you began with.",
+                    );
+                  } else if (qty == '0') {
                     setVisible(false);
                     removeItem(item.id, !disc);
                     setDisc(false);
-                } else {
+                  } else {
                     setVisible(false);
-                    partRemoveItem(item.id, !disc,  parseInt(qty).toString(), parseInt(left)-parseInt(qty));
+                    partRemoveItem(
+                      item.id,
+                      !disc,
+                      parseInt(qty).toString(),
+                      parseInt(left) - parseInt(qty),
+                    );
                     setDisc(false);
-                }
-              }}
-          />
-          </>
-        )}
-        {!logged &&(
-          <Row>
-            <Col>
+                  }
+                }}
+              />
+            </>
+          )}
+          {!logged && (
+            <Row>
+              <Col>
                 <Button
                   rounded
                   primary
@@ -331,8 +343,8 @@ const ViewItemModal = props => {
                   onPress={() => removeItemUnreg(item.id, true)}>
                   <Text uppercase={false}>Remove</Text>
                 </Button>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
           )}
         </Grid>
       </Content>

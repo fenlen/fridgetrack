@@ -1,5 +1,7 @@
+/** The first actual page the user sees when opening the App. Contains a menu that shows different items depending whether the user
+ * is logged in with an account or not.
+ */
 import React, {useState, useEffect} from 'react';
-import {StatusBar} from 'react-native';
 import {
   Button,
   Text,
@@ -8,13 +10,8 @@ import {
   Content,
   Header,
   Title,
-  Left,
-  Icon,
-  Right,
 } from 'native-base';
 import Global from '../../state/global.js';
-import Theme from '../App.js';
-import firestore, {firebase} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
 const Home = props => {
@@ -25,7 +22,7 @@ const Home = props => {
     if (user !== null) {
       setState(true);
     }
-  }, []);
+  }, [user]);
 
   const redirect = (destination, fridge) => {
     Global.fridge = fridge;

@@ -24,7 +24,7 @@ import {
   Thumbnail,
   H1,
   H3,
-  Separator
+  Separator,
 } from 'native-base';
 import Plenty from '../thumbnails/plenty.png';
 import Soon from '../thumbnails/soon.png';
@@ -39,7 +39,7 @@ const getThumbnail = date => {
   } else {
     return Overdue;
   }
-}
+};
 
 const getDaysLeft = expDateString => {
   var expDate = new Date(

@@ -29,7 +29,9 @@ const UpdateDetailsModal = props => {
     try {
       let user = auth().currentUser;
       await auth().currentUser.updateEmail(email);
-      await firestore().doc(`users/${auth().currentUser.uid}`).update({name: name, email: email});
+      await firestore()
+        .doc(`users/${auth().currentUser.uid}`)
+        .update({name: name, email: email});
       Alert.alert('You have updated your details successfully');
       Global.user = user.uid;
       props.navigation.goBack();

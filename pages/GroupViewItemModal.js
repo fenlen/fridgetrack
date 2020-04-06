@@ -1,31 +1,25 @@
-// /* eslint-disable no-undef */
+/**Group version of ViewItemModal */
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import Style from '../components/Style';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
-import {createStackNavigator} from 'react-navigation-stack';
 import NotifService from '../services/NotifService';
 import Prompt from 'react-native-input-prompt';
 import {
   Container,
   Header,
   Left,
-  Right,
   Button,
   Body,
   Content,
   Grid,
   Col,
-  List,
-  ListItem,
   Icon,
   Title,
   Text,
   Row,
   Thumbnail,
   H1,
-  H3,
 } from 'native-base';
 import {View} from 'react-native';
 import Dairy from '../thumbnails/Dairy.png'; //icons from https://creativetacos.com/healthy-food-icons/
@@ -87,16 +81,20 @@ const getDaysLeft = expDateString => {
 
 const getBarColour = expDateString => {
   let days = getDaysLeft(expDateString);
-  if (days > 2) return '#5cb85c';
-  else if (days >= 0) return '#f0ad4e';
-  else return '#d9534f';
+  if (days > 2) {
+    return '#5cb85c';
+  } else if (days >= 0) {
+    return '#f0ad4e';
+  } else {
+    return '#d9534f';
+  }
 };
 
 const getProgress = (initDateString, expDateString) => {
   let period = getPeriod(initDateString, expDateString);
   let left = getDaysLeft(expDateString);
   let percentage = ((period - left) * 80) / period + 10;
-  if (percentage > 90 || left < 0 ){
+  if (percentage > 90 || left < 0) {
     return '100%';
   } else {
     return percentage.toString() + '%';
@@ -117,7 +115,7 @@ const formattedDate = dateString => {
 const getDaysMessage = expDate => {
   var days = getDaysLeft(expDate);
   if (days < 0) {
-    return 'the item expired '+ (0-days) +' days ago';
+    return 'the item expired ' + (0 - days) + ' days ago';
   } else {
     return 'The item has ' + days + ' days left.';
   }
@@ -140,6 +138,7 @@ const GroupViewItemModal = props => {
   };
 
   const partRemoveItem = (id, eaten, leftQuantity, usedQuantity) => {
+    //reduce the quantity of an item
     storageService.update(id, leftQuantity.toString(), 'itemList', true);
     storageService.submitEaten(item.name, usedQuantity, eaten, true);
     setLeft(leftQuantity);
@@ -273,33 +272,43 @@ const GroupViewItemModal = props => {
                 rounded
                 primary
                 style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => {setVisible(true); setDisc(true);}}>
+                onPress={() => {
+                  setVisible(true);
+                  setDisc(true);
+                }}>
                 <Text uppercase={false}>Discarded some</Text>
               </Button>
             </Col>
           </Row>
           <Prompt
-              visible={visible}
-              title="Item quantity update"
-              placeholder={"How many "+item.unit+" are left?"}
-              onCancel={() => {setVisible(false); setDisc(false);}
+            visible={visible}
+            title="Item quantity update"
+            placeholder={'How many ' + item.unit + ' are left?'}
+            onCancel={() => {
+              setVisible(false);
+              setDisc(false);
+            }}
+            onSubmit={qty => {
+              const numbers = /^[0-9]+$/;
+              if (!numbers.test(qty)) {
+                Alert.alert('The quantity must be a positive number');
+              } else if (parseInt(left) < parseInt(qty)) {
+                Alert.alert("You can't have more left than you began with.");
+              } else if (qty === '0') {
+                setVisible(false);
+                removeItem(item.id, !disc);
+                setDisc(false);
+              } else {
+                setVisible(false);
+                partRemoveItem(
+                  item.id,
+                  !disc,
+                  parseInt(qty).toString(),
+                  parseInt(left) - parseInt(qty),
+                );
+                setDisc(false);
               }
-              onSubmit={qty => {
-                const numbers = /^[0-9]+$/;
-                if (!numbers.test(qty)) {
-                  Alert.alert('The quantity must be a positive number');
-                } else if( parseInt(left)<parseInt(qty)) {
-                    Alert.alert("You can't have more left than you began with.");
-                } else if (qty=="0") {
-                    setVisible(false);
-                    removeItem(item.id, !disc);
-                    setDisc(false);
-                } else {
-                    setVisible(false);
-                    partRemoveItem(item.id, !disc, parseInt(qty).toString(), parseInt(left)-parseInt(qty));
-                    setDisc(false);
-                }
-              }}
+            }}
           />
         </Grid>
       </Content>

@@ -1,39 +1,29 @@
 // /* eslint-disable no-undef */
+/** Modal used for creating new meals. */
 import React, {useState, useEffect} from 'react';
-import Style from '../components/Style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
-import {TextInput} from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
 import {
   Form,
   Text,
   Picker,
   Button,
-  Item,
-  Label,
-  Input,
   Content,
   Container,
   Title,
   Header,
   Left,
   Body,
-  Right,
   Icon,
   Row,
   Col,
   Footer,
   Grid,
-  Separator,
-  Textarea,
 } from 'native-base';
 
 const AddMealModal = props => {
   const [type, setPicker] = useState('Breakfast'); //initial state for the Picker
   const [recipe, setPicker1] = useState(''); //initial state for the Picker
-  const [name, onChangeText] = useState('');
-  const [method, onChangeText1] = useState('');
   const [dateState, setNewDate] = useState(new Date()); //set date to current date
   const [mode, setMode] = useState('date'); //mode of the date picker
   const [show, setShow] = useState(false);
@@ -50,21 +40,21 @@ const AddMealModal = props => {
     }
     setList([params.recipe]);
     setPicker1(params.recipe);
-  }, []);
+  }, [params.recipe]);
 
   const getPickerList = async () => {
-    var list = [];
-    var formattedList = [];
-    var items = [];
-    var groupItems = [];
-    var recipes = [];
-    var count = 0;
-    var size = 0;
-    var found = false;
+    let list = [];
+    let formattedList = [];
+    let items = [];
+    let groupItems = [];
+    let recipes = [];
+    let count = 0;
+    let size = 0;
+    let found = false;
     await Promise.all([
-      storageService.getAll(), //.then(itemList => setItems(itemList)),
-      storageService.getAll('', true), //.then(itemList => setGroupItems(itemList)),
-      storageService.getAllRecipe(), //.then(recipeList => setRecipes(recipeList))
+      storageService.getAll(),
+      storageService.getAll('', true),
+      storageService.getAllRecipe(),
     ]).then(values => {
       items = values[0];
       groupItems = values[1];
@@ -121,9 +111,7 @@ const AddMealModal = props => {
     };
 
     list.sort(compare);
-    for (const i in list) {
-      formattedList.push(list[i].code);
-    }
+    list.map(item => formattedList.push(item.code));
     setList(formattedList);
     setWait(false);
   };

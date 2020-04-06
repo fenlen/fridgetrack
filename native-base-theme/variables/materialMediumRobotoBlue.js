@@ -1,9 +1,9 @@
 // @flow
 
 import color from 'color';
-import { Platform, Dimensions, PixelRatio } from 'react-native';
+import {Platform, Dimensions, PixelRatio} from 'react-native';
 
-import { PLATFORM } from './commonColor';
+import {PLATFORM} from './commonColor';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -52,7 +52,7 @@ export default {
   badgePadding: 0,
 
   // Button
-  buttonFontFamily: platform === "ios" ? "System" : "Roboto",
+  buttonFontFamily: platform === 'ios' ? 'System' : 'Roboto',
   buttonDisabledBg: '#b5b5b5',
   buttonPadding: 6,
   get buttonPrimaryBg() {
@@ -143,7 +143,7 @@ export default {
 
   // Font
   DefaultFontSize: 19,
-  fontFamily: platform === "ios" ? "System" : "Roboto",
+  fontFamily: platform === 'ios' ? 'System' : 'Roboto',
   fontSizeBase: 18,
   get fontSizeH1() {
     return this.fontSizeBase * 1.8;
@@ -270,7 +270,7 @@ export default {
   },
 
   // Title
-  titleFontfamily: platform === "ios" ? "System" : "Roboto",
+  titleFontfamily: platform === 'ios' ? 'System' : 'Roboto',
   titleFontSize: 22,
   subTitleFontSize: 17,
   subtitleColor: '#FFF',
@@ -293,13 +293,13 @@ export default {
       topInset: 24,
       leftInset: 0,
       rightInset: 0,
-      bottomInset: 34
+      bottomInset: 34,
     },
     landscape: {
       topInset: 0,
       leftInset: 44,
       rightInset: 44,
-      bottomInset: 21
-    }
-  }
+      bottomInset: 21,
+    },
+  },
 };
