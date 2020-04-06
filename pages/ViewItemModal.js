@@ -141,9 +141,9 @@ const ViewItemModal = props => {
     }
   }, []);
 
-  const removeItem = (id, eaten) => {
+  const removeItem = (id, eaten, qtyLeft) => {
     storageService.remove(id, 'itemList');
-    storageService.submitEaten(item.name, left, eaten, false);
+    storageService.submitEaten(item.name, qtyLeft, eaten, false);
     notif.cancelNotif(id);
     props.navigation.goBack();
   };
@@ -258,7 +258,7 @@ const ViewItemModal = props => {
                     rounded
                     primary
                     style={{margin: 20, justifyContent: 'center'}}
-                    onPress={() => removeItem(item.id, true)}>
+                    onPress={() => removeItem(item.id, true, left)}>
                     <Text uppercase={false}>Eaten</Text>
                   </Button>
                 </Col>
@@ -267,7 +267,7 @@ const ViewItemModal = props => {
                     rounded
                     primary
                     style={{margin: 20, justifyContent: 'center'}}
-                    onPress={() => removeItem(item.id, false)}>
+                    onPress={() => removeItem(item.id, false, left)}>
                     <Text uppercase={false}>Discarded</Text>
                   </Button>
                 </Col>

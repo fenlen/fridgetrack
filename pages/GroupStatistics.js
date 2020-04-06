@@ -1,5 +1,6 @@
 /**statistics for the group fridge */
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
+import {useFocusEffect} from 'react-navigation-hooks';
 import {Dimensions} from 'react-native';
 import Style from '../components/Style';
 import Pie from 'react-native-pie';
@@ -34,6 +35,13 @@ const GroupStatistics = props => {
     getData();
   }, []);
 
+  useFocusEffect(
+    //executes on component focus
+    useCallback(() => {
+      return () => getData();
+    }, []),
+  );
+
   const getData = async () => {
     //Retrieve data from the db about consumed/discarded items and turn that into statistics
     let list = [];
@@ -46,7 +54,9 @@ const GroupStatistics = props => {
     if (list.length === 0) {
       setNoStats(true);
     }
-    for (var i = 0; i < list.length - 1; i++) {//all items with the same name get summed into a single entry
+    list.map(item => (item.quantity = parseInt(item.quantity, 10)));
+    for (var i = 0; i < list.length - 1; i++) {
+      //all items with the same name get summed into a single entry
       for (var j = i + 1; j < list.length; j++) {
         if (
           list[i].name === list[j].name &&
@@ -58,17 +68,15 @@ const GroupStatistics = props => {
         }
       }
     }
-    let k;
-    for (k in list) {
-      //create the list for the top Eaten/Discrded items
-      total += list[k].quantity;
-      if (list[k].eaten) {
-        topEaten.push(list[k]);
+    list.map(item => {
+      total = total + item.quantity;
+      if (item.eaten) {
+        topEaten.push(item);
       } else {
-        topDiscarded.push(list[k]);
-        discarded += list[k].quantity;
+        topDiscarded.push(item);
+        discarded = discarded + item.quantity;
       }
-    }
+    });
     //order the arrays desc
     topEaten.sort((a, b) => {
       b.quantity - a.quantity;

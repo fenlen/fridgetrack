@@ -130,9 +130,9 @@ const GroupViewItemModal = props => {
 
   const notif = new NotifService();
 
-  const removeItem = (id, eaten) => {
+  const removeItem = (id, eaten, qtyLeft) => {
     storageService.remove(id, 'itemList', true);
-    storageService.submitEaten(item.name, left, eaten, true);
+    storageService.submitEaten(item.name, qtyLeft, eaten, true);
     notif.cancelNotif(id);
     props.navigation.goBack();
   };
@@ -243,7 +243,7 @@ const GroupViewItemModal = props => {
                 rounded
                 primary
                 style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => removeItem(item.id, true)}>
+                onPress={() => removeItem(item.id, true, left)}>
                 <Text uppercase={false}>Eaten</Text>
               </Button>
             </Col>
@@ -252,8 +252,8 @@ const GroupViewItemModal = props => {
                 rounded
                 primary
                 style={{margin: 20, justifyContent: 'center'}}
-                onPress={() => removeItem(item.id, false)}>
-                <Text uppercase={false}>Discarted</Text>
+                onPress={() => removeItem(item.id, false, left)}>
+                <Text uppercase={false}>Discarded</Text>
               </Button>
             </Col>
           </Row>
