@@ -1,3 +1,4 @@
+/** Displays all of the user's meals */
 import React, {useState, useEffect, useCallback} from 'react';
 import {SafeAreaView, FlatList} from 'react-native';
 import {useFocusEffect} from 'react-navigation-hooks';
@@ -9,20 +10,12 @@ import storageService from '../services/storage';
 import {
   Container,
   Header,
-  Title,
-  Content,
   Text,
   Button,
   Icon,
-  Footer,
-  FooterTab,
   Left,
-  Right,
-  Body,
   Input,
   Item,
-  View,
-  List,
 } from 'native-base';
 
 const Meals = props => {
@@ -32,7 +25,7 @@ const Meals = props => {
   useEffect(() => {
     //executes on initial component render
     storageService.getAllMeal(search).then(itemList => setItems(itemList));
-  }, [search]);
+  }, []);
 
   useFocusEffect(
     //executes on component focus
@@ -44,12 +37,6 @@ const Meals = props => {
       return () => rerender;
     }, []),
   );
-
-  const removeMeal = id => {
-    //remove the item with the given id from the database
-    storageService.removeMeal(id);
-    refresh(search);
-  };
 
   const refresh = search => {
     //force component rerender

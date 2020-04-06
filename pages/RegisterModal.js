@@ -1,3 +1,4 @@
+/** Allows a user to register an account */
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
@@ -6,7 +7,6 @@ import {
   Container,
   Header,
   Left,
-  Right,
   Button,
   Body,
   Content,
@@ -18,7 +18,6 @@ import {
   Label,
   Input,
   Separator,
-  View,
 } from 'native-base';
 import Global from '../state/global';
 import {CreditCardInput} from 'react-native-credit-card-input';
@@ -43,8 +42,8 @@ const RegisterModal = props => {
     }
   };
   const initRegister = async () => {
-    let re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    let p = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g;
+    let re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i; //Regex for emails
+    let p = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g; //Regex for the password
     if (!email) {
       Alert.alert('Error', 'Email cannot be empty');
     } else if (!re.test(email.toLowerCase())) {

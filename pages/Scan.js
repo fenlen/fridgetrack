@@ -1,12 +1,6 @@
+//Loads the device camera and scans barcodes
 import React, {Component} from 'react'; //class from tut https://medium.com/@dinukadilshanfernando/implementing-a-barcode-scanner-by-using-react-native-camera-b170de4b7f51
-import {
-  Text,
-  View,
-  StyleSheet,
-  Alert,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 
 export default class Barcode extends Component {
@@ -20,6 +14,7 @@ export default class Barcode extends Component {
   }
 
   onBarCodeRead = e => {
+    //handler when a barcode is recognized
     if (this.params.group) {
       this.props.navigation.navigate('GroupItemModal', {
         refresh: this.params.refresh,

@@ -1,3 +1,4 @@
+/** The screen from which users can make changes to their account details like username or email */
 import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {Alert} from 'react-native';
@@ -7,7 +8,6 @@ import {
   Container,
   Header,
   Left,
-  Right,
   Button,
   Body,
   Content,
@@ -23,7 +23,7 @@ import {
 const UpdateDetailsModal = props => {
   const params = props.navigation.state.params;
   const [name, onChangeName] = useState(params.name);
-  const [email, onEmail] = useState(params.email);
+  const [email, onChangeEmail] = useState(params.email);
 
   const initUpdate = async () => {
     try {

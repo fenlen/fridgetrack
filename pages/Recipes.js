@@ -1,3 +1,4 @@
+/** Recipes screen for the user */
 import React, {useState, useEffect, useCallback} from 'react';
 import {SafeAreaView, FlatList} from 'react-native';
 import {useFocusEffect} from 'react-navigation-hooks';
@@ -9,20 +10,12 @@ import storageService from '../services/storage';
 import {
   Container,
   Header,
-  Title,
-  Content,
   Text,
   Button,
   Icon,
-  Footer,
-  FooterTab,
   Left,
-  Right,
-  Body,
   Input,
   Item,
-  View,
-  List,
 } from 'native-base';
 
 const Recipes = props => {
@@ -44,12 +37,6 @@ const Recipes = props => {
       return () => rerender;
     }, []),
   );
-
-  const removeRecipe = id => {
-    //remove the item with the given id from the database
-    storageService.removeRecipe(id);
-    refresh(search);
-  };
 
   const refresh = search => {
     //force component rerender

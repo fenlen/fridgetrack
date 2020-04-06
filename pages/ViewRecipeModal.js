@@ -1,30 +1,22 @@
-// /* eslint-disable no-undef */
+/**Recipe details display modal */
 import React, {useState} from 'react';
-import Style from '../components/Style';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
-import {createStackNavigator} from 'react-navigation-stack';
 import {
   Container,
   Header,
   Left,
-  Right,
   Button,
   Body,
   Content,
   Grid,
   Col,
-  List,
-  ListItem,
   Icon,
   Title,
   Text,
   Row,
   Thumbnail,
   H1,
-  H3,
   Separator,
-  FlatList,
 } from 'native-base';
 import Easy from '../thumbnails/easy.png';
 import Medium from '../thumbnails/medium.png';

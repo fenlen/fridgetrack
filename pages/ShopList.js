@@ -1,3 +1,4 @@
+/** Displays the user's personal shop list */
 import React, {useState, useEffect, useRef} from 'react';
 import {Alert, SafeAreaView, FlatList} from 'react-native';
 import SubmitButton from '../components/SubmitButton';
@@ -11,29 +12,23 @@ import {
   Container,
   Header,
   Title,
-  Content,
   Text,
   Button,
   Icon,
   Footer,
   FooterTab,
   Left,
-  Right,
   Body,
   Item,
-  View,
   Input,
 } from 'native-base';
-import Global from '../state/global';
 
 const ShopList = props => {
   const [items, setItems] = useState();
   const [dateState, setNewDate] = useState(new Date());
-  // eslint-disable-next-line no-unused-vars
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [markedItem, setMark] = useState();
-  // const [fridgeRef, setFridgeRef] = useState('test');
   const refHolder = useRef(true);
   const [search, onChangeText] = useState('');
   const [logged, setLogged] = useState(false);
@@ -46,7 +41,7 @@ const ShopList = props => {
     } else {
       storageService.getAllShopUnreg().then(itemList => setItems(itemList));
     }
-  }, [search]);
+  }, []);
 
   useEffect(() => {
     //watches for a change in dateState and then removes the selected item, except during the initial render of the component
@@ -85,6 +80,7 @@ const ShopList = props => {
       );
       storageService.remove(removedItem.id, 'shopList');
     } else {
+      //in case the user is not using an account use local-only storage
       storageService.submitUnreg(
         removedItem.name,
         removedItem.category,

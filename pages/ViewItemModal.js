@@ -1,11 +1,8 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable radix */
+/** Displays Item details either for items from the personal fridge or shopping list */
 import React, {useState, useEffect} from 'react';
 import {Alert} from 'react-native';
 import Style from '../components/Style';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import storageService from '../services/storage';
-import {createStackNavigator} from 'react-navigation-stack';
 import auth from '@react-native-firebase/auth';
 import NotifService from '../services/NotifService';
 import Prompt from 'react-native-input-prompt';
@@ -13,21 +10,17 @@ import {
   Container,
   Header,
   Left,
-  Right,
   Button,
   Body,
   Content,
   Grid,
   Col,
-  List,
-  ListItem,
   Icon,
   Title,
   Text,
   Row,
   Thumbnail,
   H1,
-  H3,
 } from 'native-base';
 import {View} from 'react-native';
 import Dairy from '../thumbnails/Dairy.png'; //icons from https://creativetacos.com/healthy-food-icons/
@@ -67,28 +60,30 @@ const getThumbnail = category => {
 };
 
 const getPeriod = (initDateString, expDateString) => {
-  var initDate = new Date(parseInt(initDateString));
-  var expDate = new Date(
+  //calculate time from date the item was added in until expiration date
+  let initDate = new Date(parseInt(initDateString));
+  let expDate = new Date(
     parseInt(expDateString.substring(6, 8)) + 2000,
     parseInt(expDateString.substring(3, 5)) - 1,
     parseInt(expDateString.substring(0, 2)),
   );
-  var diff = expDate.getTime() - initDate.getTime();
+  let diff = expDate.getTime() - initDate.getTime();
   return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
 };
 
 const getDaysLeft = expDateString => {
-  var expDate = new Date(
+  //calculate days left until expiration date
+  let expDate = new Date(
     parseInt(expDateString.substring(6, 8)) + 2000,
     parseInt(expDateString.substring(3, 5)) - 1,
     parseInt(expDateString.substring(0, 2)),
   );
-  var diff = expDate.getTime() - new Date().getTime();
+  let diff = expDate.getTime() - new Date().getTime();
   return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
 };
 
 const getBarColour = expDateString => {
-  var days = getDaysLeft(expDateString);
+  let days = getDaysLeft(expDateString);
   if (days > 2) {
     return '#5cb85c';
   } else if (days >= 0) {
@@ -99,9 +94,10 @@ const getBarColour = expDateString => {
 };
 
 const getProgress = (initDateString, expDateString) => {
-  var period = getPeriod(initDateString, expDateString);
-  var left = getDaysLeft(expDateString);
-  var percentage = ((period - left) * 80) / period + 10;
+  //calculate what percentage of the days from the creation date of the item to its expiration date have passed
+  let period = getPeriod(initDateString, expDateString);
+  let left = getDaysLeft(expDateString);
+  let percentage = ((period - left) * 80) / period + 10;
   if (percentage > 90 || left < 0) {
     return '100%';
   } else {
@@ -110,7 +106,7 @@ const getProgress = (initDateString, expDateString) => {
 };
 
 const getDaysMessage = expDate => {
-  var days = getDaysLeft(expDate);
+  let days = getDaysLeft(expDate);
   if (days < 0) {
     return 'the item expired ' + (0 - days) + ' days ago';
   } else {
@@ -119,7 +115,7 @@ const getDaysMessage = expDate => {
 };
 
 const formattedDate = dateString => {
-  var date = new Date(parseInt(dateString));
+  let date = new Date(parseInt(dateString));
   return (
     ('0' + date.getDate()).slice(-2) +
     '/' +

@@ -9,22 +9,17 @@ import {
   Container,
   Header,
   Left,
-  Right,
   Button,
   Body,
   Content,
   Grid,
   Col,
-  List,
-  ListItem,
   Icon,
   Title,
   Text,
   Row,
   Thumbnail,
   H1,
-  H3,
-  Separator,
 } from 'native-base';
 import Plenty from '../thumbnails/plenty.png';
 import Soon from '../thumbnails/soon.png';

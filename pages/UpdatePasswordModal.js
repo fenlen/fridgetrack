@@ -1,3 +1,4 @@
+/** Screen which allows logged in users to change their password */
 import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {Alert} from 'react-native';
@@ -6,7 +7,6 @@ import {
   Container,
   Header,
   Left,
-  Right,
   Button,
   Body,
   Content,
@@ -24,18 +24,9 @@ const UpdatePasswordModal = props => {
   const [password, onChangePassword] = useState('');
   const [passwordConfirm, onChangePasswordConfirm] = useState('');
 
-  const update = async password => {
-    auth()
-      .currentUser.updatePassword(password)
-      .catch(e => {
-        let errorMessage = e.message;
-        Alert.alert('Error', errorMessage);
-      });
-  };
-
   const initUpdate = async () => {
     try {
-      let p = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g;
+      let p = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/g; //regex to check validity of password
       let user = auth().currentUser;
       if (!oldPassword) {
         Alert.alert('Error', ' Old Password cannot be empty');

@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import auth from '@react-native-firebase/auth';
+/** Allows the user to change their payment details */
+import React from 'react';
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import {CreditCardInput} from 'react-native-credit-card-input';
 
@@ -14,14 +14,9 @@ import {
   Right,
   Body,
   Left,
-  Picker,
-  ListItem,
-  Separator,
-  Switch,
 } from 'native-base';
 const Premium = props => {
-  const user = firebase.auth().currentUser;
-  const creditCardHandler = () => {};
+  const creditCardHandler = () => {}; //handler for when the form with the credit card details changes
   const updateCard = () => {
     props.navigation.goBack();
   };

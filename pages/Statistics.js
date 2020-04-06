@@ -1,6 +1,6 @@
+/** Statistics for the user's personal fridge */
 import React, {useState, useEffect} from 'react';
 import {Dimensions} from 'react-native';
-import SubmitButton from '../components/SubmitButton';
 import Style from '../components/Style';
 import Pie from 'react-native-pie';
 import storageService from '../services/storage';
@@ -15,7 +15,6 @@ import {
   Footer,
   FooterTab,
   Left,
-  Right,
   Body,
   Grid,
   Row,
@@ -36,6 +35,7 @@ const Statistics = props => {
   }, []);
 
   const getData = async () => {
+    /**Aggregate data from the lists containing the eaten and discarded items and then turn that into the stats tables and pie chart */
     let list = [];
     let topDiscarded = [];
     let topEaten = [];
@@ -46,8 +46,9 @@ const Statistics = props => {
     if (list.length === 0) {
       setNoStats(true);
     }
-    for (var i = 0; i < list.length - 1; i++) {
-      for (var j = i + 1; j < list.length; j++) {
+    for (let i = 0; i < list.length - 1; i++) {
+      //aggregate the quantities of the individual items into single array items
+      for (let j = i + 1; j < list.length; j++) {
         if (
           list[i].name === list[j].name &&
           list[i].eaten === list[j].eaten &&
@@ -60,6 +61,7 @@ const Statistics = props => {
     }
     let k;
     for (k in list) {
+      //create the lists on which the top eaten and discraded tables are based on
       total += list[k].quantity;
       if (list[k].eaten) {
         topEaten.push(list[k]);

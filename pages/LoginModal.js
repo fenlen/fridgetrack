@@ -1,3 +1,4 @@
+/** Modal used for users to log in */
 import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {Alert} from 'react-native';
@@ -33,6 +34,7 @@ const LoginModal = props => {
       let user = auth().currentUser;
       let data = {};
       if (user) {
+        //schedule notifications
         await storageService.getUserData().then(dataList => (data = dataList));
         Global.user = user.uid;
         Global.enableNotiication1 = data.enableNotification1;
@@ -40,13 +42,9 @@ const LoginModal = props => {
         Global.enableNotiication3 = data.enableNotification3;
         Global.enableNotiication4 = data.enableNotification4;
         const items = await storageService.getAll();
-        for (const i in items) {
-          notif.scheduleNotif(
-            parseInt(items[i].id),
-            items[i].expDate,
-            items[i].name,
-          );
-        }
+        items.map(item =>
+          notif.scheduleNotif(parseInt(item.id), items.expDate, items.name),
+        );
       }
 
       props.navigation.navigate('Theme');

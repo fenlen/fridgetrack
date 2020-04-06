@@ -10,9 +10,7 @@ import {
   Right,
   Body,
   Left,
-  Picker,
   ListItem,
-  Separator,
   Switch,
 } from 'native-base';
 import Global from '../state/global.js';
@@ -32,23 +30,16 @@ class NotificationsModal extends Component {
     const items = await storageService.getAll();
     const groupItems = await storageService.getAll('', true);
     this.notif.cancelAll();
-    for (const i in items) {
-      this.notif.scheduleNotif(
-        parseInt(items[i].id),
-        items[i].expDate,
-        items[i].name,
-      );
-    }
-    for (const i in groupItems) {
-      this.notif.scheduleGroupNotif(
-        parseInt(groupItems[i].id),
-        groupItems[i].expDate,
-        groupItems[i].name,
-      );
-    }
+    items.map(item =>
+      this.notif.scheduleNotif(parseInt(item.id), item.expDate, item.name),
+    );
+    groupItems.map(item =>
+      this.notif.scheduleGroupNotif(parseInt(item.id), item.expDate, item.name),
+    );
   }
 
   onValueChange1(value) {
+    //immediately applies the option change to the db as the user selects it
     Global.enableNotification1 = value;
     this.updateNotifications();
     firestore()
