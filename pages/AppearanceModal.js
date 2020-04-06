@@ -60,7 +60,7 @@ class AppearanceModal extends Component {
             <Title>Appearance</Title>
           </Body>
           <Right>
-            <Title onPress={() => this.props.navigation.navigate('Theme')}>
+            <Title onPress={() => this.props.navigation.navigate('App')}>
               Save
             </Title>
           </Right>

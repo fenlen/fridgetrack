@@ -73,7 +73,7 @@ const DeleteAccountModal = props => {
         deleteAccount();
         await auth().signInWithEmailAndPassword(user.email, password);
         await auth().currentUser.delete();
-        props.navigation.navigate('Theme');
+        props.navigation.navigate('App');
         Alert.alert('You have deleted you account successfully');
         Global.user = user.uid;
       }

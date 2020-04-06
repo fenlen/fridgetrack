@@ -144,7 +144,7 @@ const GroupShopList = props => {
       />
       {show && ( //translates to if show is true then do whatever is after &&
         <DateTimePicker
-          value={dateState}
+          value={new Date()}
           minimumDate={new Date()}
           maximumDate={
             new Date(

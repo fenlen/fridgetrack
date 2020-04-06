@@ -82,7 +82,7 @@ const RegisterModal = props => {
         });
       Alert.alert('You have registered successfully');
       Global.user = user.uid;
-      props.navigation.navigate('Theme');
+      props.navigation.navigate('App');
     }
   };
   return (

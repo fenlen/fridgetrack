@@ -43,11 +43,11 @@ const LoginModal = props => {
         Global.enableNotiication4 = data.enableNotification4;
         const items = await storageService.getAll();
         items.map(item =>
-          notif.scheduleNotif(parseInt(item.id), items.expDate, items.name),
+          notif.scheduleNotif(parseInt(item.id), item.expDate, item.name)
         );
       }
 
-      props.navigation.navigate('Theme');
+      props.navigation.navigate('App');
       Alert.alert('You have logged in successfully');
     } catch (e) {
       let errorCode = e.code;
