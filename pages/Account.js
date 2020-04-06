@@ -67,15 +67,15 @@ const Account = props => {
   };
 
   const logOut = async () => {
+    setState(false);
     //Log out the user and reset all appearance preferences
     Global.colour = 'Blue';
     Global.font = 'Roboto';
     Global.size = 'Medium';
-    await auth().signOut();
     props.navigation.navigate('App');
+    await auth().signOut();
     Alert.alert('Logging out', "You've logged out successfuly");
     notif.cancelAll();
-    setState(false);
   };
 
   const formattedDate = dateString => {
@@ -103,6 +103,28 @@ const Account = props => {
         </Body>
       </Header>
       <Content>
+        {!state && ( //if not authenticated
+          <>
+            <Text style={{ padding: 10 }}>
+              In order to gain access to the full features of the app, please
+              log in or register for a subscription.
+            </Text>
+            <Button
+              primary
+              rounded
+              style={{ margin: 20, justifyContent: 'center' }}
+              onPress={() => props.navigation.navigate('RegisterModal')}>
+              <Text uppercase={false}>Register</Text>
+            </Button>
+            <Button
+              primary
+              rounded
+              style={{ margin: 20, marginTop: 0, justifyContent: 'center' }}
+              onPress={() => props.navigation.navigate('LoginModal')}>
+              <Text uppercase={false}>Log in</Text>
+            </Button>
+          </>
+        )}
         {state && ( //if authenticated
           <>
             <Separator bordered>
@@ -194,28 +216,7 @@ const Account = props => {
             </Button>
           </>
         )}
-        {!state && ( //if not authenticated
-          <>
-            <Text style={{padding: 10}}>
-              In order to gain access to the full features of the app, please
-              log in or register for a subscription.
-            </Text>
-            <Button
-              primary
-              rounded
-              style={{margin: 20, justifyContent: 'center'}}
-              onPress={() => props.navigation.navigate('RegisterModal')}>
-              <Text uppercase={false}>Register</Text>
-            </Button>
-            <Button
-              primary
-              rounded
-              style={{margin: 20, marginTop: 0, justifyContent: 'center'}}
-              onPress={() => props.navigation.navigate('LoginModal')}>
-              <Text uppercase={false}>Log in</Text>
-            </Button>
-          </>
-        )}
+        
       </Content>
     </Container>
   );

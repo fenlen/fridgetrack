@@ -311,7 +311,7 @@ const ViewItemModal = props => {
                     Alert.alert(
                       "You can't have more left than you began with.",
                     );
-                  } else if (qty == '0') {
+                  } else if (qty === '0') {
                     setVisible(false);
                     removeItem(item.id, !disc);
                     setDisc(false);

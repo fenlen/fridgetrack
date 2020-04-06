@@ -28,7 +28,7 @@ const GroupModal = props => {
   const [ready, setReady] = useState(true);
 
   const createGroup = async () => {
-    if (!groupFridge === '') {
+    if (groupFridge !== '') {
       await leaveGroup();
     }
     let docId;
@@ -190,7 +190,7 @@ const GroupModal = props => {
       {!ready && <Content />}
       {ready && (
         <Content>
-          {!groupFridge === '' && (
+          {groupFridge !== '' && (
             <>
               <Separator bordered>
                 <Text>Group Details</Text>
@@ -235,7 +235,7 @@ const GroupModal = props => {
             onPress={() => CreateAlert()}>
             <Text uppercase={false}>Create a new group</Text>
           </Button>
-          {!groupFridge === '' && (
+          {groupFridge !== '' && (
             <>
               <Button
                 primary
