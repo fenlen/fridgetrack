@@ -65,7 +65,6 @@ const GroupShopList = props => {
       removedItem.name,
       removedItem.category,
       formattedDate(),
-      removedItem.barcode,
       removedItem.quantity,
       removedItem.unit,
       false,
@@ -146,7 +145,7 @@ const GroupShopList = props => {
       {show && ( //translates to if show is true then do whatever is after &&
         <DateTimePicker
           value={dateState}
-          minimumDate={dateState}
+          minimumDate={new Date()}
           maximumDate={
             new Date(
               dateState.getFullYear() + 1,

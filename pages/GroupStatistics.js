@@ -214,11 +214,11 @@ const GroupStatistics = props => {
       )}
       <Footer>
         <FooterTab>
-          <Button onPress={() => props.navigation.navigate('Fridge')}>
+          <Button onPress={() => props.navigation.navigate('GroupFridge')}>
             <Icon active name="pizza" />
             <Text>Fridge</Text>
           </Button>
-          <Button onPress={() => props.navigation.navigate('ShopList')}>
+          <Button onPress={() => props.navigation.navigate('GroupShopList')}>
             <Icon name="basket" />
             <Text>Shop list</Text>
           </Button>

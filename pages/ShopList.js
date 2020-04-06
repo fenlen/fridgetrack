@@ -74,7 +74,6 @@ const ShopList = props => {
         removedItem.name,
         removedItem.category,
         formattedDate(),
-        removedItem.barcode,
         removedItem.quantity,
         removedItem.unit,
       );
@@ -196,7 +195,7 @@ const ShopList = props => {
         <DateTimePicker
           title="Please pick an expiration date"
           value={dateState}
-          minimumDate={dateState}
+          minimumDate={new Date()}
           maximumDate={
             new Date(
               dateState.getFullYear() + 1,
