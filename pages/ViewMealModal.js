@@ -138,6 +138,7 @@ const ViewMealModal = props => {
           </Row>
           <Row>
             {getDaysLeft(item.date) < 0 ? (
+              <>
               <Col>
                 <Button
                   rounded
@@ -147,6 +148,16 @@ const ViewMealModal = props => {
                   <Text>Skipped</Text>
                 </Button>
               </Col>
+              <Col>
+                <Button
+                  rounded
+                  primary
+                  style={{margin: 20, justifyContent: 'center'}}
+                  onPress={() => removeMeal(item.id)}>
+                  <Text>Eaten</Text>
+                </Button>
+              </Col>
+              </>
             ) : (
               <Col>
                 <Button
@@ -158,6 +169,8 @@ const ViewMealModal = props => {
                 </Button>
               </Col>
             )}
+            </Row>
+            <Row>
             <Col>
               <Button
                 rounded
