@@ -37,9 +37,9 @@ const AddMealModal = props => {
       getPickerList();
     } else {
       setWait(false);
+      setList([params.recipe]);
+      setPicker1(params.recipe);
     }
-    setList([params.recipe]);
-    setPicker1(params.recipe);
   }, [params.recipe]);
 
   const getPickerList = async () => {
