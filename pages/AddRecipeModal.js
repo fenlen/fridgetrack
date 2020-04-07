@@ -54,7 +54,7 @@ const AddRecipeModal = props => {
 
   const handleInputChange2 = (index, qty) => {
     const values = [...inputFields];
-    values[index].quantity = parseInt(qty).toString();
+    values[index].quantity = qty.toString();
     setInputFields(values);
   };
 
