@@ -109,6 +109,7 @@ const Fridge = props => {
               name={item.name}
               expDate={item.expDate}
               category={item.category}
+              quantity={', '+item.quantity+' '+item.unit}
             />
           </TouchableNativeFeedback>
         )}

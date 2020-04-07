@@ -36,7 +36,7 @@ const getThumbnail = category => {
   }
 };
 
-const FridgeItem = ({name, expDate, category}) => {
+const FridgeItem = ({name, expDate, category, quantity}) => {
   return (
     <ListItem avatar>
       <Left>
@@ -45,7 +45,7 @@ const FridgeItem = ({name, expDate, category}) => {
       <Body>
         <Text>{name}</Text>
         <Text numberOfLines={1} note>
-          {category}
+          {category}{quantity}
         </Text>
       </Body>
       <Right>

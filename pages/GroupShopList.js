@@ -137,7 +137,11 @@ const GroupShopList = props => {
         data={groupItems}
         renderItem={({item}) => (
           <TouchableNativeFeedback onPress={() => removeAlert(item)}>
-            <FridgeItem name={item.name} category={item.category} />
+            <FridgeItem
+                name={item.name}
+                category={item.category}
+                quantity={', '+item.quantity+' '+item.unit}
+            />
           </TouchableNativeFeedback>
         )}
         keyExtractor={item => item.id}

@@ -50,7 +50,7 @@ const datasreg = [
 
 const datasunreg = [
   {
-    name: 'Personal',
+    name: 'Personal organizer',
     route: 'Fridge',
     icon: 'person',
     prop: Global.user.fridge,
