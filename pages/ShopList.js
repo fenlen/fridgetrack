@@ -187,9 +187,9 @@ const ShopList = props => {
         renderItem={({item}) => (
           <TouchableNativeFeedback onPress={() => removeAlert(item)}>
             <FridgeItem
-                name={item.name}
-                category={item.category}
-                quantity={', '+item.quantity+' '+item.unit}
+              name={item.name}
+              category={item.category}
+              quantity={', ' + item.quantity + ' ' + item.unit}
             />
           </TouchableNativeFeedback>
         )}
