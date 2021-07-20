@@ -19,7 +19,7 @@
     "@react-native-firebase/ml-vision": "^6.3.4",
     "native-base": "^2.13.8",
     "react": "^16.11.0",
-    "react-native": "^0.62.0",
+    "react-native": "^0.62.3",
     "react-native-camera": "^3.19.0",
     "react-native-credit-card-input": "^0.4.1",
     "react-native-gesture-handler": "^1.4.1",
